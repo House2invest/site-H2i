@@ -1,0 +1,829 @@
+﻿@page
+@using Microsoft.EntityFrameworkCore
+@inject House2Invest.Data.ApplicationDbContext _contexto
+@model InvestimentosModel
+@{
+    ViewData["Title"] = "Visualização de documentação";
+    var _appconfig = new House2Invest.Models.AppPerfil();
+    try
+    {
+        _appconfig =
+            _contexto.AppPerfil
+            .Include(v => v.AppConfiguracoes)
+            .Include(x => x.AppConfiguracoes.AppConfiguracoes_Aplicativo)
+            .Include(y => y.AppConfiguracoes.AppConfiguracoes_Azure)
+            .FirstOrDefault();
+    }
+    catch (Exception) { }
+}
+<style>
+    .fundpress-content-text-list li {
+        list-style: circle;
+        list-style-position: outside;
+        color: #4CC899;
+        width: calc(100% - 100px);
+        margin: 0 auto 0px 0 !important;
+    }
+</style>
+@if (_appconfig == null || _appconfig.AppConfiguracoes.Tema.ToLower().Trim() == "_layout")
+{
+    <div class="container text-center" style="margin:100px auto;">
+        <div class="row">
+            <div class="col-12">
+                <h2>Sobre @_appconfig.AppConfiguracoes.AppConfiguracoes_Aplicativo.LogotipoEmpresa</h2>
+                <h3>@Model.Mensagem</h3>
+                <p>Use essa área para maiores informações.</p>
+                <div class="d-flex justify-content-center">
+                    <img src="@_appconfig.AppConfiguracoes.AppConfiguracoes_Aplicativo.LogotipoEmpresa" class="img-fluid" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (_appconfig == null || _appconfig.AppConfiguracoes.Tema.ToLower().Trim() == "_layoutfundpress")
+{
+    <main class="xs-all-content-wrapper" style="margin-top:160px;">
+        <section class="xs-content-section-padding xs-fund-details fundpress-fund-details">
+            <div class="container">
+                <div class="row">
+                    <!-- INFORMAÇÕES -->
+                    <div class="col-12">
+                        <h1>@Html.Raw(Model.modelo.Titulo)</h1>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-lg-7">
+                        <div class="xs-sync-slider-wraper xs-mb-50">
+                            <div class="owl-carousel xs-sync-slider-preview xs-mb-10">
+                                <div class="xs-sync-slider-preview-content">
+                                    <img src="@Model.modelo.UrlImgPrinc" alt="">
+                                </div>
+                            </div>
+
+                            <div class="owl-carousel xs-sync-slider-thumb" hidden>
+                                <div class="xs-sync-slider-thumb-content">
+                                    <img src="@Model.modelo.UrlImgPrinc" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-lg-5">
+                        <div class="xs-sidebar-wraper">
+
+                            <style>
+                                #divdocumentacao_@Html.Raw(Model.modelo.Id) {
+                                    text-align: left;
+                                    position: absolute;
+                                    top: -15px;
+                                    left: 30px;
+                                    background: rgba(255,255,255,.9);
+                                    box-shadow: 0px 4px 10px rgba(0,0,0,.7);
+                                    padding: 25px;
+                                }
+
+                                .lidivdoc {
+                                    margin-bottom: 0px;
+                                }
+
+                                .invisivel {
+                                    display: none;
+                                }
+
+                                .product {
+                                    margin-top: 100px;
+                                }
+
+                                    ._countdown_box,
+                                    .product .countdown_box,
+                                    .product-info .promo {
+                                        position: absolute;
+                                        text-align: center;
+                                        bottom: 0;
+                                        width: 100%;
+                                        z-index: 5;
+                                    }
+
+                                        ._countdown_box .countdown_inner,
+                                        .product .countdown_box .countdown_inner,
+                                        .product-info .promo .countdown_inner {
+                                            overflow: hidden;
+                                            margin: 0 auto 3.6%;
+                                            width: 92%;
+                                            padding: 11px 0;
+                                            text-align: center;
+                                            background-color: #ffffff;
+                                            color: #fe4135;
+                                        }
+
+                                        ._countdown_box .countdown-section,
+                                        .product .countdown_box .countdown-section,
+                                        .product-info .promo .countdown-section {
+                                            display: inline-block;
+                                            text-align: center;
+                                            position: relative;
+                                            padding: 4px 0;
+                                            margin: 0 11px;
+                                            line-height: 13px;
+                                            font-size: 14px;
+                                            white-space: nowrap;
+                                            min-width: 30px;
+                                        }
+
+                                            ._countdown_box .countdown-section:before,
+                                            .product .countdown_box .countdown-section:before,
+                                            .product-info .promo .countdown-section:before {
+                                                content: ":";
+                                                display: block;
+                                                position: absolute;
+                                                top: 50%;
+                                                margin-top: -5px;
+                                                font-weight: bold;
+                                                font-size: 20px;
+                                            }
+
+                                            ._countdown_box .countdown-section:before,
+                                            .product .countdown_box .countdown-section:before,
+                                            .product-info .promo .countdown-section:before {
+                                                right: -42%;
+                                            }
+
+                                            ._countdown_box .countdown-section:last-child:before,
+                                            .product .countdown_box .countdown-section:last-child:before,
+                                            .product-info .promo .countdown-section:last-child:before {
+                                                display: none;
+                                            }
+
+                                        ._countdown_box .countdown-amount,
+                                        .product .countdown_box .countdown-amount,
+                                        .product-info .promo .countdown-amount {
+                                            line-height: 20px;
+                                            font-weight: bold;
+                                            font-size: 20px;
+                                            padding-bottom: 2px;
+                                            display: block;
+                                        }
+
+                                        ._countdown_box .countdown-period,
+                                        .product .countdown_box .countdown-period,
+                                        .product-info .promo .countdown-period {
+                                            display: block;
+                                        }
+
+                                        ._countdown_box .countdown-descr,
+                                        .product .countdown_box .countdown-descr,
+                                        .product-info .promo .countdown-descr {
+                                            display: block;
+                                            width: 100%;
+                                        }
+                            </style>
+
+                            @{
+                                bool _usulogado = User.Identity.IsAuthenticated;
+                                double _valTot = 0;
+                                double _valReserva = 0;
+                                double _valAdquirido = 0;
+                                double _valfracao = 0;
+                                double _valfracaoRes = 0;
+                                double _valfracaoAdq = 0;
+                                double _valLanceMin = 0;
+                                double _valMinimoDocs = 0;
+                                try
+                                {
+                                    _valTot = Convert.ToDouble(Model.modelo.Valor);
+                                    _valReserva = _contexto.INVEST_Lancamentos
+                                                .Where(x => x.BlocoProjInvestimentosId == Model.modelo.Id && x.Status == "P")
+                                                .Sum(x => x.Valor);
+
+                                    _valAdquirido = _contexto.INVEST_Lancamentos
+                                                .Where(x => x.BlocoProjInvestimentosId == Model.modelo.Id && x.Status == "A")
+                                                .Sum(x => x.Valor);
+
+                                    _valfracao = Convert.ToDouble(Model.modelo.Valor) / 100;
+                                    _valfracaoRes = Math.Round(_valReserva / _valfracao);
+                                    _valfracaoAdq = Math.Round(_valAdquirido / _valfracao);
+                                    _valLanceMin = Convert.ToDouble(Model.modelo.LanceMinimo);
+                                    _valMinimoDocs = Convert.ToDouble(Model.modelo.ValorMinimoDocs);
+                                }
+                                catch (Exception) { }
+                            }
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="xs-item-header-content text-center">
+                                            <span class="badge badge-sm badge-v1 badge-pill badge-primary">
+                                                @Html.Raw(Model.modelo.Valor)
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="xs-margin-0 text-center">
+                                            <div class="fundpress-heading-title xs-padding-0">
+                                                @if (Model.modelo.BlocoProjInvest_ExibTitulo)
+                                                {
+                                                    <h2 class="text-dark calculadora-titulo-investimento">
+                                                        @Html.Raw(Model.modelo.Titulo)
+                                                    </h2>
+                                                }
+                                            </div>
+                                        </div>
+                                        @if (_valfracaoRes < 100)
+                                        {
+                                            if (Model.modelo.Contador_Exib)
+                                            {
+                                                <div class="product">
+                                                    <div class="countdown_box">
+                                                        <div class="countdown_inner">
+                                                            <div class="countdown"
+                                                                 data-date="@VerificadoresRetornos.ConverteStringParaDateTime(Model.modelo.Contador_DataFinal).Year-@VerificadoresRetornos.ConverteStringParaDateTime(Model.modelo.Contador_DataFinal).Month.ToString("D2")-@VerificadoresRetornos.ConverteStringParaDateTime(Model.modelo.Contador_DataFinal).Day.ToString("D2") @VerificadoresRetornos.ConverteStringParaDateTime(Model.modelo.Contador_DataFinal).Hour.ToString("D2"):@VerificadoresRetornos.ConverteStringParaDateTime(Model.modelo.Contador_DataFinal).Minute.ToString("D2"):@VerificadoresRetornos.ConverteStringParaDateTime(Model.modelo.Contador_DataFinal).Second.ToString("D2")"
+                                                                 data-year="ANOS"
+                                                                 data-month="MESES"
+                                                                 data-week="SEMANAS"
+                                                                 data-day="DIAS"
+                                                                 data-hour="HRs"
+                                                                 data-minute="MINs"
+                                                                 data-second="SEGs">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <b style="font-size:20px;color:red;">ENCERRADO</b>
+                                        }
+                                    </div>
+                                    <div class="col-md-12">
+                                        <section style="@Html.Raw(Model.modelo.BlocoProjInvest_ExibTitulo ? "" : "margin-top:15px;")" class="text-center">
+                                            <form id="formBlocoProjInvestimento_@(Model.modelo.Id)" name="formBlocoProjInvestimento_@(Model.modelo.Id)" method="post" enctype="multipart/form-data" data-id="@(Model.modelo.Id)">
+                                                <input id="investment-titulo_@(Model.modelo.Id)" name="investment-titulo_@(Model.modelo.Id)" value="@(Model.modelo.Titulo)" hidden style="display:none;" />
+                                                <div class="row">
+                                                    <div class="col-md-12 col-lg-6" style="margin-bottom:3px;padding:35px;">
+                                                        <h3 class="text-success" style="font-size:20px;padding-top:15px;padding-bottom:25px;">RESERVADO</h3>
+                                                        <div class="xs-skill-bar">
+                                                            <div class="xs-skill-track">
+                                                                <p>
+                                                                    <span class="number-percentage-count number-percentage" data-value="@_valfracaoRes" data-animation-duration="2500">@_valfracaoRes</span>%
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-6" style="margin-bottom:3px;padding:35px;">
+                                                        <h3 class="text-success" style="font-size:20px;padding-top:15px;padding-bottom:25px;">ADQUIRIDO</h3>
+                                                        <div class="xs-skill-bar">
+                                                            <div class="xs-skill-track">
+                                                                <p>
+                                                                    <span class="number-percentage-count number-percentage" data-value="@_valfracaoAdq" data-animation-duration="2500">@_valfracaoAdq</span>%
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12" style="margin-top:5px;padding:0px 60px;">
+                                                    @{
+                                                        var _investiunesse = false;
+                                                        var _totinvestidoexc = false;
+                                                    }
+
+                                                    @if (_valfracaoRes < 100)
+                                                    {
+                                                        var _usu = _contexto.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                                                        var _perf = _usu.Financeiro_Investidor_Perfil;
+                                                        var _totTOTAL = _contexto.INVEST_Lancamentos
+                                                            .Where(x => x.UsuarioAppId == _usu.Id && x.Status == "A")
+                                                            .Sum(x => x.Valor);
+
+                                                        @if (Model.modelo.Status.ToLower() != "c" && Model.modelo.Status.ToLower() != "e")
+                                                        {
+                                                            <input id="investment-slider_@(Model.modelo.Id)" type="range" min="@_valLanceMin" max="@(_valTot - (_valReserva + _valAdquirido))" step="@_valLanceMin" value="@_valLanceMin" @Html.Raw($"data-rangeslider_{Model.modelo.Id}") data-limite-doc="@_valMinimoDocs">
+                                                        }
+
+                                                        _investiunesse = _contexto.INVEST_Lancamentos.FirstOrDefault(x => x.UsuarioAppId == _usu.Id && x.BlocoProjInvestimentosId == Model.modelo.Id) != null ? true : false;
+                                                    }
+
+                                                    <output id="output-saida-exibe-progbar_@(Model.modelo.Id)" name="output-saida-exibe-progbar_@(Model.modelo.Id)" class="saida-exibe-progbar"></output>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    @if (_valfracaoRes < 100)
+                                                    {
+                                                        @if (Model.modelo.BlocoProjInvest_ExibTitulo)
+                                                        {
+                                                            <h3 class="text-primary" style="font-size:20px;">
+                                                                VALOR A INVESTIR
+                                                            </h3>
+                                                        }
+                                                        <div id="formBlocoProjInvestimento_@(Model.modelo.Id)_contador" name="formBlocoProjInvestimento_@(Model.modelo.Id)_contador"></div>
+                                                        <div class="row hidden-xs" style="opacity:0 !important;">
+                                                            <div class="col-md-6 text-center">
+                                                                <p><strong class="text-purple text-lg"> R$ <span id="returntotal_@(Model.modelo.Id)">0</span></strong></p>
+                                                            </div>
+                                                        </div>
+
+                                                        var _usu = _contexto.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                                                        var _tot = _contexto.INVEST_Lancamentos
+                                                            .Where(x => x.BlocoProjInvestimentosId == Model.modelo.Id && x.UsuarioAppId == _usu.Id && x.Status == "A")
+                                                            .Sum(x => x.Valor);
+
+                                                        var _reserv = _contexto.INVEST_Lancamentos
+                                                            .Where(x => x.BlocoProjInvestimentosId == Model.modelo.Id && x.UsuarioAppId == _usu.Id && x.Status == "P")
+                                                            .Sum(x => x.Valor);
+
+                                                        @*
+                                                            <div class="row" style="padding:20px;">
+                                                            <b style="font-size:25px;color:green;padding:10px;display:block;">
+                                                                Total investido: @Html.Raw(_tot.ToString("C2"))
+                                                            </b>
+                                                            <b style="font-size:25px;color:red;padding:10px;display:block;">
+                                                                Total reservado: @Html.Raw(_reserv.ToString("C2"))
+                                                            </b>
+                                                            </div>
+                                                        *@
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-12" style="margin-top:-10px;margin-bottom:15px;">
+                                                    @if (_valfracaoRes < 100)
+                                                    {
+                                                        @if (Model.modelo.Status.ToLower() != "c" && Model.modelo.Status.ToLower() != "e")
+                                                        {
+                                                            @if (!_totinvestidoexc)
+                                                            {
+                                                                <a href="javascript:;" id="botaoinvestirfront_@(Model.modelo.Id)" name="botaoinvestirfront_@(Model.modelo.Id)" class="xs-btn btn btn-primary round-btn classe-botao-investir" data-id="@(Model.modelo.Id)">
+                                                                    <i class="fa fa-money"></i> Aceito os termos contidos aqui e quero investir
+                                                                </a>
+                                                            }
+                                                            @if (_investiunesse)
+                                                            {
+                                                                <div class="row" style="margin-top:15px;text-align:center;">
+                                                                    <a href="javascript:CancelarInvestimento('BlocosProjInvestValor', @Model.modelo.Id);" id="botaocancelarinvestirfront_@(Model.modelo.Id)" name="botaocancelarinvestirfront_@(Model.modelo.Id)" class="xs-btn btn btn-danger round-btn classe-botao-investir" data-id="@(Model.modelo.Id)">
+                                                                        <i class="fa fa-window-close"></i> Cancelar
+                                                                    </a>
+                                                                    <a href="/Correio/Conversas?uid=2751483e-2c65-4629-84b5-abc20c940c1c&idinv=@Model.modelo.Id" target="_blank" class="xs-btn btn btn-success round-btn classe-botao-investir">
+                                                                        <i class="fa fa-comments"></i> Chat
+                                                                    </a>
+                                                                </div>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <b style="color:red;">ENCERRADA</b>
+                                                        }
+                                                    }
+                                                </div>
+                                                <input id="flag_LimiteMinimoDoc_@(Model.modelo.Id)" name="flag_LimiteMinimoDoc_@(Model.modelo.Id)" type="hidden" value="0" readonly />
+                                            </form>
+                                        </section>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    @{
+                        var _listacomentarios = _contexto.BlocoProjInvestimentoComentarios.Include(x => x.UsuarioApps).Where(x => x.BlocoProjInvestimentoId == Model.modelo.Id).OrderByDescending(x => x.DTHR);
+                    }
+
+                    <!-- TABS / COMENTARIOS -->
+                    <div class="col-12 mt-5">
+                        <div class="xs-text-content-tab">
+                            <div class="xs-tab-nav fundpress-tab-nav-v2 xs-mb-30">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#updates" role="tab" data-toggle="tab">
+                                            PROSPECTO DO EMPREENDIMENTO
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#comments_panel" role="tab" data-toggle="tab">
+                                            FORUM <span class="color-green">(@_listacomentarios.Count())</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content xs-text-tab-content">
+                                <div role="tabpanel" class="tab-pane fadeInRights show fade in active" id="updates">
+                                    <div class="xs-ul-list fundpress-content-text-list-wraper">
+                                        <ul class="fundpress-content-text-list xs-content-text-list">
+                                            @*<li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">CONTRATO DE MÚTUO</a></li>*@
+                                            @*<li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/novosdocs_usuarios/Termo_de_Ciência_de_Risco.pdf" target="_blank">COMPROVANTE DE RESIDÊNCIA</a></li>*@
+                                            @*@foreach (var item in _contexto.BlocoProjInvestimento_ItemDocs.Include(x => x.BlocoProjInvestimento).Include(x => x.INVEST_ModeloDoc).Where(x => x.BlocoProjInvestimentoId == Model.modelo.Id))
+                                            {
+                                                <li>
+                                                    <p class="xs-content-description fundpress-content-description color-navy-blue">
+                                                        @Html.Raw(item.INVEST_ModeloDoc.Titulo) -> <a href="@item.INVEST_ModeloDoc.Hyperlink" class="color-green" target="_blank">link</a>
+                                                    </p>
+                                                </li>
+                                            }*@
+
+                                            @{
+                                                //var _usuA = _contexto.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+                                                //var _totA = _contexto.INVEST_Lancamentos.Where(x => x.BlocoProjInvestimentosId == Model.modelo.Id && x.UsuarioAppId == _usuA.Id).FirstOrDefault();
+                                                //if (_totA != null)
+                                                //{
+                                                    @*<li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/ARQUIVOS_DOCUMENTOS_INVESTIMENTO.docx">PACOTE DE DOCUMENTOS</a></li>*@
+                                                    //PACOTE DE INVESTIMENTO
+                                                @*}*@
+                                            }
+                                        </ul>
+                                        @*
+                                            <div class="xs-navy-blue-bg fundpress-porject-lunch xs-content-padding text-center content-left">
+                                            <h3 class="color-white xs-mb-10 regular">january 16, 2018</h3>
+                                            <h4 class="color-white xs-mb-0 semi-bold">Project Launched</h4>
+                                            </div>
+                                        *@
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fadeInRights fade" id="comments_panel">
+                                    <div class="xs-blog-post-comment border xs-content-padding">
+                                        <div id="comments" class="comments-area">
+                                            @*<h4 class="comments-title"> 4 Comments</h4>*@
+                                            <ol class="comment-list">
+                                                @foreach (var comentario in _listacomentarios)
+                                                {
+                                                    <li id="comment-@comentario.Id" class="comment byuser comment-author-admin bypostauthor even thread-even depth-1 parent">
+                                                        <article id="div-comment-1" class="comment-body">
+                                                            <footer class="comment-meta">
+                                                                <div class="comment-author vcard">
+                                                                    <img alt="comment avatar image" src="@Html.Raw(comentario.UsuarioApps.AvatarUsuario)" class="avatar avatar-34 photo">
+                                                                    <b class="fn">@Html.Raw(comentario.UsuarioApps.Nome)</b>
+                                                                </div>
+                                                                <div class="comment-metadata">
+                                                                    <a href="">
+                                                                        <time datetime="@comentario.DTHR.ToString()">@Html.Raw(comentario.DTHR.ToShortDateString() + " " + comentario.DTHR.ToShortTimeString())</time>
+                                                                    </a>
+                                                                </div>
+                                                            </footer>
+                                                            <div class="comment-content">
+                                                                <p>@Html.Raw(comentario.Comentario)</p>
+                                                            </div>
+                                                        </article>
+                                                    </li>
+                                                }
+                                            </ol>
+
+                                            <div id="respond" class="comment-respond">
+                                                <h3 id="reply-title" class="comment-reply-title">
+                                                    Comente
+                                                    <small>
+                                                        <a rel="nofollow" id="cancel-comment-reply-link" href="/wp/premix/hello-world-2/#respond" style="display:none;">
+                                                            Cancela resposta
+                                                        </a>
+                                                    </small>
+                                                </h3>
+                                                <div class="separator">
+                                                    <span></span><span></span><span></span>
+                                                </div>
+
+                                                <form method="post" id="commentform" class="comment-form" onsubmit="return mySubmitFunction(event)">
+                                                    <input type="hidden" id="idbloc" name="idbloc" value="@Model.modelo.Id" />
+                                                    <div class="commentright ">
+                                                        <textarea placeholder="Comentário" id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <p class="form-submit">
+                                                        <input type="submit" class="premix-btn light-red-btn coment-btn" value="Enviar">
+                                                    </p>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+}
+@section Scripts
+    {
+    <script>
+        function mySubmitFunction() {
+            var myform = document.getElementById("commentform");
+            var fd = new FormData(myform);
+
+            jQuery.ajax({
+                type: 'post',
+                url: "/api/sistema/enviarmensagemforum",
+                data: fd,
+                processData: false,
+                contentType: false,
+                complete: function () { },
+                success: function (retorno) {
+                    if (retorno.mens === "ok") {
+                        window.location.reload();
+                    }
+                },
+                error: function (error) {}
+            });
+
+            return false;
+        }
+        //const element = document.querySelector('form');
+        //element.addEventListener('submit', event => {
+        //    event.preventDefault();
+        //    alert('Form submission cancelled.');
+        //});
+
+        //$("#commentform").on('submit', function (e) {
+        //    e.preventDefault;
+        //})
+
+        $("#cabecalho_root").removeClass("xs-header-height xs-menu-style-transparent xs-menu-style-border fundpress-header-main-version color-navy-blue v3");
+        $("#cabecalho_root").addClass("fundpress-header-inner-version fundpress-header-main-version xs-menu-style-solid color-navy-blue");
+
+        $("#botaoinvestirfront_@(Model.modelo.Id)").on('click', function (e) {
+            e.preventDefault();
+            AcaoEnviarInvestApi($("#investment-slider_@(Model.modelo.Id)").val(), @(Model.modelo.Id), $("#investment-titulo_@(Model.modelo.Id)").val());
+        });
+
+        function AcaoEnviarInvestApi(_valorInvestir, _IdInvest, _TitInvest) {
+            _valorInvestir = parseFloat(_valorInvestir);
+            _valorInvestir = _valorInvestir.toFixed(2);
+
+            var _menshtml = document.createElement("span");
+            _menshtml.innerHTML = "Você está prestes a investir <br/><b>VALOR: R$ " + mascaraValor(_valorInvestir) + "</b> em<br/><b>INVESTIMENTO: " + $("#investment-titulo_@(Model.modelo.Id)").val() + "</b>.<br/> Deseja realmente realizar o investimento?";
+
+            @*if ($("#flag_LimiteMinimoDoc_@(Model.modelo.Id)").val() === "1") {
+                _menshtml.innerHTML += "<hr/>";
+                _menshtml.innerHTML += "<br/>";
+                _menshtml.innerHTML += "<b style='color:red;font-size:12px;line-height:16px!important;display:block;padding-bottom:10px;'>ATENÇÃO: Clicando em INVESTIR, você CONCORDA com os termos disponíveis no investimento (Documentação necessária) listados logo abaixo:</b>";
+                _menshtml.innerHTML += "</ul>";
+                $.ajax({
+                    type: "GET",
+                    url: "/api/sistema/listadocsbloco?idbloco=" + _IdInvest,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    complete: function () { },
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.length == 0)
+                            swal("Opsss", "Erros impediram uma ação de investimento", "error");
+                        else {
+                            if (response.status == "ok") {
+                                _menshtml.innerHTML += response.dados;
+                            }
+                        }
+                    },
+                    error: function (e) { }
+                });
+            }*@
+
+            swal({
+                title: "Confirmar investimento?",
+                content: _menshtml,
+                icon: "warning",
+                //buttons: true,
+                buttons: {
+                    cancel: "Cancelar",
+                    confirm: "Investir"
+                },
+                dangerMode: true
+            })
+            .then((investiu) => {
+                if (investiu) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/sistema/realizainvestimento?_id=" + _IdInvest + "&_valor=" + _valorInvestir + "&_titulo=" + _TitInvest,
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+                        },
+                        complete: function () { },
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            if (response.length == 0)
+                                swal("Opsss", "Erros impediram uma ação de investimento", "error");
+                            else {
+                                if (response.status == "ok") {
+                                    var _menshtml001 = document.createElement("span");
+                                    _menshtml001.innerHTML = response.mens;
+                                    swal({
+                                        title: "Sucesso",
+                                        content: _menshtml001,
+                                        icon: "success",
+                                        buttons: true,
+                                    }).then((value) => {window.location.reload();});
+                                } else {
+                                var _menshtml001 = document.createElement("span");
+                                    _menshtml001.innerHTML = response.mens;
+                                    swal({
+                                        title: "Atenção",
+                                        content: _menshtml001,
+                                        icon: "warning",
+                                        buttons: true,
+                                    });
+                                }
+                            }
+                        },
+                        error: function (e) { }
+                    });
+                }
+                else { }
+            });
+        }
+
+        function mascaraValor(valor) {
+            valor = valor.toString().replace(/\D/g, "");
+            valor = valor.toString().replace(/(\d)(\d{8})$/, "$1.$2");
+            valor = valor.toString().replace(/(\d)(\d{5})$/, "$1.$2");
+            valor = valor.toString().replace(/(\d)(\d{2})$/, "$1,$2");
+            return valor;
+        }
+
+        $(function () {
+            var $document = $(document);
+            var selector = '[data-rangeslider_@(Model.modelo.Id)]';
+            var $inputRange = $(selector);
+
+            function valueOutput(element) {
+                var value = element.value;
+                var output = element.parentNode.getElementsByTagName('output')[0];
+                output.innerHTML = parseFloat(value).toFixed(2);
+                formatarMoeda('output-saida-exibe-progbar_@(Model.modelo.Id)');
+                output.innerHTML = "R$ " + output.innerHTML;
+
+                @*if (parseFloat(value) > $inputRange.data('limite-doc')) {
+                    $("#flag_LimiteMinimoDoc_@(Model.modelo.Id)").val(1);
+                    $("#divdocumentacao_@(Model.modelo.Id)").fadeIn('slow');
+
+                    $("#botaoinvestirfront_@(Model.modelo.Id)").html('<i class="fa fa-money"></i> Aceitar os termos e Investir');
+                    //$(".classe-botao-investir").html('<i class="fa fa-money"></i> Aceitar os termos e Investir');
+                } else {
+                    $("#flag_LimiteMinimoDoc_@(Model.modelo.Id)").val(0);
+                    $("#divdocumentacao_@(Model.modelo.Id)").fadeOut('slow');
+
+                    $("#botaoinvestirfront_@(Model.modelo.Id)").html('<i class="fa fa-money"></i> Investir');
+                    //$(".classe-botao-investir").html('<i class="fa fa-money"></i> Investir');
+                }*@
+            }
+
+            for (var i = $inputRange.length - 1; i >= 0; i--) {
+                valueOutput($inputRange[i]);
+            };
+
+            $document.on('input', selector, function (e) {
+                valueOutput(e.target);
+            });
+
+            $inputRange.rangeslider({ polyfill: false });
+
+            $document.on('click', '#js-example-change-value button', function (e) {
+                var $inputRange = $('[data-rangeslider]', e.target.parentNode);
+                var value = $('input[type="number"]', e.target.parentNode)[0].value;
+                $inputRange.val(value).change();
+            });
+
+            $document.on('click', '#js-example-change-attributes button', function (e) {
+                var $inputRange = $('[data-rangeslider]', e.target.parentNode);
+                var attributes = {
+                    min: $('input[name="min"]', e.target.parentNode)[0].value,
+                    max: $('input[name="max"]', e.target.parentNode)[0].value,
+                    step: $('input[name="step"]', e.target.parentNode)[0].value
+                };
+                $inputRange.attr(attributes).rangeslider('update', true);
+            });
+
+            $document.on('click', '#js-example-destroy button[data-behaviour="destroy"]', function (e) {
+                $('input[type="range"]', e.target.parentNode)
+                    .rangeslider('destroy');
+            })
+                .on('click', '#js-example-destroy button[data-behaviour="initialize"]', function (e) {
+                    $('input[type="range"]', e.target.parentNode)
+                        .rangeslider({ polyfill: false });
+                });
+        });
+
+        (function () {
+            var weekday = function () {
+                var dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'], now = new Date();
+                return dayNames[now.getDay()];
+            };
+        })();
+    </script>
+    <script>
+        blocks = { countdown: $('.countdown') };
+        function countDown() {
+            blocks.countdown.each(function () {
+                var $this = $(this),
+                    date = $this.data('date'),
+                    set_year = $this.data('year') || 'Yrs',
+                    set_month = $this.data('month') || 'Mths',
+                    set_week = $this.data('week') || 'Wk',
+                    set_day = $this.data('day') || 'Day',
+                    set_hour = $this.data('hour') || 'Hrs',
+                    set_minute = $this.data('minute') || 'Min',
+                    set_second = $this.data('second') || 'Sec';
+
+                if (date = date.split('-')) {
+                    date = date.join('/');
+                } else return;
+
+                $this.countdown(date, function (e) {
+                    var format = '<span class="countdown-row">';
+
+                    function addFormat(func, timeNum, showZero) {
+                        if (timeNum === 0 && !showZero) return;
+
+                        func(format);
+                    };
+
+                    addFormat(function () {
+                        format += '<span class="countdown-section">'
+                            + '<span class="countdown-amount">' + e.offset.totalDays + '</span>'
+                            + '<span class="countdown-period">' + set_day + '</span>'
+                            + '</span>';
+                    }, e.offset.totalDays, true);
+
+                    addFormat(function () {
+                        format += '<span class="countdown-section">'
+                            + '<span class="countdown-amount">' + e.offset.hours + '</span>'
+                            + '<span class="countdown-period">' + set_hour + '</span>'
+                            + '</span>';
+                    }, e.offset.hours, true);
+
+                    addFormat(function () {
+                        format += '<span class="countdown-section">'
+                            + '<span class="countdown-amount">' + e.offset.minutes + '</span>'
+                            + '<span class="countdown-period">' + set_minute + '</span>'
+                            + '</span>';
+                    }, e.offset.minutes, true);
+
+                    addFormat(function () {
+                        format += '<span class="countdown-section">'
+                            + '<span class="countdown-amount">' + e.offset.seconds + '</span>'
+                            + '<span class="countdown-period">' + set_second + '</span>'
+                            + '</span>';
+                    }, e.offset.seconds, true);
+
+                    format += '</span>';
+
+                    $(this).html(format);
+                });
+            });
+        };
+        countDown();
+
+        function CancelarInvestimento(tabela, id) {
+            var _menshtml = document.createElement("span");
+            _menshtml.innerHTML = "Você está prestes a cancelar INVESTIMENTO(s) em<br/><b>INVESTIMENTO: " + $("#investment-titulo_@(Model.modelo.Id)").val() + "</b>.<br/> Deseja realmente prosseguir?";
+
+            swal({
+                title: "CANCELAMENTO de Investimento?",
+                content: _menshtml,
+                icon: "warning",
+                //buttons: true,
+                buttons: {
+                    cancel: "Voltar",
+                    confirm: "CONFIRMA"
+                },
+                dangerMode: true
+            })
+                .then((investiu) => {
+                    if (investiu) {
+                        $.ajax({
+                            //type: "POST",
+                            url: "/api/sistema/delreg?objeto=" + tabela + "&codigo=" + id,
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+                            },
+                            complete: function () { },
+                            contentType: false,
+                            processData: false,
+                            success: function (response) {
+                                if (response.length == 0)
+                                    swal("Opsss", "Erros impediram uma ação de cancelamento de investimento", "error");
+                                else {
+                                    if (response.mens == "ok") {
+                                        var _menshtml001 = document.createElement("span");
+                                        _menshtml001.innerHTML = "Investimento(s) cancelados(s) com sucesso";
+                                        swal({
+                                            title: "Sucesso",
+                                            content: _menshtml001,
+                                            icon: "success",
+                                            buttons: true,
+                                        }).then((value) => { window.location.reload(); });
+                                    } else {
+                                        var _menshtml001 = document.createElement("span");
+                                        _menshtml001.innerHTML = response.mens;
+                                        swal({
+                                            title: "Atenção",
+                                            content: _menshtml001,
+                                            icon: "warning",
+                                            buttons: true,
+                                        });
+                                    }
+                                }
+                            },
+                            error: function (e) { }
+                        });
+                    }
+                    else { }
+                });
+        }
+    </script>
+}

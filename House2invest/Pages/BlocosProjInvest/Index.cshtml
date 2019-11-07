@@ -1,0 +1,376 @@
+﻿@page
+@model House2Invest.Pages.BlocosProjInvest.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_LayoutCMS.cshtml";
+}
+<style>
+    .countdown_box {
+        /*position: absolute;*/
+        right: 0px;
+        bottom: 0;
+        width: 100%;
+        z-index: 5;
+        /*background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));*/
+        padding-top: 0px;
+    }
+
+        .countdown_box .countdown_inner {
+            overflow: hidden;
+            padding: 5px 0;
+            text-align: center;
+            color: darkred;
+            text-shadow: 1px 1px 1px rgba(0,0,0,.5);
+        }
+
+        .countdown_box .countdown-section {
+            display: inline-block;
+            text-align: center;
+            position: relative;
+            padding: 4px 0;
+            margin: 0 6px;
+            line-height: 13px;
+            font-size: 10px;
+            white-space: nowrap;
+            min-width: 30px;
+        }
+
+            .countdown_box .countdown-section:before {
+                right: -42%;
+            }
+
+            .countdown_box .countdown-section:last-child:before {
+                display: none;
+            }
+
+        .countdown_box .countdown-amount {
+            line-height: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            padding-bottom: 2px;
+            display: block;
+        }
+
+        .countdown_box .countdown-period {
+            display: block;
+        }
+
+        .countdown_box .countdown-descr {
+            display: block;
+            width: 100%;
+        }
+</style>
+<div class="container-fluid px-xl-5">
+    <section class="py-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11 col-12">
+                                <h6 class="text-uppercase pt-2">Blocos de Projetos - Investimentos</h6>
+                            </div>
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-12">
+                                <a asp-page="Create" class="btn btn-success mb-0"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11 col-12">
+                                <p class="text-gray pt-2 pl-2">
+                                    <i class="fa fa-info-circle"></i> Módulo responsável pela criação dos Blocos de Projetos e Investimentos na página inicial. Somente <b>ADMINISTRADORES</b> tem acesso a esse módulo.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="pb-2">
+                            <div class="row">
+                                <div class="col-12 pt-1">
+                                    <form asp-action="Index" method="get" class="form-inline">
+                                        <div class="form-group mx-sm-3 mb-2">
+                                            <input class="form-control" type="text" name="SearchString" placeholder="Faça sua busca aqui" value="@ViewData["FiltroAtual"]" autofocus>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mb-2"><i class="fa fa-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @{
+                            var anteriorDisabled = !Model.ListaBlocosProjInvestimentos.TemPaginaAnterior ? "disabled" : "";
+                            var proximoDisabled = !Model.ListaBlocosProjInvestimentos.TemProximaPagina ? "disabled" : "";
+                        }
+                        <div class="row">
+                            <div class="col-12 mt-3 mb-3">
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaBlocosProjInvestimentos.PagIND - 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @anteriorDisabled mr-1"><i class="fa fa-chevron-left"></i></a>
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaBlocosProjInvestimentos.PagIND + 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @proximoDisabled mr-1"><i class="fa fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table card-text py-5">
+                                <thead>
+                                    <tr>
+                                        <th width="130px"></th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorDateParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">CRIADO</a>
+                                        </th>
+                                        <th>
+                                            TÍTULO
+                                        </th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">VALOR</a>
+                                        </th>
+                                        @*
+                                            <th>
+                                                <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">ATIVO</a>
+                                            </th>
+                                        *@
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">STATUS</a>
+                                        </th>
+                                        <th style="width:260px !important;">
+                                            VÁLIDO ATÉ
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ListaBlocosProjInvestimentos)
+                                    {
+                                        <tr>
+                                            <td scope="row">
+                                                <a asp-page="/BlocosProjInvest/Edit" asp-route-id="@item.Id" class="btn btn-primary btn-pequeno"><i class="far fa-edit"></i></a>
+                                                @*<a href="javascript:ExcluirRegistro('BlocosProjInvest', @item.Id);" class="btn btn-danger btn-pequeno"><i class="fa fa-trash"></i></a>*@
+                                                @if (item.Status == "E")
+                                                {
+                                                    <a href="javascript:TransfFundos('BlocosProjInvest', @item.Id);" class="btn btn-success btn-pequeno"><i class="fa fa-money-bill-alt"></i></a>
+                                                }
+                                            </td>
+                                            <td>
+                                                @Html.Raw(item.DTHR.ToShortDateString())
+                                            </td>
+                                            <td>
+                                                @Html.Raw(item.Titulo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Valor)
+                                            </td>
+                                            @*
+                                                <td>
+                                                    <div class="custom-control custom-checkbox" style="margin-top:-12px;pointer-events: none;">
+                                                        <input asp-for="@item.Ativo" type="checkbox" class="custom-control-input">
+                                                        <label for="item_Ativo" class="custom-control-label"></label>
+                                                    </div>
+                                                </td>
+                                            *@
+                                            <td style="@Html.Raw(item.Status == "S" ? "min-width:420px;" : "min-width:250px;")">
+                                                @{
+                                                    string _descriStatus = "A";
+                                                    string _iconStatus = "fas fa-question";
+                                                    string _fundoStatus = "bg-dark";
+                                                    string _corTextoStatus = "text-dark";
+                                                    if (item.Status == "I")
+                                                    {
+                                                        _descriStatus = "INDEFINIDO";
+                                                        _iconStatus = "fas fa-question";
+                                                        _fundoStatus = "bg-grey";
+                                                        _corTextoStatus = "text-dark";
+                                                    }
+                                                    else if (item.Status == "A")
+                                                    {
+                                                        _descriStatus = "EM ANDAMENTO";
+                                                        _iconStatus = "fas fa-play";
+                                                        _fundoStatus = "bg-success";
+                                                        _corTextoStatus = "text-success";
+                                                    }
+                                                    else if (item.Status == "C")
+                                                    {
+                                                        _descriStatus = "CANCELADO";
+                                                        _iconStatus = "fas fa-ban";
+                                                        _fundoStatus = "bg-danger";
+                                                        _corTextoStatus = "text-danger";
+                                                    }
+                                                    else if (item.Status == "E")
+                                                    {
+                                                        _descriStatus = "ENCERRADO";
+                                                        _iconStatus = "fas fa-check-circle";
+                                                        _fundoStatus = "bg-primary";
+                                                        _corTextoStatus = "text-primary";
+                                                    }
+                                                    else if (item.Status == "S")
+                                                    {
+                                                        _descriStatus = "SUSPENSO";
+                                                        _iconStatus = "fas fa-pause";
+                                                        _fundoStatus = "bg-warning";
+                                                        _corTextoStatus = "text-warning";
+                                                    }
+                                                    <div class="col-12">
+                                                        <div class="d-flex align-items-center justify-content-between">
+                                                            <div class="flex-grow-1 d-flex align-items-center">
+                                                                @*
+                                                                    <div class="mr-3">
+                                                                        <i class="@Html.Raw(_iconStatus)"></i>
+                                                                    </div>
+                                                                *@
+                                                                <div class="text">
+                                                                    <h6 class="mb-0 @_corTextoStatus">@Html.Raw(_descriStatus)</h6>
+                                                                    <span class="text-gray">
+                                                                        <a href="javascript:StatusOferta(@item.Id, 'A');" title="INICIAR APÓS UMA SUSPENSÃO" class="btn btn-success btn-pequeno" style="font-size:10px!important;"><i class="fas fa-play"></i></a>
+                                                                        <a href="javascript:StatusOferta(@item.Id, 'S');" title="SUSPENDER" class="btn btn-warning btn-pequeno" style="font-size:10px!important;"><i class="fas fa-pause"></i></a>
+                                                                        <a href="javascript:StatusOferta(@item.Id, 'C');" title="CANCELAR" class="btn btn-danger btn-pequeno" style="font-size:10px!important;"><i class="fas fa-stop"></i></a>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="icon text-white @Html.Raw(_fundoStatus)">
+                                                                <i class="@Html.Raw(_iconStatus)"></i>
+                                                            </div>
+
+
+                                                            <div>
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        @if (item.Status == "S")
+                                                                        {
+                                                                            <div class="countdown_box pb-3">
+                                                                                <div class="countdown_inner">
+                                                                                    <div class="countdown"
+                                                                                         data-date="@item.DataLimiteSuspensao.Year-@item.DataLimiteSuspensao.Month.ToString("D2")-@item.DataLimiteSuspensao.Day.ToString("D2") @item.DataLimiteSuspensao.Hour.ToString("D2"):@item.DataLimiteSuspensao.Minute.ToString("D2"):@item.DataLimiteSuspensao.Second.ToString("D2")"
+                                                                                         data-year="ANOS"
+                                                                                         data-month="MESES"
+                                                                                         data-week="SEMANAS"
+                                                                                         data-day="DIAS"
+                                                                                         data-hour="HRs"
+                                                                                         data-minute="MINs"
+                                                                                         data-second="SEGs">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    @*
+                                                        <b style="font-size:12px;color:@_cor;">
+                                                            @Html.Raw(_descriStatus)
+                                                        </b>
+                                                        <div>
+                                                            <a href="javascript:StatusOferta(@item.Id, 'A');" title="INICIAR APÓS UMA SUSPENSÃO" class="btn btn-success btn-pequeno"><i class="fas fa-play"></i></a>
+                                                            <a href="javascript:StatusOferta(@item.Id, 'S');" title="SUSPENDER" class="btn btn-warning btn-pequeno"><i class="fas fa-pause"></i></a>
+                                                            <a href="javascript:StatusOferta(@item.Id, 'C');" title="CANCELAR" class="btn btn-danger btn-pequeno"><i class="fas fa-stop"></i></a>
+                                                        </div>
+                                                    *@
+                                                }
+                                                @*@Html.Raw(item.Status == "I" ? "INDEFINIDO" : item.Status == "A" ? "EM ANDAMENTO" : item.Status == "E" ? "ENCERRADO" : "CANCELADO")*@
+                                            </td>
+
+                                            <td style="width:260px !important;">
+                                                @Html.DisplayFor(modelItem => item.Contador_DataFinal)
+                                            </td>
+                                            @*
+                                                <td>
+                                                    @Html.Raw(item.Status == "S" ? item.DataLimiteSuspensao.ToShortDateString() + " às " + item.DataLimiteSuspensao.ToLongTimeString() : "--")
+                                                </td>
+                                            *@
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mt-3 mb-3">
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaBlocosProjInvestimentos.PagIND - 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @anteriorDisabled mr-1"><i class="fa fa-chevron-left"></i></a>
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaBlocosProjInvestimentos.PagIND + 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @proximoDisabled mr-1"><i class="fa fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts
+    {
+    <script>
+        $("#mnusidebar_cms_blocosprojinvestimentos").removeClass("collapsed");
+        $("#mnusidebar_cms_blocosprojinvestimentos").attr("aria-expanded", "true");
+        $("#mnusidebar_cms_blocosprojinvestimentos").addClass("active");
+
+        blocks = { countdown: $('.countdown') };
+        function countDown() {
+            blocks.countdown.each(function () {
+                var $this = $(this),
+                    date = $this.data('date'),
+                    set_year = $this.data('year') || 'Yrs',
+                    set_month = $this.data('month') || 'Mths',
+                    set_week = $this.data('week') || 'Wk',
+                    set_day = $this.data('day') || 'Day',
+                    set_hour = $this.data('hour') || 'Hrs',
+                    set_minute = $this.data('minute') || 'Min',
+                    set_second = $this.data('second') || 'Sec';
+
+                if (date = date.split('-')) {
+                    date = date.join('/');
+                } else return;
+
+                $this.countdown(date, function (e) {
+                    var format = '<span class="countdown-row">';
+                    function addFormat(func, timeNum, showZero) {
+                        if (timeNum === 0 && !showZero) return;
+                        func(format);
+                    };
+
+                    addFormat(function () {
+                        format += '<span class="countdown-section">'
+                            + '<span class="countdown-amount">' + e.offset.months + '</span>'
+                            + '<span class="countdown-period">' + set_month + '</span>'
+                            + '</span>';
+                    }, e.offset.months, true);
+
+                    addFormat(function () {
+                        format += '<span class="countdown-section">'
+                            + '<span class="countdown-amount">' + e.offset.totalDays + '</span>'
+                            + '<span class="countdown-period">' + set_day + '</span>'
+                            + '</span>';
+                    }, e.offset.totalDays, true);
+
+                    addFormat(function () {
+                        format += '<span class="countdown-section">'
+                            + '<span class="countdown-amount">' + e.offset.hours + '</span>'
+                            + '<span class="countdown-period">' + set_hour + '</span>'
+                            + '</span>';
+                    }, e.offset.hours, true);
+
+                    addFormat(function () {
+                        format += '<span class="countdown-section">'
+                            + '<span class="countdown-amount">' + e.offset.minutes + '</span>'
+                            + '<span class="countdown-period">' + set_minute + '</span>'
+                            + '</span>';
+                    }, e.offset.minutes, true);
+
+                    addFormat(function () {
+                        format += '<span class="countdown-section">'
+                            + '<span class="countdown-amount">' + e.offset.seconds + '</span>'
+                            + '<span class="countdown-period">' + set_second + '</span>'
+                            + '</span>';
+                    }, e.offset.seconds, true);
+
+                    format += '</span>';
+
+                    $(this).html(format);
+                });
+
+                $this.on('finish.countdown', function (event) {
+                    $(this).html('<b style="color:red;padding:5px;margin-top:14px;display:block;margin-left:5px;">ESSA OFERTA FOI CANCELADA!</b>').parent().addClass('disabled');
+                });
+            });
+        };
+
+        countDown();
+    </script>
+}

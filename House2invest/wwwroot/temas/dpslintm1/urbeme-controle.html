@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Controle Urbe.me</title>
+    <link rel="stylesheet" href="/temas/dpslintm1/assets/css/urbeme/main.min.css">
+    <link rel="stylesheet" href="/temas/dpslintm1/assets/css/urbeme/custom.css">
+    <script type="text/javascript" src="/temas/dpslintm1/assets/js/urbeme/main.min.js"></script>
+    <script type="text/javascript">
+        //var APP_ROOT = "http://urbe.me/";
+        //var APP_ROOT = APP_ROOT.replace("http://", "https://");
+        var rentabilidadePoupanca = 4.5;
+        var rentabilidadeCDI = 5.9;
+        // valores adicionados na home, para personalizar no detalhe do projeto
+        var rentabilidade = 17;
+        //var tempo = 3;
+    </script>
+</head>
+<body>
+    <script type="text/javascript">
+        // var rentabilidade = 17;
+        var tempo = 24;
+    </script>
+    <div class="investment-simulator">
+        <div class="container">
+            <div class="general-title">
+                <h2 class="title">Simule <span>seu investimento</span></h2>
+            </div>
+            <div class="cont row">
+                <div class="col-md-6 col-md-offset-1 col-sm-8 col-xs-12">
+                    <form action="#">
+                        <div class="slider">
+                            <div class="slider-title">Rentabilidade (a.a):</div>
+                            <div class="slider-label">
+                                <div class="min">0%</div>
+                                <div class="max">50%</div>
+                            </div>
+                            <div id="slider-rentabilidade" class="bar value"><div class="fsslider"><div class="fsfull-value"></div><div class="fssel-value" style="left: 0px; width: 280.32px;"></div><div class="fscaret" style="left: 280.977px; margin-left: -16.4297px; z-index: 1;">24%</div></div></div>
+                        </div>
+                        <div class="slider">
+                            <div class="slider-title">Tempo de projeto</div>
+                            <div class="slider-label">
+                                <div class="min">1</div>
+                                <div class="max">360</div>
+                            </div>
+                            <div id="slider-tempo" class="bar value"><div class="fsslider"><div class="fsfull-value"></div><div class="fssel-value" style="left: 0px; width: 78.0836px;"></div><div class="fscaret" style="left: 89.0724px; margin-left: -15px; z-index: 1;">49</div></div></div>
+                        </div>
+                        <div class="inputs">
+                            <div class="investiment-value">
+                                <div class="input-title">Valor do investimento:</div>
+                                <div class="input" data-unit="R$" data-decimal=",00">
+                                    <input type="text" id="field-valorInvestimento" class="fieldValorInvestimento money_wcenter" placeholder="1.000" autocomplete="off" maxlength="19">
+
+                                </div>
+                                <span id="msg-valor-minimo-multiplicador" class="input-description help-block" style="margin-top: 5px;">
+                                    Informe valores múltiplos de R$ 1.000,00
+                                </span>
+                            </div>
+                            <div class="btns">
+                                <input type="submit" id="btn-calcular" class="btn blue" value="Calcular">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3 col-md-offset-1 col-sm-4 col-xs-12">
+                    <div class="blocks" id="resultado-calculo">
+                        <div class="block big">
+                            <div class="title">Rendimento projetado ao final do investimento:</div>
+                            <div class="value" id="valor-calculado">R$ 24.069,77</div>
+                        </div>
+                        <div class="block small">
+                            <div class="title">Rendimento projetado CDI:</div>
+                            <div class="value" id="valor-calculado-cdi">R$ 12.637,42</div>
+                        </div>
+                        <div class="block small">
+                            <div class="title">Rendimento projetado da poupança:</div>
+                            <div class="value" id="valor-calculado-poupanca">R$ 11.969,01</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/temas/dpslintm1/assets/js/urbeme/jquery.match-height.js"></script>
+    <script type="text/javascript" src="/temas/dpslintm1/assets/js/urbeme/depoisdalinha.js"></script>
+</body>
+</html>

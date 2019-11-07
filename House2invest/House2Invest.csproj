@@ -1,0 +1,102 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>aspnet-House2Invest-8ED18EBA-7CBC-4BD2-B562-DDD8AC733D2E</UserSecretsId>
+    <Authors>Depois da Linha</Authors>
+    <Company>EndToEnd</Company>
+    <Description>Plataforma de vendas da EndToEnd</Description>
+    <Copyright>Depois da Linha</Copyright>
+    <TypeScriptToolsVersion>3.5</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\DB_Backups\**" />
+    <Compile Remove="wwwroot\temas\celine\**" />
+    <Compile Remove="wwwroot\temas\sirene\**" />
+    <Compile Remove="_Empresa Depois da Linha\**" />
+    <Content Remove="wwwroot\DB_Backups\**" />
+    <Content Remove="wwwroot\temas\celine\**" />
+    <Content Remove="wwwroot\temas\sirene\**" />
+    <Content Remove="_Empresa Depois da Linha\**" />
+    <EmbeddedResource Remove="wwwroot\DB_Backups\**" />
+    <EmbeddedResource Remove="wwwroot\temas\celine\**" />
+    <EmbeddedResource Remove="wwwroot\temas\sirene\**" />
+    <EmbeddedResource Remove="_Empresa Depois da Linha\**" />
+    <None Remove="wwwroot\DB_Backups\**" />
+    <None Remove="wwwroot\temas\celine\**" />
+    <None Remove="wwwroot\temas\sirene\**" />
+    <None Remove="_Empresa Depois da Linha\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Pages\ConfigApp\Delete.cshtml.cs" />
+    <Compile Remove="Pages\ConfigAzure\Delete.cshtml.cs" />
+    <Compile Remove="Pages\Config\Delete.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\ConfigApp\Delete.cshtml" />
+    <Content Remove="Pages\ConfigAzure\Delete.cshtml" />
+    <Content Remove="Pages\Config\Delete.cshtml" />
+    <Content Remove="wwwroot\App_offline.htm" />
+    <Content Remove="wwwroot\lib\rangeslider\rangeslider.js-2.3.0.zip" />
+    <Content Remove="wwwroot\temas\cms\vendor\fontawesome-free-5.6.3-web.zip" />
+    <Content Remove="wwwroot\Upload\497ff0af-e1b5-472e-8e5a-06e3bd64f6e4.BAK" />
+    <Content Remove="wwwroot\Upload\4b102de3-51a5-40d0-a6d7-2f492c56c21c.BAK" />
+    <Content Remove="wwwroot\Upload\DOC_201905162106.html" />
+    <Content Remove="wwwroot\Upload\ee305158-91c3-4fe8-82ad-a1c114223f03.BAK" />
+    <Content Remove="wwwroot\wwwroot.rar" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".well-known\acme-challenge\web.config" />
+    <None Include="wwwroot\App_offline.htm" />
+    <None Include="wwwroot\ExemploChat.html" />
+    <None Include="wwwroot\temas\dwebchat\scripts\webchat-stable\botchat.js" />
+    <None Include="wwwroot\temas\dwebchat\scripts\webchat-stable\CognitiveServices.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="dein.ToolBox" Version="1.4.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="DotNetZip" Version="1.13.3" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.4" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" PrivateAssets="All" />
+    <PackageReference Include="Select.HtmlToPdf.NetCore" Version="19.1.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+    <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="1.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="Pages\Shared\Renderizar\CMSMetro\" />
+    <Folder Include="wwwroot\images\Avatars\" />
+    <Folder Include="wwwroot\temas\dpslintm1\assets\css\urbeme\" />
+    <Folder Include="wwwroot\temas\identity\" />
+    <Folder Include="wwwroot\Upload\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Pages\Shared\_LayoutCMSMaterial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\Shared\_LayoutCMSMetro.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\Shared\_LayoutCMS.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+</Project>

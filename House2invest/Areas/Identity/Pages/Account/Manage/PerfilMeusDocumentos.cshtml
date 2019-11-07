@@ -1,0 +1,621 @@
+﻿@page
+@model House2Invest.Areas.Identity.Pages.Account.Manage.PerfilMeusDocumentosModel
+@inject House2Invest.Data.ApplicationDbContext contexto
+@{
+    ViewData["Title"] = "MEUS DOCUMENTOS";
+    ViewData["ActivePage"] = ManageNavPages.MeusDocumentos;
+    Layout = "~/Areas/Identity/Pages/Account/Manage/_LayoutPerfil.cshtml";
+}
+@if (Model.Investimento.Id == 0)
+{
+    <div class="container-fluid">
+        <section class="py-3">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h4>@ViewData["Title"]</h4>
+                    <div class="row">
+                        <div class="col-12 mt-3">
+                            <b class="text-primary">PAINEL DE INVESTIMENTOS</b>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <b class="text-danger mt-2">TOTAL INVESTIDO: <h3>@Model.ListaInvestimentos.Sum(x => x.Valor).ToString("C2")</h3></b>
+                        </div>
+                        @{
+                            var _estimativa = 0.0;
+                            try
+                            {
+                                _estimativa = (Model.ListaInvestimentos.Sum(x => x.Valor) / 100 * 7) + Model.ListaInvestimentos.Sum(x => x.Valor);
+                            }
+                            catch (Exception) { }
+                        }
+                        <div class="col-12 mt-1">
+                            <b class="text-success mt-2">ESTIMATIVA DE RETORNO: <h3>@_estimativa.ToString("C2")</h3></b>
+                        </div>
+
+                        <div class="col-12 mt-1">
+
+                            @if (Model.ListaInvestimentos.Count > 0)
+                            {
+                                <a href="/documentacao/documentopdf?tp=informe_rend_financ&idusu=@Model.ListaInvestimentos.FirstOrDefault().UsuarioAppId" target="_blank">INFORME DE RENDIMENTO</a>
+                            }
+
+                        </div>
+
+                        <div class="col-12">
+                            <hr />
+                        </div>
+
+                        @*<div class="row">*@
+
+                        @foreach (var _investimento in Model.ListaInvestimentos.OrderByDescending(x => x.DTHR))
+                        {
+                            var _dataproj = VerificadoresRetornos.ConverteStringParaDateTime(_investimento.BlocoProjInvestimentos.Contador_DataFinal);
+                            var _datahoje = DateTime.Now;
+                            var _meses = (VerificadoresRetornos.TotalDeMesesEntreDatas(_dataproj, _datahoje)) + 1;
+
+                            var _vlrSTR_TIR_INI = _investimento.BlocoProjInvestimentos.Rentabilidade_TIR_INI.Replace("%", "").Replace(".", ",").Trim();
+                            var _vlrSTR_TIR_FIM = _investimento.BlocoProjInvestimentos.Rentabilidade_TIR_FIM.Replace("%", "").Replace(".", ",").Trim();
+                            var _mediaTIR = Convert.ToDouble(_vlrSTR_TIR_INI) + Convert.ToDouble(_vlrSTR_TIR_FIM);
+                            var _taxamed = (_mediaTIR / 2) / 12;
+                            var _taxa_valorfinal = _taxamed * _meses;
+                            var _sub_valor_final = (Convert.ToDouble(_investimento.BlocoProjInvestimentos.Valor.Replace("R$", "").Trim()) / 100) * _taxa_valorfinal;
+                            var _valor_final = (Convert.ToDouble(_investimento.BlocoProjInvestimentos.Valor.Replace("R$", "").Trim()) + Math.Round(_sub_valor_final, 2)).ToString("C2");
+
+                            @*
+                                <hr class="col-12 mt-5" style="max-width:95%;" />
+                                <div class="col-12">
+                                    <b class="text-primary mt-2">INFORMAÇÕES DOS INVESTIMENTOS:</b>
+                                    <div class="row">
+                                        <div class="col-12 mt-3">
+                                            <img src="@_investimento.BlocoProjInvestimentos.UrlImgPrinc" style="max-width:100%;max-height:420px;" />
+                                        </div>
+                                        <div class="col-12 mt-3">
+                                            <b class="text-primary mt-2">NOME DO EMPREENDIMENTO</b>
+                                            <h4 class="text-dark">@Html.Raw(_investimento.BlocoProjInvestimentos.Titulo)</h4>
+                                        </div>
+                                        <div class="col-12 mt-1">
+                                            <b class="text-primary mt-2">LOCAL</b>
+                                            <h4 class="text-dark">@Html.Raw($"{_investimento.BlocoProjInvestimentos.Contato_Logradouro}, {_investimento.BlocoProjInvestimentos.Contato_LogradouroNum}, {_investimento.BlocoProjInvestimentos.Contato_Bairro} - {_investimento.BlocoProjInvestimentos.Contato_Cidade} / {_investimento.BlocoProjInvestimentos.Contato_Estado} - {_investimento.BlocoProjInvestimentos.Contato_CEP} ")</h4>
+                                        </div>
+
+                                        <hr class="col-12" style="max-width:95%;" />
+                                        <div class="col-4">
+                                            <b class="text-dark">VALOR (R$)</b>
+                                            <h4 class="text-danger">R$ @_investimento.BlocoProjInvestimentos.Valor</h4>
+                                        </div>
+                                        <div class="col-4">
+                                            <b class="text-dark mt-2">ESTIMATIVA (R$)</b>
+                                            <h4 class="text-success">@(_valor_final)</h4>
+                                        </div>
+                                        <div class="col-4">
+                                            <b class="text-dark mt-2">RETORNO (%)</b>
+                                            <h4 class="text-primary">@Math.Round(_taxamed, 2)</h4>
+                                        </div>
+
+                                        <hr class="col-12 mt-5" style="max-width:95%;" />
+                                        <div class="col-6 mt-2">
+                                            <b class="text-danger mt-2">TOTAL INVESTIDO</b>
+                                            <h3 class="text-danger">R$ @_investimento.Valor.ToString("C2")</h3>
+                                        </div>
+                                        <div class="col-6 mt-2">
+                                            <b class="text-success mt-2">TOTAL ESTIMADO</b>
+                                            <h3 class="text-success">R$ 0,00</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            *@
+
+                            @*
+                                <div class="col-lg-12">
+                                    <a href="#" class="message card px-5 py-3 mb-4 bg-hover-gradient-primary no-anchor-style">
+                                        <div class="row">
+                                            <div class="col-lg-3 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
+                                                <strong class="h5 mb-0">
+                                                    @_investimento.DTHR.Day
+                                                    <sup class="smaller text-gray font-weight-normal">
+                                                        @VerificadoresRetornos.RetornaMesExtenso(_investimento.DTHR)
+                                                    </sup>
+                                                </strong>
+                                                <img src="@_investimento.BlocoProjInvestimentos.UrlImgPrinc" alt="@_investimento.BlocoProjInvestimentos.UrlImgPrinc" style="max-width: 3rem" class="rounded-circle mx-3 my-2 my-lg-0">
+                                                <h6 class="mb-0">
+                                                    @Html.Raw(_investimento.BlocoProjInvestimentos.Titulo)
+                                                </h6>
+                                            </div>
+                                            <div class="col-lg-9 d-flex align-items-center flex-column flex-lg-row text-center text-md-left">
+                                                <div class="bg-gray-100 roundy px-4 py-1 mr-0 mr-lg-3 mt-2 mt-lg-0 text-dark exclode">
+                                                    @Html.Raw(_investimento.BlocoProjInvestimentos.Titulo)
+                                                </div>
+                                                <p class="mb-0 mt-3 mt-lg-0">
+                                                    @Html.Raw(_investimento.BlocoProjInvestimentos.Construtora.RazaoSocial)
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            *@
+
+                            <div class="col-lg-6 col-md-12 mb-2 mb-lg-4">
+                                <div class="card rounded credit-card bg-hover-gradient-blue" style="background-image:url(@_investimento.BlocoProjInvestimentos.UrlImgPrinc);background-size:cover;">
+                                    <div class="content" style="background:rgba(0,0,0,.6);">
+                                        @{
+                                            var _existeReservaSemConfirm = contexto.InvestimentoConfirmacoes.Where(x => x.BlocoProjInvestimentoId == _investimento.BlocoProjInvestimentosId && x.UsuarioAppId == _investimento.UsuarioAppId);
+                                            foreach (var item in _existeReservaSemConfirm)
+                                            {
+                                                if (!item.Confirmado)
+                                                {
+                                                    <b style="color:red;font-size:11px;background:rgba(0,0,0,.8);display:block;padding:10px;text-align:center;">
+                                                        <i class="fa fa-exclamation-triangle"></i> ATENÇÃO!!!<br /> CONFIRMAÇÃO DE RESERVA PENDENTE
+                                                    </b>
+                                                }
+                                            }
+                                        }
+                                        <div class="text-center my-4">
+                                            <h1 class="mb-1">
+                                                <a href="/Identity/Account/Manage/PerfilMeusDocumentos?idinvest=@_investimento.Id" title="Detalhes do investimento" class="btn btn-warning btn-sm text-dark">
+                                                    <i class="fa fa-eye"></i> DETALHES
+                                                </a>
+                                                <a href="/oferta?id=@_investimento.BlocoProjInvestimentosId" target="_blank" title="Dados da oferta" class="btn btn-success btn-sm text-dark">
+                                                    <i class="fa fa-chart-area"></i> RESERVAS
+                                                </a>
+                                            </h1>
+                                            <div class="text-center">
+                                                <div class="text-uppercase">
+                                                    <div class="font-weight-bold d-block text-white">
+                                                        @Html.Raw(_investimento.BlocoProjInvestimentos.Titulo)
+                                                    </div>
+                                                    <b class="text-success">
+                                                        @Html.Raw(_investimento.BlocoProjInvestimentos.Construtora.RazaoSocial)
+                                                    </b>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h4 class="mb-0 text-center" style="font-size:40px;color:white;text-shadow:1px 1px rgba(0,0,0,.8);">
+                                                    @Html.Raw(_investimento.Valor.ToString("C2"))
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @*</div>*@
+                        @*
+                                            <hr class="col-12 mt-5" style="max-width:95%;" />
+                                            <div class="col-12">
+                                                <b class="text-primary mt-2">DOCUMENTOS DO INVESTIDOR</b>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <i>não existem documentos para exibir</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr class="col-12" style="max-width:95%;" />
+                                            <div class="col-12">
+                                                <b class="text-primary mt-2">DOCUMENTOS DE PROJETOS</b>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <i>não existem documentos para exibir</i>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                            <hr class="col-12 mt-5" style="max-width:95%;" />
+                                            <div class="col-12">
+                                                <b class="text-primary mt-2">INFORMAÇÕES DOS INVESTIMENTOS:</b>
+                                                <div class="row">
+                                                    <div class="col-12 mt-3">
+                                                        <img src="/temas/dpslintm1/assets/images/3.jpg" style="max-width:100%;max-height:420px;" />
+                                                    </div>
+                                                    <div class="col-12 mt-3">
+                                                        <b class="text-primary mt-2">NOME DO EMPREENDIMENTO</b>
+                                                        <h4 class="text-dark">Minha Casa, Minha Vida</h4>
+                                                    </div>
+                                                    <div class="col-12 mt-1">
+                                                        <b class="text-primary mt-2">LOCAL</b>
+                                                        <h4 class="text-dark">Rua das Empresas, 1250 - Marília, SP</h4>
+                                                    </div>
+
+                                                    <hr class="col-12" style="max-width:95%;" />
+                                                    <div class="col-4">
+                                                        <b class="text-dark">VALOR (R$)</b>
+                                                        <h4 class="text-danger">R$ 0,00</h4>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <b class="text-dark mt-2">ESTIMATIVA (R$)</b>
+                                                        <h4 class="text-success">R$ 0,00</h4>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <b class="text-dark mt-2">RETORNO (%)</b>
+                                                        <h4 class="text-primary">R$ 0,00</h4>
+                                                    </div>
+
+                                                    <hr class="col-12 mt-5" style="max-width:95%;" />
+                                                    <div class="col-6 mt-2">
+                                                        <b class="text-danger mt-2">TOTAL INVESTIDO</b>
+                                                        <h3 class="text-danger">R$ 3.000,00</h3>
+                                                    </div>
+                                                    <div class="col-6 mt-2">
+                                                        <b class="text-success mt-2">TOTAL ESTIMADO</b>
+                                                        <h3 class="text-success">R$ 3.190,30</h3>
+                                                    </div>
+
+                                                    <div class="col-12 mt-3">
+                                                        <b class="text-primary">INFORME DE RENDIMENTOS</b>
+                                                    </div>
+                                                    <div class="col-12 mt-2">
+                                                        <div class="table-responsive">
+                                                            <table class="table card-text py-5">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>
+                                                                            DATA
+                                                                        </th>
+                                                                        <th>
+                                                                            NOME
+                                                                        </th>
+                                                                        <th>
+                                                                            ARQUIVO
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            14/02/2019
+                                                                        </td>
+                                                                        <td>
+                                                                            Arquivo_XYX.PDF
+                                                                        </td>
+                                                                        <td>
+                                                                            <a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/novosdocs_visitantes/Material_Didático_H2I.pdf" target="_blank" class="btn btn-sm btn-danger"><i class="fa fa-download"></i> BAIXAR</a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+
+                                    <div class="col-12 mt-5">
+                                        <div class="table-responsive table-warning">
+                                            <table class="table card-text py-5">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            INVESTIMENTO
+                                                        </th>
+                                                        <th>
+                                                            REALIZADO
+                                                        </th>
+                                                        <th>
+                                                            ROI
+                                                        </th>
+                                                        <th>
+                                                            VENCIMENTO DOS TÍTULOS
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            R$ 3.000,00
+                                                        </td>
+                                                        <td>
+                                                            R$ 3.190,30
+                                                        </td>
+                                                        <td>
+                                                            % 30
+                                                        </td>
+                                                        <td>
+                                                            10/2019
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mt-1">
+                                        <div class="table-responsive table-success">
+                                            <table class="table card-text py-5">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            DATA
+                                                        </th>
+                                                        <th>
+                                                            VALOR
+                                                        </th>
+                                                        <th>
+                                                            SITUAÇÃO
+                                                        </th>
+                                                        <th>
+                                                            TOTAL
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            01/03/2019
+                                                        </td>
+                                                        <td>
+                                                            R$ 3.000,00
+                                                        </td>
+                                                        <td>
+                                                            APROVADO
+                                                        </td>
+                                                        <td>
+                                                            R$ 3.000,00
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 mt-3">
+                                        <b class="text-dark">DOCUMENTOS DO INVESTIDOR</b>
+                                        <ul>
+                                            <li>
+                                                <a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">CONTRATO DE MÚTUO <i class="fa fa-share"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">INFORME DE RENDIMENTOS <i class="fa fa-share"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <b class="text-dark">EMPREENDIMENTO</b>
+                                        <ul>
+                                            <li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">CONTRATO OU ESTATUTO SOCIAL DA SOCIEDADE EMPRESÁRIA DE PEQUENO PORTE <i class="fa fa-share"></i></a></li>
+                                            <li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">CÓPIA DA ESCRITURA DE DEBÊNTURES | DO CONTRATO DE INVESTIMENTO QUE REPRESENTE O VALOR MOBILIÁRIO OFERTADO <i class="fa fa-share"></i></a></li>
+                                            <li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">INFORMAÇÕES SOBRE A SOCIEDADE EMPRESÁRIA DE PEQUENO PORTE <i class="fa fa-share"></i></a></li>
+                                            <li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">INFORMAÇÕES SOBRE O PLANO DE NEGÓCIOS <i class="fa fa-share"></i></a></li>
+                                            <li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">INFORMAÇÕES SOBRE O VALOR MOBILIÁRIO OFERTADO <i class="fa fa-share"></i></a></li>
+                                            <li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">COMUNICAÇÃO SOBRE A PRESTAÇÃO DE INFORMAÇÕES CONTÍNUAS APÓS A OFERTA <i class="fa fa-share"></i></a></li>
+                                            <li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">ALERTAS SOBRE RISCOS <i class="fa fa-share"></i></a></li>
+                                            <li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">INFORMAÇÕES SOBRE A REMUNERAÇÃO DA PLATAFORMA <i class="fa fa-share"></i></a></li>
+                                            <li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">CARACTERÍSTICAS DA OFERTA E TRIBUTAÇÃO APLICÁVEL <i class="fa fa-share"></i></a></li>
+                                            <li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">INCORPORADORA E CONSTRUTORA <i class="fa fa-share"></i></a></li>
+                                            <li><a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/CONTRATO%20DE%20MUTUO_PRIVATE_LOAN_AGREEMENT_H2I.pdf" target="_blank">ESTUDO DE VIABILIDADE ECONÔMICO-FINANCEIRA <i class="fa fa-share"></i></a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-12 mt-5">
+                                        <b class="text-dark">ANDAMENTO DA OBRA</b>
+                                        <h1 class="text-primary">3%</h1>
+                                    </div>
+                                    <div class="col-12 mt-2">
+                                        <b class="text-dark">ANDAMENTO DA OBRA - ACABAMENTOS</b>
+                                        <h1 class="text-success">10%</h1>
+                                    </div>
+
+                                    <div class="col-12 mt-5">
+                                        <b class="text-dark">DETALHE DE VENDAS</b>
+                                        <div class="table-responsive table-primary">
+                                            <table class="table card-text py-5">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            UNIDADE
+                                                        </th>
+                                                        <th>
+                                                            QUANTIDADE
+                                                        </th>
+                                                        <th>
+                                                            MÉDIO (R$)
+                                                        </th>
+                                                        <th>
+                                                            VENDIDAS
+                                                        </th>
+                                                        <th>
+                                                            FATURAMENTO
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            XYZ-001
+                                                        </td>
+                                                        <td>
+                                                            001
+                                                        </td>
+                                                        <td>
+                                                            R$ 20.000,00
+                                                        </td>
+                                                        <td>
+                                                            100
+                                                        </td>
+                                                        <td>
+                                                            R$ 1.890.150,11
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 mt-5">
+                                        <b class="text-dark">VALORES RECEBIDOS PELA INCORPORADORA</b>
+                                        <div class="table-responsive table-primary">
+                                            <table class="table card-text py-5">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            MÊS/ANO
+                                                        </th>
+                                                        <th>
+                                                            RECEBIDO
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            01/2018
+                                                        </td>
+                                                        <td>
+                                                            R$ 158.125,30
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6 mt-3">
+                                        <b class="text-dark">TOTAL</b>
+                                        <h1 class="text-success">R$ 1.978.000,35</h1>
+                                    </div>
+                                    <div class="col-6 mt-3">
+                                        <b class="text-dark">VALOR TOTAL RECEBIDO PELA INCORPORADORA</b>
+                                        <h1 class="text-danger">R$ 1.897.500,15</h1>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <i style="font-size:10px;">*** O gráfico do valor investido está disponível em cada projeto</i>
+                                </div>
+                            </div>
+                        *@
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+}
+else
+{
+    var _dataproj = VerificadoresRetornos.ConverteStringParaDateTime(Model.Investimento.BlocoProjInvestimentos.Contador_DataFinal);
+    var _datahoje = DateTime.Now;
+    var _meses = (VerificadoresRetornos.TotalDeMesesEntreDatas(_dataproj, _datahoje)) + 1;
+
+    var _vlrSTR_TIR_INI = Model.Investimento.BlocoProjInvestimentos.Rentabilidade_TIR_INI.Replace("%", "").Replace(".", ",").Trim();
+    var _vlrSTR_TIR_FIM = Model.Investimento.BlocoProjInvestimentos.Rentabilidade_TIR_FIM.Replace("%", "").Replace(".", ",").Trim();
+    var _mediaTIR = Convert.ToDouble(_vlrSTR_TIR_INI) + Convert.ToDouble(_vlrSTR_TIR_FIM);
+    var _taxamed = (_mediaTIR / 2) / 12;
+    var _taxa_valorfinal = _taxamed * _meses;
+
+    //var _sub_valor_final = (Convert.ToDouble(Model.Investimento.BlocoProjInvestimentos.Valor.Replace("R$", "").Trim()) / 100) * _taxa_valorfinal;
+    var _sub_valor_final = (Model.Investimento.Valor / 100) * _taxa_valorfinal;
+    //var _valor_final = (Convert.ToDouble(Model.Investimento.BlocoProjInvestimentos.Valor.Replace("R$", "").Trim()) + Math.Round(_sub_valor_final, 2)).ToString("C2");
+    var _valor_final = (Model.Investimento.Valor + Math.Round(_sub_valor_final, 2)).ToString("C2");
+
+    <div class="container-fluid">
+        <section class="py-3">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <a href="/Identity/Account/Manage/PerfilMeusDocumentos" class="btn btn-danger">
+                        <i class="fa fa-arrow-left"></i> VOLTAR
+                    </a>
+
+                    <hr class="col-12 mt-5" style="max-width:95%;" />
+                    <h4>@Html.Raw(Model.Investimento.BlocoProjInvestimentos.Titulo)</h4>
+                    <hr class="col-12 mt-1" style="max-width:95%;" />
+                    <b>STATUS DA OFERTA:</b>
+                    <br />
+                    <b class="@Html.Raw(Model.Investimento.BlocoProjInvestimentos.Status=="C" ? "text-danger" : Model.Investimento.BlocoProjInvestimentos.Status=="A" ? "text-success" : Model.Investimento.BlocoProjInvestimentos.Status=="S" ? "text-warning" :"text-primary")" style="font-size:40px;">
+                        @Html.Raw(@VerificadoresRetornos.PROC__RetornaStatusLiteralOferta(Model.Investimento.BlocoProjInvestimentos.Status))
+                    </b>
+
+                    <div class="row">
+                        <hr class="col-12 mt-5" style="max-width:95%;" />
+                        <div class="col-12">
+                            <b class="text-primary mt-2">INFORMAÇÕES DOS INVESTIMENTOS:</b>
+                            <div class="row">
+                                <div class="col-12 mt-3">
+                                    <img src="@Model.Investimento.BlocoProjInvestimentos.UrlImgPrinc" style="max-width:100%;max-height:420px;" />
+                                </div>
+                                <div class="col-12 mt-3">
+                                    <b class="text-primary mt-2">NOME DO EMPREENDIMENTO</b>
+                                    <h4 class="text-dark">@Html.Raw(Model.Investimento.BlocoProjInvestimentos.Titulo)</h4>
+                                </div>
+                                <div class="col-12 mt-1">
+                                    <b class="text-primary mt-2">LOCAL</b>
+                                    <h4 class="text-dark">@Html.Raw($"{Model.Investimento.BlocoProjInvestimentos.Contato_Logradouro}, {Model.Investimento.BlocoProjInvestimentos.Contato_LogradouroNum}, {Model.Investimento.BlocoProjInvestimentos.Contato_Bairro} - {Model.Investimento.BlocoProjInvestimentos.Contato_Cidade} / {Model.Investimento.BlocoProjInvestimentos.Contato_Estado} - {Model.Investimento.BlocoProjInvestimentos.Contato_CEP} ")</h4>
+                                </div>
+                                <hr class="col-12" style="max-width:95%;" />
+                                <div class="col-4">
+                                    <b class="text-dark">VALOR (R$)</b>
+                                    <h4 class="text-danger">R$ @Model.Investimento.Valor.ToString("C2")</h4>
+                                </div>
+                                <div class="col-4">
+                                    <b class="text-dark mt-2">ESTIMATIVA (R$)</b>
+                                    <h4 class="text-success">@(_valor_final)</h4>
+                                </div>
+                                <div class="col-4">
+                                    <b class="text-dark mt-2">RETORNO (%)</b>
+                                    <h4 class="text-primary">@Math.Round(_taxamed, 2)</h4>
+                                </div>
+                                <hr class="col-12" style="max-width:95%;" />
+                                <div class="col-4">
+                                    <b class="text-dark">STATUS</b>
+                                    <h4 class="@Html.Raw(Model.Investimento.Status=="C" ? "text-danger" : Model.Investimento.Status=="A" ? "text-success" : Model.Investimento.Status=="P" ? "text-warning" :"text-primary")">@VerificadoresRetornos.PROC__RetornaStatusLiteralLancamento(Model.Investimento.Status)</h4>
+                                </div>
+
+                                @if (Model.Investimento.DataLimiteCancelamento > DateTime.Now && Model.Investimento.Status != "C" && Model.Investimento.BlocoProjInvestimentos.Status != "S")
+                                {
+                                    <hr class="col-12" style="max-width:95%;" />
+                                    <div class="col-12">
+                                        <h4 class="text-success" style="font-size:14px;">Atenção: Você tem até o dia <b style="color:#000;">@Html.Raw(Model.Investimento.DataLimiteCancelamento.ToShortDateString())</b> para fazer o cancelamento desse investimento.</h4>
+                                    </div>
+                                    @*
+                                        @if (Model.Investimento.BlocoProjInvestimentos.Status == "S")
+                                        {
+                                            <div class="col-12">
+                                                <a href="javascript:CancelarInvestimento(@Model.Investimento.Id);" class="btn btn-danger btn-pequeno" title="Cancelar esse lançamento">CANCELAR</a>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-12">
+                                                <a href="javascript:CancelarInvestimento(@Model.Investimento.Id);" class="btn btn-danger btn-pequeno" title="Cancelar esse lançamento">CANCELAR</a>
+                                            </div>
+                                        }
+                                    *@
+                                }
+
+                                <hr class="col-12" style="max-width:95%;" />
+                                <div class="col-12">
+                                    @if (Model.Investimento.BlocoProjInvestimentos.Status == "S")
+                                    {
+                                        <a href="javascript:Revogar(@Model.Investimento.Id);" class="btn btn-danger btn-pequeno" title="Revogar esse lançamento">Revogar</a>
+                                    }
+                                    @if (Model.Investimento.DataLimiteCancelamento > DateTime.Now && Model.Investimento.Status != "C" && Model.Investimento.BlocoProjInvestimentos.Status != "S")
+                                    {
+                                        <a href="javascript:CancelarInvestimento(@Model.Investimento.Id);" class="btn btn-danger btn-pequeno" title="Cancelar esse lançamento">Cancelar</a>
+                                    }
+                                </div>
+
+                                @*
+                                    <hr class="col-12 mt-5" style="max-width:95%;" />
+                                    <div class="col-6 mt-2">
+                                        <b class="text-danger mt-2">TOTAL INVESTIDO</b>
+                                        <h3 class="text-danger">R$ @Model.Investimento.Valor.ToString("C2")</h3>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <b class="text-success mt-2">TOTAL ESTIMADO</b>
+                                        <h3 class="text-success">R$ 0,00</h3>
+                                    </div>
+                                *@
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+}
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $("#meusdoc-tab").addClass('active');
+    </script>
+}

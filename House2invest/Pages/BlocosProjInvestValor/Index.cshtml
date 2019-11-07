@@ -1,0 +1,311 @@
+﻿@page
+@using Microsoft.EntityFrameworkCore
+@model House2Invest.Pages.BlocosProjInvestValor.IndexModel
+@inject House2Invest.Data.ApplicationDbContext _contexto
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_LayoutCMS.cshtml";
+    var _usulogado = new UsuarioApp();
+    try
+    {
+        _usulogado =
+            _contexto.Users
+            .FirstOrDefault(x => x.UserName == User.Identity.Name);
+    }
+    catch (Exception) { }
+}
+<div class="container-fluid px-xl-5">
+    <section class="py-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11 col-12">
+                                <h6 class="text-uppercase pt-2">Investimentos</h6>
+                            </div>
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-12">
+                                @*<a asp-page="Create" class="btn btn-success mb-0"><i class="fa fa-plus"></i></a>*@
+                            </div>
+                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11 col-12">
+                                <p class="text-gray pt-2 pl-2">
+                                    <i class="fa fa-info-circle"></i> Módulo responsável pelo Gerenciamento de Investimentos feitos na página inicial.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="pb-2">
+                            <div class="row">
+
+                                @*
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>INCORPORADORA</label>
+                                            <select class="form-control">
+                                                @{
+                                                    var _lancas = _contexto.INVEST_Lancamentos
+                                                        .Include(x => x.BlocoProjInvestimentos)
+                                                        .Include(x => x.BlocoProjInvestimentos.Construtora)
+                                                        .Include(x => x.UsuarioApp)
+                                                        .Where(x => x.Status == "A" && x.BlocoProjInvestimentos.Status == "E");
+
+                                                    var _tot = _lancas.Sum(x => x.Valor);
+
+                                                    foreach (var item in _lancas.GroupBy(x => x.UsuarioApp))
+                                                    {
+                                                        <option value="@item.Key">@Html.Raw(item.Key.Nome)</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <a href="javascript:TransfFundos('BlocosProjInvest', @item.Id, 'TRANSF');;" class="btn btn-success">
+                                            TRANSFERIR @Html.Raw(_tot.ToString("C2"))
+                                        </a>
+                                    </div>
+                                    <div class="col-12 mt-3">
+                                        <div class="form-group">
+                                            <label>INVESTIDOR</label>
+                                            <select class="form-control">
+                                                @{
+                                                    _lancas = _contexto.INVEST_Lancamentos
+                                                        .Include(x => x.BlocoProjInvestimentos)
+                                                        .Include(x => x.UsuarioApp)
+                                                        .Where(x => x.Status == "A" && x.BlocoProjInvestimentos.Status == "E");
+
+                                                    _tot = _lancas.Sum(x => x.Valor);
+
+                                                    foreach (var item in _lancas.GroupBy(x => x.UsuarioApp))
+                                                    {
+                                                        <option value="@item.Key">@Html.Raw(item.Key.Nome)</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <a href="javascript:;" class="btn btn-success">
+                                            TRANSFERIR @Html.Raw(_tot.ToString("C2"))
+                                        </a>
+                                    </div>
+                                *@
+
+                                <div class="col-12 mt-5">
+                                    <form asp-action="Index" method="get" class="form-inline">
+                                        <div class="form-group mx-sm-3 mb-2">
+                                            <input class="form-control" type="text" name="StringBusca" placeholder="Faça sua busca aqui" value="@ViewData["FiltroAtual"]" autofocus>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mb-2"><i class="fa fa-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @{
+                            var anteriorDisabled = !Model.ListaLancamentos.TemPaginaAnterior ? "disabled" : "";
+                            var proximoDisabled = !Model.ListaLancamentos.TemProximaPagina ? "disabled" : "";
+                        }
+                        <div class="row">
+                            <div class="col-12 mt-3 mb-3">
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaLancamentos.PagIND - 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @anteriorDisabled mr-1"><i class="fa fa-chevron-left"></i></a>
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaLancamentos.PagIND + 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @proximoDisabled mr-1"><i class="fa fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table card-text py-5">
+                                <thead>
+                                    <tr>
+                                        @if (User.IsInRole("SIS"))
+                                        {
+                                            <th style="width:150px;"></th>
+                                        }
+                                        else
+                                        {
+                                            <th style="width:100px;"></th>
+                                        }
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorDateParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">CRIADO</a>
+                                        </th>
+                                        @*<th>
+                                            LIMITE CANCELAMENTO/REVOGAÇÃO
+                                        </th>*@
+                                        @*
+                                            <th width="300px">
+                                                <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorDateParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">PODE CANCELAR ATÉ</a>
+                                            </th>
+                                        *@
+                                        <th>
+                                            @Html.Raw(User.IsInRole("SIS") ? "TÍTULO" : "INVESTIMENTO")
+                                        </th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">VALOR</a>
+                                        </th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">USUÁRIO</a>
+                                        </th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">TIPO</a>
+                                        </th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">STATUS</a>
+                                        </th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData[" OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData[" FiltroAtual"]">COMPROV. TRANSF.</a>
+                                        </th>
+                                        @*<th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">PERFIL INVEST.</a>
+                                        </th>*@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ListaLancamentos)
+                                    {
+                                        var _imagemTED =
+                                            _contexto.INVEST_LancamentoImagens
+                                            .Where(x => x.INVEST_LancamentoId == item.Id)
+                                            .FirstOrDefault();
+
+                                        <tr>
+                                            @if (User.IsInRole("SIS"))
+                                            {
+                                                <td style="width:150px;">
+                                                    <a href="javascript:StatusLancamento(@item.Id,'A');" class="btn btn-success btn-pequeno" title="APROVAR"><i class="fa fa-check"></i></a>
+                                                    @*<a href="javascript:StatusLancamento(@item.Id,'P');" class="btn btn-primary btn-pequeno" title="PENDENTE"><i class="fa fa-hourglass"></i></a>*@
+                                                    <a href="javascript:AcaoContaUsuario('@item.UsuarioApp.Id', 'doc_nec_confirm_reserva_@item.Id', 'DocNecConfirmReserva');" class="btn btn-success btn-pequeno" title="ENVIAR EMAIL COM DOCUMENTAÇÃO E DADOS PARA CONFIRMAÇÃO DA RESERVA">
+                                                        <i class="fa fa-inbox"></i>
+                                                    </a>
+                                                    @*<a asp-page="/BlocosProjInvestValor/Edit" asp-route-id="@item.Id" class="btn btn-primary btn-pequeno"><i class="far fa-edit"></i></a>*@
+                                                    @if (item.Status == "A" && item.BlocoProjInvestimentos.Status == "S")
+                                                    {
+                                                        <a href="javascript:Revogar(@item.Id);" class="btn btn-danger btn-pequeno" title="Revogar esse lançamento">R</a>
+                                                    }
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td style="width:250px;">
+                                                    @if (item.BlocoProjInvestimentos.Status == "S" && item.Status == "A")
+                                                    {
+                                                        <a href="javascript:Revogar(@item.Id);" class="btn btn-danger btn-pequeno" title="Revogar esse lançamento">Revogar</a>
+                                                    }
+                                                    @if (item.DataLimiteCancelamento > DateTime.Now && item.Status != "C" && item.BlocoProjInvestimentos.Status != "S")
+                                                    {
+                                                        <a href="javascript:CancelarInvestimento(@item.Id);" class="btn btn-danger btn-pequeno" title="Cancelar esse lançamento">Cancelar</a>
+                                                    }
+                                                </td>
+                                            }
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DTHR)
+                                            </td>
+                                            @*<td>
+                                                @if (item.DataLimiteCancelamento > DateTime.Now && item.Status != "C")
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.DataLimiteCancelamento)
+                                                }
+                                                else
+                                                {
+                                                    @Html.Raw("--")
+                                                }
+                                            </td>*@
+                                            @*
+                                                <td>
+                                                    @Html.Raw(item.DTHR.AddDays(7))
+                                                </td>
+                                            *@
+                                            <td>
+                                                @Html.Raw(item.BlocoProjInvestimentos.Titulo)
+                                            </td>
+                                            <td>
+                                                @{
+                                                    var _vlr = item.Valor;
+                                                    var _vlwstring = Convert.ToDecimal(_vlr).ToString("C2");
+                                                }
+                                                @Html.Raw(_vlwstring)
+                                            </td>
+                                            <td>
+                                                @if (User.IsInRole("SIS"))
+                                                {
+                                                    <a href="/CMSUsuarios/Edit?id=@item.UsuarioApp.Id" target="_blank">@Html.DisplayFor(modelItem => item.UsuarioApp.Email)</a>
+                                                }
+                                                else
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.UsuarioApp.Email)
+                                                }
+                                            </td>
+                                            <td>
+                                                @Html.Raw(item.TP == "E" ? "<b style='color:green;'>ENT</b>" : "<b style='color:red;'>SAI</b>")
+                                            </td>
+                                            <td>
+                                                @Html.Raw(item.Status == "P" ? "<b style='color:red;'>PENDENTE</b>" : item.Status == "A" ? "<b style='color:green;'>APROVADO</b>" : item.Status == "R" ? "<b style='color:darkred;'>REVOGADO</b>" : item.Status == "C" ? "<b style='color:brown;'>CANCELADO</b>" : "")
+                                            </td>
+
+                                            @if (_imagemTED != null)
+                                            {
+                                                <td>
+                                                    <a href="@_imagemTED.URLComprovTransf" target="_blank">
+                                                        <img src="@_imagemTED.URLComprovTransf" class="mx-auto img-fluid" style="max-width:100%;max-height:20px;" />
+                                                    </a>
+                                                </td>
+                                                @*<td>
+                                                    <a href="@_imagemTED.URLPerfilInvest" target="_blank">
+                                                        <img src="@_imagemTED.URLPerfilInvest" class="mx-auto img-fluid" style="max-width:100%;max-height:20px;" />
+                                                    </a>
+                                                </td>*@
+                                            }
+                                            else
+                                            {
+
+                                                var _confirmacoesPendentes =
+                                                    _contexto.InvestimentoConfirmacoes
+                                                    .Where(x => x.INVEST_LancamentoId == item.Id && !x.Confirmado)
+                                                    .FirstOrDefault();
+
+                                                if (_confirmacoesPendentes == null)
+                                                {
+                                                    <td>
+                                                        <a asp-page="/BlocosProjInvestValor/EnviarComprovante" asp-route-idlanc="@item.Id" class="btn btn-primary btn-pequeno"><i class="far fa-image"></i></a>
+                                                    </td>
+                                                    @*<td>
+                                                        <a asp-page="/BlocosProjInvestValor/EnviarComprovante" asp-route-idlanc="@item.Id" class="btn btn-primary btn-pequeno"><i class="far fa-image"></i></a>
+                                                    </td>*@
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-danger">
+                                                        AGUARDANDO TOKEN VALID.
+                                                    </td>
+                                                    @*<td class="text-danger">
+                                                        TOKEN VALID.
+                                                    </td>*@
+                                                }
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mt-3 mb-3">
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaLancamentos.PagIND - 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @anteriorDisabled mr-1"><i class="fa fa-chevron-left"></i></a>
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaLancamentos.PagIND + 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @proximoDisabled mr-1"><i class="fa fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts
+    {
+    <script>
+        $("#mnusidebar_cms_dados").removeClass("collapsed");
+        $("#mnusidebar_cms_dados").attr("aria-expanded", "true");
+        $("#target_dados").addClass("show");
+        $("#mnusidebar_cms_blocosprojinvestimento_valores").addClass("active");
+        function EnviarForm(e) {
+            e.preventDefault;
+        }
+    </script>
+}

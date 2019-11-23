@@ -1,0 +1,86 @@
+﻿@page
+@model House2Invest.Pages.CMSModeloDoc.EditModel
+@{
+    ViewData["Title"] = "Editar";
+    Layout = "~/Pages/Shared/_LayoutCMS.cshtml";
+}
+<div class="container-fluid px-xl-5">
+    <section class="py-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="text-uppercase mb-0"><i class="o-clock-1 mr-3 text-gray"></i> Editando um registro</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="nav nav-tabs" id="myTab" name="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><i class="fa fa-archive"></i> Principal</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="row py-3">
+                                    <div class="col-12">
+                                        <form id="formPrincipal" name="formPrincipal" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" asp-for="modelo.Id" />
+                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                            <div class="form-group row mb-4">
+                                                <div class="col-md-12 ml-auto pull-right">
+                                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                                    <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label asp-for="modelo.Titulo" class="control-label"></label>
+                                                        <input asp-for="modelo.Titulo" class="form-control" autofocus />
+                                                        <span asp-validation-for="modelo.Titulo" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label asp-for="modelo.Texto" class="control-label"></label>
+                                                        <textarea asp-for="modelo.Texto" class="form-control summernote" rows="10"></textarea>
+                                                        <span asp-validation-for="modelo.Texto" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label asp-for="modelo.Hyperlink" class="control-label"></label>
+                                                        <input asp-for="modelo.Hyperlink" class="form-control" />
+                                                        <span asp-validation-for="modelo.Hyperlink" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-md-12 ml-auto text-center">
+                                                    <button id="btnsubmitformprincipal" name="btnsubmitformprincipal" type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                                    <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=svlyrgn0e5ce37ddutqwyel68417paq1685e6xh3b5m6a4cb"></script>
+    <script>
+        $("#mnusidebar_cms_modelosdoc").addClass("active");
+
+        jQuery(document).ready(function () {
+            //tinymce.init({
+            //    selector: 'textarea',
+            //    height: 600
+            //});
+        });
+    </script>
+}

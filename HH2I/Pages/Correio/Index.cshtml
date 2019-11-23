@@ -1,0 +1,233 @@
+﻿@page
+@using Microsoft.EntityFrameworkCore
+@model House2Invest.Pages.CorreioModel
+@inject House2Invest.Data.ApplicationDbContext contexto
+@{
+    ViewData["Title"] = "Correio";
+    Layout = "~/Pages/Shared/_LayoutCMS.cshtml";
+}
+<div id="frame">
+    <input id="salachat_remet_uid" name="salachat_remet_uid" value="@Model.DE_UID" type="hidden" />
+    <input id="salachat_dest_uid" name="salachat_dest_uid" value="@Model.PARA_UID" type="hidden" />
+
+    <div id="sidepanel" class="">
+
+        <div id="profile">
+
+            <div class="row">
+                <div class="col-12 wrap">
+                    <img id="salachat_remet_avatar_@Model.DE_UID" name="salachat_remet_avatar_@Model.DE_UID" src="@Model.DE_AVATAR" class="" data-uid="@Model.DE_UID" alt="" />
+                    <p id="salachat_remet_nome_@Model.DE_UID" name="salachat_remet_nome_@Model.DE_UID" style="padding-top:5px;">
+                        @Html.Raw(Model.DE_NOME + " " + Model.DE_SOBRENOME)
+                    </p>
+                    <p id="salachat_remet_status_@Model.DE_UID" name="salachat_remet_status_@Model.DE_UID" style="font-size:9px;margin-top:-15px;">
+                        @Html.Raw(Model.DE_EMAIL)
+                    </p>
+                    <p style="margin-left:55px;margin-top:-10px;font-size:16px;">
+                        <a href="javascript:;" style="text-decoration:none;color:#dbdbdb;margin-right:6px;" title="Exibir contatos" class="troca-aba" data-aba="home"><i class="fa fa-users"></i></a>
+                        <a href="javascript:;" style="text-decoration:none;color:#dbdbdb;margin-right:6px;" title="Alterar STATUS e informações da conexão" class="troca-aba" data-aba="documentacao"><i class="fa fa-info-circle"></i></a>
+                        <a href="/Identity/Account/Manage" style="text-decoration:none;color:#dbdbdb;margin-right:6px;" title="Gerenciar sua conta" class="troca-aba"><i class="fa fa-user-edit"></i></a>
+                        <a href="/Correio" style="text-decoration:none;color:#dbdbdb;margin-right:6px;" title="Sala" class="troca-aba"><i class="fa fa-home"></i></a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <ul class="nav nav-tabs" id="myTab" name="myTab" role="tablist" hidden>
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><i class="fa fa-archive"></i> Principal</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="documentacao-tab" data-toggle="tab" href="#documentacao" role="tab" aria-controls="documentacao"><i class="fa fa-list"></i> Documentos exigidos</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                <div class="row">
+
+                    <div class="col-lg-12">
+
+                        <div id="search">
+                            <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+                            <input id="salachat_remet_busca_@Model.DE_UID" name="salachat_remet_busca_@Model.DE_UID" type="text" placeholder="Buscar contato">
+                        </div>
+
+                        <div id="contacts">
+
+                            <ul id="ulraiz-contatos" name="ulraiz-contatos">
+
+                                @foreach (var _contato in contexto.Users.Where(x => x.Id != Model.DE_UID))
+                                {
+                                    var _statusstr = "OFFLINE";
+                                    var _status = await contexto
+                                        .tblUsuSalaVIPs
+                                        .FirstOrDefaultAsync(x => x.UsuarioAppId == _contato.Id);
+
+                                    if (_status != null)
+                                    {
+                                        if (_status.Status.ToLower().Trim() == "entrou")
+                                        {
+                                            _statusstr = "ONLINE";
+                                        }
+                                    }
+                                    <li id="salachat_remet_objcontato_@_contato.Id"
+                                        name="salachat_remet_objcontato_@_contato.Id"
+                                        class="contact @Html.Raw(_statusstr == "OFFLINE" ? "opaco-5" : "")"
+                                        data-nome="@Html.Raw($"{_contato.Nome} {_contato.Sobrenome}")"
+                                        data-id="@_contato.Id"
+                                        data-status="@Html.Raw(_statusstr)"
+                                        onclick="window.location.href='/Correio?uid=@_contato.Id';"
+                                        data-avatar="@_contato.AvatarUsuario">
+                                        <div class="wrap">
+                                            <img id="salachat_remet_objcontato_avatar_@_contato.Id" name="salachat_remet_objcontato_avatar_@_contato.Id" src="@_contato.AvatarUsuario" class="@Html.Raw(_statusstr == "OFFLINE" ? "borda-offline" : "borda-online")" alt="@_contato.AvatarUsuario">
+                                            @{
+                                                var _totnlidas = contexto.tblHubConversas
+                                                    .Where(x => x.De == _contato.Id && x.Para == Model.DE_UID && !x.Lida)
+                                                    .Count();
+                                            }
+                                            <p id="salachat_remet_objcontato_mensnlidas_@_contato.Id" name="salachat_remet_objcontato_mensnlidas_@_contato.Id" class="bullet-mens-naolida @Html.Raw(_totnlidas <= 0 ? "invisivel" : "")">
+                                                @Html.Raw(_totnlidas)
+                                            </p>
+                                            <div class="meta">
+                                                <p id="salachat_remet_objcontato_nome_@_contato.Id" name="salachat_remet_objcontato_nome_@_contato.Id" class="name">
+                                                    @Html.Raw($"{_contato.Nome} {_contato.Sobrenome}")
+                                                </p>
+                                                <p id="salachat_remet_objcontato_historico_@_contato.Id" name="salachat_remet_objcontato_historico_@_contato.Id" class="preview giveMeEllipsis">
+                                                    <span>@Html.Raw($"{_contato.Email}")</span>
+                                                </p>
+                                                <p id="salachat_remet_objcontato_status_@_contato.Id" name="salachat_remet_objcontato_status_@_contato.Id" class="status-chat-datahora">
+
+                                                </p>
+                                                <p id="salachat_remet_objcontato_dthr_@_contato.Id" name="salachat_remet_objcontato_dthr_@_contato.Id" class="mens-datahora">
+                                                    03/04/2019 09:40
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="documentacao" role="tabpanel" aria-labelledby="documentacao-tab">
+                <div class="row py-3">
+                    <div class="col-lg-12 px-5">
+                        <div class="form-group m-0">
+                            <label class="control-label rotulo-de-text-info">EMAIL</label>
+                            <input name="_model_de_email" type="text" value="@Model.DE_EMAIL" class="form-control caixa-de-text-info" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div id="__CHAT_menschatselemens" class="">
+            <img id="imgmenschatselemens" name="imgmenschatselemens" src="~/images/1024px-Echo_chat_icon.svg.png" style="display:block;margin:auto auto;max-width:100%;max-height:240px;padding-top:25px;margin-top:100px;" />
+            <h4 id="menschatselemens" name="menschatselemens" style="text-align:center;padding:0px 35px;font-size:16px;font-weight:normal;margin-top:50px;">
+                Inicie uma conversa interagindo com a barra de contatos
+            </h4>
+        </div>
+
+        <div class="page invisivel">
+
+            @*<div class="marvel-device nexus5">*@
+
+            @*<div class="screen">*@
+
+            <div class="screen-container">
+                <div class="status-bar" hidden>
+                    <div class="time"></div>
+                </div>
+
+                <div class="chat">
+
+                    <div class="chat-container">
+
+                        <div class="user-bar">
+                            <div class="avatar">
+                                <img id="salachat_dest_avatar_@Model.PARA_UID" name="salachat_dest_avatar_@Model.PARA_UID" src="" alt="Avatar">
+                            </div>
+                            <div class="name">
+                                <span id="salachat_dest_nome_@Model.PARA_UID" name="salachat_dest_nome_@Model.PARA_UID"></span>
+                                <span id="salachat_dest_status_@Model.PARA_UID" name="salachat_dest_status_@Model.PARA_UID" class="status"></span>
+                            </div>
+                        </div>
+
+                        <div class="conversation">
+
+                            <div id="salachat_quadromens_@Html.Raw($"{Model.DE_UID}_{Model.PARA_UID}")" name="salachat_quadromens_@Html.Raw($"{Model.DE_UID}_{Model.PARA_UID}")" class="conversation-container">
+
+                            </div>
+
+                            <div style="width:100%;height:80px;position:fixed;bottom:0px;left:0px;background:#fff;border:1px solid rgba(0,0,0,.3);margin-left:340px;">
+                                <button class="send">
+                                    <div class="circle">
+                                        <i class="fa fa-paper-plane"></i>
+                                    </div>
+                                </button>
+
+                                <textarea class="input-msg" id="salachat_mensagem_@Html.Raw($"{Model.DE_UID}_{Model.PARA_UID}")" name="salachat_mensagem_@Html.Raw($"{Model.DE_UID}_{Model.PARA_UID}")" data-uid-de="@Model.DE_UID" data-uid-para="@Model.PARA_UID" placeholder="Digite a sua mensagem" autocomplete="off"></textarea>
+                            </div>
+
+
+                            <div class="conversation-compose" style="display:none;">
+
+                                @*<button class="send">
+                                        <div class="circle">
+                                            <i class="fa fa-paper-plane"></i>
+                                        </div>
+                                    </button>
+
+                                    <textarea class="input-msg" id="salachat_mensagem_@Html.Raw($"{Model.DE_UID}_{Model.PARA_UID}")" name="salachat_mensagem_@Html.Raw($"{Model.DE_UID}_{Model.PARA_UID}")" data-uid-de="@Model.DE_UID" data-uid-para="@Model.PARA_UID" placeholder="Digite a sua mensagem" autocomplete="off"></textarea>*@
+
+                                @*
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <textarea class="input-msg" id="salachat_mensagem_@Html.Raw($"{Model.DE_UID}_{Model.PARA_UID}")" name="salachat_mensagem_@Html.Raw($"{Model.DE_UID}_{Model.PARA_UID}")" data-uid-de="@Model.DE_UID" data-uid-para="@Model.PARA_UID" placeholder="Digite a sua mensagem" autocomplete="off" autofocus></textarea>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <a href="javascript:;" class="circle">
+                                                <i class="fa fa-paper-plane"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                *@
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            @*</div>*@
+
+            @*</div>*@
+
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            var conversacao = document.querySelector('.conversation-container');
+            conversacao.scrollTop = conversacao.scrollHeight;
+        });
+    </script>
+}

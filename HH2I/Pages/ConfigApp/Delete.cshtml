@@ -1,0 +1,125 @@
+﻿@page
+@model House2Invest.Pages.ConfigApp.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Pages/Shared/_LayoutCMS.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>AppConfiguracoes_Aplicativo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @*<dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.NovosUsuarios)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.NovosUsuarios)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.NovosUsuarios_NivelADM)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.NovosUsuarios_NivelADM)
+        </dd>*@
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.LogotipoEmpresa)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.LogotipoEmpresa)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.Empresa)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.Empresa)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.CPFCNPJ)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.CPFCNPJ)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.Logradouro)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.Logradouro)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.Complemento)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.Complemento)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.Bairro)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.Bairro)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.Cidade)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.Cidade)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.Estado)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.Estado)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.CEP)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.CEP)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.Fone)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.Fone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.FoneRecados)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.FoneRecados)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.Celular)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.Celular)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.EmailContato)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.EmailContato)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.EmailSuporte)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.EmailSuporte)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppConfiguracoes_Aplicativo.EmailVendas)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppConfiguracoes_Aplicativo.EmailVendas)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="AppConfiguracoes_Aplicativo.Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

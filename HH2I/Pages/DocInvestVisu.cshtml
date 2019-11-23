@@ -1,0 +1,58 @@
+﻿@page
+@using Microsoft.EntityFrameworkCore
+@inject House2Invest.Data.ApplicationDbContext _contexto
+@model DocInvestVisuModel
+@{
+    ViewData["Title"] = "Visualização de documentação";
+    var _appconfig = new House2Invest.Models.AppPerfil();
+    try
+    {
+        _appconfig =
+            _contexto.AppPerfil
+            .Include(v => v.AppConfiguracoes)
+            .Include(x => x.AppConfiguracoes.AppConfiguracoes_Aplicativo)
+            .Include(y => y.AppConfiguracoes.AppConfiguracoes_Azure)
+            .FirstOrDefault();
+    }
+    catch (Exception) { }
+}
+
+@if (_appconfig == null || _appconfig.AppConfiguracoes.Tema.ToLower().Trim() == "_layout")
+{
+    <div class="container text-center" style="margin:100px auto;">
+        <div class="row">
+            <div class="col-12">
+                <h2>Sobre @_appconfig.AppConfiguracoes.AppConfiguracoes_Aplicativo.LogotipoEmpresa</h2>
+                <h3>@Model.Mensagem</h3>
+                <p>Use essa área para maiores informações.</p>
+                <div class="d-flex justify-content-center">
+                    <img src="@_appconfig.AppConfiguracoes.AppConfiguracoes_Aplicativo.LogotipoEmpresa" class="img-fluid" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (_appconfig == null || _appconfig.AppConfiguracoes.Tema.ToLower().Trim() == "_layoutfundpress")
+{
+    <main class="xs-all-content-wrapper">
+        <div class="container">
+            <div class="row" style="margin:150px auto 100px auto;">
+                <div class="col-12">
+                    <b>@Html.Raw(Model.modelo.Titulo)</b>
+                </div>
+                <hr />
+                <div class="col-12">
+                    @Html.Raw(System.Web.HttpUtility.HtmlDecode(Model.modelo.Texto))
+                </div>
+            </div>
+        </div>
+    </main>
+}
+@section Scripts
+    {
+    <script>
+        $("#cabecalho_root").removeClass("xs-header-height xs-menu-style-transparent xs-menu-style-border fundpress-header-main-version color-navy-blue v3");
+        $("#cabecalho_root").addClass("fundpress-header-inner-version fundpress-header-main-version xs-menu-style-solid color-navy-blue");
+    </script>
+}

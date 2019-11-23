@@ -1,0 +1,86 @@
+﻿@using Microsoft.EntityFrameworkCore
+@inject IOptions<AppConfig> AppConfig
+@inject House2Invest.Data.ApplicationDbContext _contexto
+@{
+    string nomeusuario = "desconhecido";
+    string idusuario = "desconhecido";
+    string avatarusuario = "/temas/cms/img/avatar-2x.png";
+    string funcaousuario = "desconhecido";
+    string empresausuario = "desconhecida";
+    if (Context.User.Identity.IsAuthenticated)
+    {
+        try
+        {
+            UsuarioApp _usulogado = _contexto.Users
+                .Where(x => x.UserName == Context.User.Identity.Name)
+                .FirstOrDefault();
+
+            nomeusuario = $"{_usulogado.Nome} {_usulogado.Sobrenome}";
+            idusuario = $"{_usulogado.Id}";
+            avatarusuario = _usulogado.AvatarUsuario;
+            funcaousuario = _usulogado.Sistema_FuncaoUsuario;
+
+            empresausuario = _contexto.AppConfiguracoes.Include(x => x.AppConfiguracoes_Aplicativo).Where(x => x.Id == _usulogado.AppConfiguracoesId).FirstOrDefault().AppConfiguracoes_Aplicativo.Empresa;
+        }
+        catch (Exception) { }
+    }
+
+    var _appconfig = new House2Invest.Models.AppConfiguracoes();
+    try
+    {
+        _appconfig = _contexto.AppConfiguracoes.Include(x => x.AppConfiguracoes_Aplicativo).Include(y => y.AppConfiguracoes_Azure).FirstOrDefault();
+    }
+    catch (Exception) { }
+}
+@* --------------- *@
+@* PADRAO OU NULO  *@
+@* --------------- *@
+@if (_appconfig == null || _appconfig.Tema.ToLower().Trim() == "_layout")
+{
+
+}
+@* --------------- *@
+@* FUNDPRESS       *@
+@* --------------- *@
+@if (_appconfig.Tema.ToLower().Trim() == "_layoutfundpress")
+{
+    <header id="mainheader" class="header">
+        <nav class="navbar navbar-expand-lg px-4 py-2 bg-white">
+            <a href="javascript:;" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead">
+                <i class="fas fa-align-left"></i>
+            </a>
+            <a href="/IndexCMS" class="navbar-brand font-weight-bold text-uppercase text-base">
+                @AppConfig.Value.Aplicativo.Nome
+            </a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <ul class="ml-auto d-flex align-items-center list-unstyled mb-0">
+                    <li class="nav-item dropdown mr-3 li-notificacoes">
+                        <a id="notifications" href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle text-gray-400 px-1">
+                            <i id="icone-fa-comentario" name="icone-fa-comentario" class="fa fa-comments" style="font-size:30px;"></i>
+                            <span id="total_lista_push_notificacoes" name="total_lista_push_notificacoes" class="notification-icon invisivel">0</span>
+                        </a>
+                        <div id="lista_pushs" name="lista_pushs" aria-labelledby="notifications" class="dropdown-menu"></div>
+                    </li>
+
+                    <li class="nav-item dropdown ml-auto">
+                        <a id="userInfo" href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle"><img src="@Html.Raw(avatarusuario)" alt="@Html.Raw(nomeusuario)" style="max-width: 2.5rem;" class="img-fluid rounded-circle shadow"></a>
+                        <div aria-labelledby="userInfo" class="dropdown-menu">
+                            <a href="javascript:;" class="dropdown-item">
+                                <strong class="d-block text-uppercase headings-font-family">@Html.Raw(nomeusuario)</strong>
+                                @*
+                                    <hr style="margin:3px 0px 8px 0px;" />
+                                    <small><b><i class="fa fa-user"></i> @Html.Raw(funcaousuario.ToUpper())</b></small><br />
+                                    <small><b><i class="fa fa-home"></i> @Html.Raw(empresausuario.ToUpper())</b></small>
+                                *@
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a asp-area="Identity" asp-page="/Account/Manage/Index" class="dropdown-item">Sua conta</a>
+                            <a href="javascript:;" onclick="formLogoutCMS.submit();" class="dropdown-item">Sair</a>
+                        </div>
+                    </li>
+                </ul>
+            }
+        </nav>
+    </header>
+}

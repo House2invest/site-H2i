@@ -1,0 +1,37 @@
+﻿#preloader {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999999999;
+    background-color: #0973ba;
+}
+
+.fundpress-menu .xs-logo-wraper {
+    width: 20%;
+    position: relative;
+}
+
+.fundpress-menu-v2 .nav-menu {
+    width: 90%;
+    padding: 0;
+    text-align: center;
+}
+
+.fundpress-menu-v2 .xs-navs-button {
+    width: 40%;
+}
+
+.fundpress-menu .nav-menu li .nav-submenu a:hover {
+    color: #0973ba;
+}
+
+.texto-slider-h2 {
+    font-size: 2.8em !important;
+    line-height: 45px !important;
+    letter-spacing: 2px !important;
+    font-weight: 600 !important;
+    /*text-align: center !important;*/
+    padding: 0px 50px;
+}

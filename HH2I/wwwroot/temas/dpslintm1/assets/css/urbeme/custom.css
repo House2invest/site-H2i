@@ -1,0 +1,276 @@
+.project.step-4 .about .head::after {
+    background: none;
+}
+
+.project.step-4 .about .title {
+    margin-bottom: 0px !important;
+}
+
+.project.step-4 .about .faq {
+    padding: 0 !important;
+}
+
+.project.step-4 .checkbox-term {
+    display: inline-block;
+    border: 2px solid #e7e7e7;
+    width: 15px;
+    height: 15px;
+    margin-top: 2px;
+    margin-bottom: -2px;
+    margin-right: 5px;
+}
+
+.project.step-4 .btns .btn {
+    padding: 0 5px;
+    font-size: 9px;
+    width: 100%;
+    text-align: center;
+    display: block;
+}
+
+.modal.complete-register .user-profile-current-image {
+    margin-top: 75px;
+    margin-left: 45px;
+    width: calc(100% - 45px);
+    text-align: center;
+    text-transform: uppercase;
+}
+
+    .modal.complete-register .user-profile-current-image img {
+        margin-top: 5px;
+        border-radius: 50%;
+    }
+
+div.error-message {
+    color: tomato !important;
+    font-size: 12px !important;
+    margin-left: 20px;
+    margin-top: -5px;
+    margin-bottom: 5px !important;
+    font-weight: bold;
+}
+
+label.error {
+    color: tomato !important;
+    font-size: 12px !important;
+    margin-left: 0px;
+    margin-top: -10px;
+    font-weight: bold;
+    float: left;
+    margin-bottom: 15px !important;
+    padding: 0px !important;
+}
+
+.alert {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 0px;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    text-align: center;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert button.close {
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    margin-top: -4px;
+    font-size: 23px;
+}
+
+.alert .close:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+
+.alert .close {
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+}
+
+.clearfix {
+    clear: both;
+}
+
+#modal.modal-inside {
+    position: unset;
+    display: block;
+    background: none;
+    padding: 100px 1rem 50px 1rem;
+}
+
+    #modal.modal-inside .modal {
+        position: inherit;
+        display: block;
+    }
+
+        #modal.modal-inside .modal .head {
+            padding: 4.5rem 2rem 0px 2rem;
+        }
+
+.selfie-container h2 {
+    margin-bottom: 30px !important;
+}
+
+.selfie-container p {
+    margin-bottom: 10px;
+}
+
+    .selfie-container p a {
+        color: #40b5e9;
+    }
+
+.selfie-container ul li {
+    margin-bottom: 5px;
+}
+
+.selfie-container .blocks {
+    margin-top: 60px;
+}
+
+.selfie-container .btns {
+    margin-bottom: 20px;
+}
+
+/*.project.reserve .head::after {*/
+/*background: none;*/
+/*}*/
+
+.project.reserve .about .faq {
+    padding: 0px;
+}
+
+    .project.reserve .about .faq .topics li .head .title {
+        font-size: 19px;
+        width: 100%;
+    }
+
+.has-error {
+    border: 1px solid tomato;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+#UserStep3Form label.error {
+    float: none !important;
+}
+
+.project .form .blocks .block.custom {
+    flex-direction: column;
+}
+
+.step-4 .btns-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: wrap;
+    margin: 0 auto;
+    max-width: 380px;
+    width: 100%;
+}
+
+    .step-4 .btns-flex .btn {
+        max-width: 100%;
+        width: 100%;
+        margin: 5px auto;
+    }
+
+        .step-4 .btns-flex .btn.btn-sms, .step-4 .btns-flex .btn.btn-authy {
+            font-size: 16px;
+        }
+
+.project.step-4 .btns .btn {
+    font-size: 14px;
+}
+
+.about .country-map .map-cont .points .point .dot {
+    width: 10px !important;
+    height: 10px !important;
+}
+
+[data-component="investors"] .item {
+    width: 81px;
+    height: 81px;
+}
+
+    [data-component="investors"] .item figure {
+        height: 80px;
+        width: 80px;
+    }
+
+.news .container {
+    align-items: first baseline;
+}
+
+.paginacao .current {
+    background-color: #c4448a;
+    color: #fff;
+    width: 33px;
+    border-radius: 50px;
+    height: 33px;
+    padding: 6px;
+}
+
+.paginacao li {
+    display: inline-block;
+}
+
+.pagination {
+    text-align: center;
+}
+
+.error-user {
+    padding-bottom: 14px;
+    display: none;
+}
+
+#UserBankId {
+    opacity: 0;
+    visibility: hidden;
+    height: 0px;
+}
+
+article iframe {
+    width: 100%;
+}
+
+.g-recaptcha {
+    margin-bottom: 15px;
+}
+
+.logo-fator {
+    cursor: pointer;
+    max-width: 110px;
+    width: 29%;
+}
+
+.sub-logo {
+    width: 100%;
+    padding-top: 15px !important;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+    padding-bottom: 30px !important;
+}
+
+    .sub-logo .copy {
+        text-align: center;
+    }

@@ -1,0 +1,179 @@
+﻿@page
+@model House2Invest.Pages.CMSDumpSql.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_LayoutCMS.cshtml";
+}
+<div class="container-fluid px-xl-5">
+    <section class="py-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <h6 class="text-uppercase pt-2">
+                                    <img id="img-aguarde-cmd" name="img-aguarde-cmd" src="/images/lg.gooey-ball-lodaer.gif" style="max-width:100%;height:40px;" class="invisivel" /> Config Portal / Controles / DUMPS
+                                </h6>
+                            </div>
+
+                            <div class="col-12 mt-1 mb-3"><hr /></div>
+
+                            <div class="col-12">
+
+                                <div class="row">
+
+                                    <div class="col-lg-6 col-md-12">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h3 class="text-success">CÓPIA DE SEGURANÇA</h3>
+                                            </div>
+                                            <div class="col-lg-10 col-md-12">
+                                                <input class="form-control" type="text" id="caixatexto_titulo_copsegur" name="caixatexto_titulo_copsegur" placeholder="Digite o nome do arquivo de backup. Vazio cria com nome padrão">
+                                            </div>
+                                            <div class="col-lg-2 col-md-12 pull-right">
+                                                <a id="cmd-botao" name="cmd-botao" href="javascript:CriarDump();" class="btn btn-success mb-0">CRIAR</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-12">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h3 class="text-danger">RESTAURAÇÃO</h3>
+                                            </div>
+                                            <div class="col-12">
+                                                <form id="form_enviar_bak" name="form_enviar_bak" action="/api/sistema/restaurar_bak" method="post" enctype="multipart/form-data" class="row">
+                                                    <div class="col-lg-10 col-md-12">
+                                                        <input id="arquivo_bak" name="arquivo_bak" type="file" />
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-12 pull-right">
+                                                        <input id="cmd-abre-arquivo-bak" name="cmd-abre-arquivo-bak" class="btn btn-danger text-light" type="submit" value="INICIAR" />
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            @*
+                                <div class="col-12 form-group mt-4 mb-2">
+                                    <input id="caixatexto-comando" name="caixatexto-comando" class="form-control" />
+                                </div>
+                                <div class="col-12 form-group mt-4" id="caixatexto-comando-saida-cod" name="caixatexto-comando-saida-cod" style="background:rgb(255,255,255) !important;color:black !important;font-family:Courier New, Courier, monospace;font-size:12px;overflow-y:auto;height:30px;"></div>
+                                <div class="col-12 form-group" id="caixatexto-comando-saida-sai" name="caixatexto-comando-saida-sai" style="background:rgb(0,0,0) !important;color:greenyellow !important;font-family:Courier New, Courier, monospace;font-size:12px;overflow-y:auto;height:200px;"></div>
+                                <div class="col-12 form-group mb-4" id="caixatexto-comando-saida-err" name="caixatexto-comando-saida-err" style="background:rgb(255,0,0) !important;color:white !important;font-family:Courier New, Courier, monospace;font-size:12px;overflow-y:auto;height:100px;"></div>
+                            *@
+
+                            <div class="col-12 mt-3"><hr /></div>
+
+                            <div class="col-12 mt-1">
+                                <p class="text-gray pt-2 pl-2">
+                                    <i class="fa fa-info-circle"></i> Módulo responsável pelo gerenciamento das cópias de segurança do banco de dados. Somente <b>ADMINISTRADORES</b> tem acesso a esse módulo.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="pb-2">
+                            <div class="row">
+                                <div class="col-12 pt-1">
+                                    <form asp-action="Index" method="get" class="form-inline">
+                                        <div class="form-group mx-sm-3 mb-2">
+                                            <input class="form-control" type="text" name="StringBusca" placeholder="Faça sua busca aqui" value="@ViewData["FiltroAtual"]" autofocus>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mb-2"><i class="fa fa-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @{
+                            var anteriorDisabled = !Model.ListaDumps.TemPaginaAnterior ? "disabled" : "";
+                            var proximoDisabled = !Model.ListaDumps.TemProximaPagina ? "disabled" : "";
+                        }
+                        <div class="row">
+                            <div class="col-12 mt-3 mb-3">
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaDumps.PagIND - 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @anteriorDisabled mr-1"><i class="fa fa-chevron-left"></i></a>
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaDumps.PagIND + 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @proximoDisabled mr-1"><i class="fa fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table card-text py-5">
+                                <thead>
+                                    <tr>
+                                        <th width="100px"></th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorDateParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">CRIADO</a>
+                                        </th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">CAMINHO</a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ListaDumps)
+                                    {
+                                        <tr>
+                                            <td scope="row">
+                                                <a href="javascript:RestaurarBanco(@item.Id);" class="btn btn-danger btn-pequeno"><i class="fa fa-database"></i></a>
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DTHR)
+                                            </td>
+                                            <td>
+                                                <a href="@item.URLBAK" target="_blank">@item.URLBAK</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mt-3 mb-3">
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaDumps.PagIND - 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @anteriorDisabled mr-1"><i class="fa fa-chevron-left"></i></a>
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaDumps.PagIND + 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @proximoDisabled mr-1"><i class="fa fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts
+    {
+    <script>
+        $("#mnusidebar_cms_controles").removeClass("collapsed");
+        $("#mnusidebar_cms_controles").attr("aria-expanded", "true");
+        $("#target_mnuconfig").addClass("show");
+        $("#mnusidebar_cms_cmsdumpsql").addClass("active");
+
+        $("#form_enviar_bak").on("submit", function (e) {
+            e.preventDefault();
+
+            $("#imagem-aguarde-cms").removeClass("invisivel");
+
+            var formData = new FormData();
+            formData.append('arquivo_bak', $('#arquivo_bak')[0].files[0]);
+
+            $.ajax({
+                url: '/api/sistema/restaurar_bak',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $("#imagem-aguarde-cms").addClass("invisivel");
+
+                    if (data.status === "ok")
+                        window.location.reload(true);
+                    else
+                        swal("RESTORE", data.mens, "error");
+                }
+            });
+        })
+    </script>
+}

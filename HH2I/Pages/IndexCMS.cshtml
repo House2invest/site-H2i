@@ -1,0 +1,459 @@
+﻿@page
+@model House2Invest.Pages.IndexCMSModel
+@inject House2Invest.Data.ApplicationDbContext contexto
+@{
+    ViewData["Title"] = "IndexCMS";
+    Layout = "~/Pages/Shared/_LayoutCMS.cshtml";
+    string _guid = Guid.NewGuid().ToString();
+}
+<link href="//www.amcharts.com/lib/3/plugins/export/export.css" rel="stylesheet" type="text/css" />
+<div class="container-fluid px-xl-5">
+    <section class="pt-5 pb-3">
+        <div class="row">
+            <div class="col-12 mb-5 text-center bold">
+                <h4>
+                    @Html.Raw($"{Model.ObjetoIP2LocModelo.ip}")
+                </h4>
+                <b>
+                    @Html.Raw($"Latitude: {Model.ObjetoIP2LocModelo.lat}, Longitude: {Model.ObjetoIP2LocModelo.lon}")
+                </b>
+                <br />
+                <i>
+                    @Html.Raw($"{Model.ObjetoIP2LocModelo.codpais} - {Model.ObjetoIP2LocModelo.estado} - {Model.ObjetoIP2LocModelo.cidade}")
+                </i>
+            </div>
+            @if (User.IsInRole("SIS"))
+            {
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">TÍTULO</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2 text-gray">DADOS 001</p>
+                            <div id="kt_amcharts_1" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">TÍTULO</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2 text-gray">DADOS 001</p>
+                            <div id="kt_amcharts_2" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">TÍTULO</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2 text-gray">DADOS 001</p>
+                            <div id="kt_amcharts_3" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">TÍTULO</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2 text-gray">DADOS 001</p>
+                            <div id="kt_amcharts_4" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">TÍTULO</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2 text-gray">DADOS 001</p>
+                            <div id="kt_amcharts_5" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">TÍTULO</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2 text-gray">DADOS 001</p>
+                            <div id="kt_amcharts_6" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">TÍTULO</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2 text-gray">DADOS 001</p>
+                            <div id="kt_amcharts_7" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">TÍTULO</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2 text-gray">DADOS 001</p>
+                            <div id="kt_amcharts_8" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">TÍTULO</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2 text-gray">DADOS 001</p>
+                            <div id="kt_amcharts_9" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">TÍTULO</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2 text-gray">DADOS 001</p>
+                            <div id="kt_amcharts_10" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">TÍTULO</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2 text-gray">DADOS 001</p>
+                            <div id="kt_amcharts_11" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">TÍTULO</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2 text-gray">DADOS 001</p>
+                            <div id="kt_amcharts_12" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">TÍTULO</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2 text-gray">DADOS 001</p>
+                            <div id="kt_amcharts_13" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="col-lg-8 mb-12 mb-lg-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0 text-uppercase">Visitantes</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-5 text-gray">Visitantes da Plataforma por dia</p>
+                            <div class="chart-holder mt-5 mb-5">
+                                <canvas id="barVisitantesDiaPeriodos"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-12 mb-lg-0">
+                    <div class="row">
+                        @try
+                        {
+                            <div class="col-xl-12 col-lg-12 mb-2">
+                                <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                                    <div class="flex-grow-1 d-flex align-items-center">
+                                        <div class="dot mr-3 bg-violet"></div>
+                                        <div class="text">
+                                            <h6 class="mb-0">Registros (CONFIG)</h6><span class="text-gray">@ViewData["TotalRegistros"]</span>
+                                        </div>
+                                    </div>
+                                    <div class="icon text-white bg-violet"><i class="fas fa-server"></i></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 mb-2">
+                                <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                                    <div class="flex-grow-1 d-flex align-items-center">
+                                        <div class="dot mr-3 bg-red"></div>
+                                        <div class="text">
+                                            <h6 class="mb-0">Inscritos</h6><span class="text-gray">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="icon text-white bg-red"><i class="far fa-user"></i></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 mb-2">
+                                <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                                    <div class="flex-grow-1 d-flex align-items-center">
+                                        <div class="dot mr-3 bg-blue"></div>
+                                        <div class="text">
+                                            <h6 class="mb-0">Landing pages</h6><span class="text-gray">0</span>
+                                        </div>
+                                    </div>
+                                    <div class="icon text-white bg-blue"><i class="fa fa-bell"></i></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 mb-2">
+                                <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                                    <div class="flex-grow-1 d-flex align-items-center">
+                                        <div class="dot mr-3 bg-dark"></div>
+                                        <div class="text">
+                                            <h6 class="mb-0">Visitantes</h6><span class="text-gray">@contexto.SEO_Visitas.Count()</span>
+                                        </div>
+                                    </div>
+                                    <div class="icon text-white bg-dark"><i class="fas fa-eye"></i></div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-12 mb-2">
+                                <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
+                                    <div class="flex-grow-1 d-flex align-items-center">
+                                        <ul>
+                                            <li><h6 class="mb-0">PROCESSO</h6> <span id="NomedoProcesso" class="text-gray"></span></li>
+                                            <li><h6 class="mb-0">MEMÓRIA</h6> <span id="MemoriadoProcesso" class="text-gray"></span></li>
+                                            <li><h6 class="mb-0">INÍCIO</h6> <span id="IdProcesso" class="text-gray"></span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="icon text-white bg-dark"><i class="fas fa-server"></i></div>
+                                </div>
+                            </div>
+                        }
+                        catch (Exception) { }
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>
+@section Scripts
+    {
+    <script src="//www.amcharts.com/lib/3/amcharts.js" type="text/javascript"></script>
+    <script src="//www.amcharts.com/lib/3/serial.js" type="text/javascript"></script>
+    <script src="//www.amcharts.com/lib/3/amstock.js" type="text/javascript"></script>
+    <script src="//www.amcharts.com/lib/3/radar.js" type="text/javascript"></script>
+    <script src="//www.amcharts.com/lib/3/pie.js" type="text/javascript"></script>
+    <script src="//www.amcharts.com/lib/3/plugins/tools/polarScatter/polarScatter.min.js" type="text/javascript"></script>
+    <script src="//www.amcharts.com/lib/3/plugins/animate/animate.min.js" type="text/javascript"></script>
+    <script src="//www.amcharts.com/lib/3/ammap.js" type="text/javascript"></script>
+    <script src="//www.amcharts.com/lib/3/maps/js/usaLow.js" type="text/javascript"></script>
+    <script src="//www.amcharts.com/lib/3/maps/js/worldLow.js" type="text/javascript"></script>
+    <script src="//www.amcharts.com/lib/3/maps/js/worldHigh.js" type="text/javascript"></script>
+    <script src="//www.amcharts.com/lib/3/plugins/export/export.min.js" type="text/javascript"></script>
+    <script src="//www.amcharts.com/lib/3/themes/light.js" type="text/javascript"></script>
+
+    <partial name="_ValidationScriptsPartial" />
+    @*<script src="/lib/signalr/signalr.js"></script>*@
+    <script src="/temas/cms/vendor/chart.js/Chart.min.js"></script>
+    <script>
+        var violet = '#DF99CA', red = '#F0404C', green = '#7CF29C';
+
+        // ------------------------------------------------------ //
+        // Gradients
+        // ------------------------------------------------------ //
+        var ctx1 = $("canvas").get(0).getContext("2d");
+        var gradient1 = ctx1.createLinearGradient(150, 0, 150, 300);
+        gradient1.addColorStop(0, 'rgba(210, 114, 181, 0.91)');
+        gradient1.addColorStop(1, 'rgba(177, 62, 162, 0)');
+        var gradient2 = ctx1.createLinearGradient(10, 0, 150, 300);
+        gradient2.addColorStop(0, 'rgba(252, 117, 176, 0.84)');
+        gradient2.addColorStop(1, 'rgba(250, 199, 106, 0.92)');
+
+        // ------------------------------------------------------ //
+        // Gradients Peridos do Dia
+        // ------------------------------------------------------ //
+        var gradientMANHA = ctx1.createLinearGradient(10, 0, 150, 300);
+        gradientMANHA.addColorStop(0, 'rgba(254, 252, 234, 0.84)');
+        gradientMANHA.addColorStop(1, 'rgba(241, 218, 54, 0.92)');
+        var gradientTARDE = ctx1.createLinearGradient(10, 0, 150, 300);
+        gradientTARDE.addColorStop(0, 'rgba(246, 230, 180, 0.84)');
+        gradientTARDE.addColorStop(1, 'rgba(237, 144, 23, 0.92)');
+        var gradientNOITE = ctx1.createLinearGradient(10, 0, 150, 300);
+        gradientNOITE.addColorStop(0, 'rgba(181, 189, 200, 0.84)');
+        gradientNOITE.addColorStop(1, 'rgba(40, 52, 59, 0.92)');
+
+        $(document).ready(function () {
+            //$.ajax({
+            //    url: '/Home/dadosChartEventosAno',
+            //    success: function (data) {
+            //        renderizaEventosPorAno(data);
+            //    }
+            //});
+
+            $.ajax({
+                url: 'IndexCMS?handler=DadosBarrasVisitasDia',
+                success: function (data) {
+                    renderizaVisitantesDiaPeriodo(data);
+                }
+            });
+
+            $.ajax({
+                url: '/api/sistema/processo',
+                success: function (data) {
+                    $("#NomedoProcesso").html(data.processo_nome);
+                    $("#MemoriadoProcesso").html(data.processo_memoria);
+                    $("#IdProcesso").html(data.processo_id);
+                }
+            });
+
+            $("#mnusidebar_cms_dashboard").addClass("active");
+        });
+
+        function renderizaEventosPorAno(dados) {
+            var LINECHARTEXMPLE = $('#lineChartEventosCadastradosPorAno');
+            var lineChartExample = new Chart(LINECHARTEXMPLE, {
+                type: 'line',
+                options: {
+                    legend: { labels: { fontColor: "#777", fontSize: 12 } },
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            gridLines: {
+                                color: '#fff'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                max: dados.maximo,
+                                min: dados.minimo
+                            },
+                            gridLines: {
+                                color: '#fff'
+                            }
+                        }]
+                    },
+                },
+                data: {
+                    labels: ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"],
+                    datasets: [
+                        {
+                            label: "EVENTOS",
+                            fill: true,
+                            lineTension: 0.3,
+                            backgroundColor: gradient1,
+                            borderColor: 'rgba(210, 114, 181, 0.91)',
+                            borderCapStyle: 'butt',
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            borderJoinStyle: 'miter',
+                            borderWidth: 2,
+                            pointBorderColor: gradient1,
+                            pointBackgroundColor: "#fff",
+                            pointBorderWidth: 2,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: gradient1,
+                            pointHoverBorderColor: "rgba(220,220,220,1)",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 1,
+                            pointHitRadius: 10,
+                            data: dados.dados,
+                            spanGaps: false
+                        }
+                    ]
+                }
+            });
+        };
+        function renderizaVisitantesDiaPeriodo(dados) {
+            // ------------------------------------------------------- //
+            // Bar Chart
+            // ------------------------------------------------------ //
+            var BARCHARTEXMPLE = $('#barVisitantesDiaPeriodos');
+            var barChartExample = new Chart(BARCHARTEXMPLE, {
+                type: 'bar',
+                options: {
+                    scales: {
+                        xAxes: [{
+                            display: true,
+                            gridLines: {
+                                color: '#fff'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                max: dados.maximo,
+                                min: dados.minimo
+                            },
+                            gridLines: {
+                                color: '#fff'
+                            }
+                        }]
+                    },
+                    legend: false
+                },
+                data: {
+                    labels: ["MANHÃ", "TARDE", "NOITE"],
+                    datasets: [
+                        {
+                            label: "Visitantes",
+                            backgroundColor: [
+                                gradientMANHA,
+                                gradientTARDE,
+                                gradientNOITE,
+                            ],
+                            hoverBackgroundColor: [
+                                gradientMANHA,
+                                gradientTARDE,
+                                gradientNOITE,
+                            ],
+                            borderColor: [
+                                gradientMANHA,
+                                gradientTARDE,
+                                gradientNOITE,
+                            ],
+                            borderWidth: 1,
+                            data: dados.dados,
+                        }
+                    ]
+                }
+            });
+        }
+    </script>
+}

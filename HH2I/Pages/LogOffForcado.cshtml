@@ -1,0 +1,57 @@
+﻿@page
+@using Microsoft.EntityFrameworkCore
+@inject House2Invest.Data.ApplicationDbContext _contexto
+@*@model LogOffForcadoModel*@
+@{
+    ViewData["Title"] = "Você foi desconectado por um administrador";
+    var _appconfig = new House2Invest.Models.AppPerfil();
+    try
+    {
+        _appconfig =
+            _contexto.AppPerfil
+            .Include(v => v.AppConfiguracoes)
+            .Include(x => x.AppConfiguracoes.AppConfiguracoes_Aplicativo)
+            .Include(y => y.AppConfiguracoes.AppConfiguracoes_Azure)
+            .FirstOrDefault();
+    }
+    catch (Exception) { }
+}
+
+@*@if (_appconfig == null || _appconfig.AppConfiguracoes.Tema.ToLower().Trim() == "_layout")
+    {
+        <h2>Sobre @_appconfig.AppConfiguracoes.AppConfiguracoes_Aplicativo.LogotipoEmpresa</h2>
+    }
+    @if (_appconfig == null || _appconfig.AppConfiguracoes.Tema.ToLower().Trim() == "_layoutfundpress")
+    {*@
+<main class="xs-all-content-wrapper">
+    <div class="container">
+        <div class="row" style="margin:100px auto 150px auto;padding:50px;">
+            <div class="col-12 text-center">
+                <i class="fa fa-lock" style="font-size:250px;color:rgba(255,10,10,.2);"></i>
+            </div>
+            <div class="col-12 text-center">
+                <h2 style="color:rgba(255,10,10,.2);margin-bottom:30px;">LOGOFF FORÇADO</h2>
+            </div>
+            <hr />
+            <div class="col-12 text-center" style="color:rgba(0,0,0,.7);font-size:14px;font-weight:normal;">
+                Você foi desconectado por um administrador da House2Invest. Um integrante do nosso time de contas, entrará em contato com você pelo email cadastrado.
+            </div>
+            <div class="col-12 text-center" style="margin-top:15px;">
+                <a href="/" style="padding:0px 5px;color:rgba(0,0,0,.5);font-size:11px;">
+                    <i class="fa fa-home"></i> Página inicial
+                </a>
+                <a asp-area="Identity" asp-page="/Account/Login" style="padding:0px 5px;color:rgba(0,0,0,.5);font-size:11px;">
+                    <i class="fa fa-unlock-alt"></i> Login
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+@*}*@
+@section Scripts
+    {
+    <script>
+        $("#cabecalho_root").removeClass("xs-header-height xs-menu-style-transparent xs-menu-style-border fundpress-header-main-version color-navy-blue v3");
+        $("#cabecalho_root").addClass("fundpress-header-inner-version fundpress-header-main-version xs-menu-style-solid color-navy-blue");
+    </script>
+}

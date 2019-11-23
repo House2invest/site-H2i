@@ -1,0 +1,128 @@
+﻿@page
+@using Microsoft.EntityFrameworkCore
+@inject House2Invest.Data.ApplicationDbContext _contexto
+@model RegrasGeraisModel
+@{
+    ViewData["Title"] = "Regras Gerais";
+    var _appconfig = new House2Invest.Models.AppPerfil();
+    try
+    {
+        _appconfig =
+            _contexto.AppPerfil
+            .Include(v => v.AppConfiguracoes)
+            .Include(x => x.AppConfiguracoes.AppConfiguracoes_Aplicativo)
+            .Include(y => y.AppConfiguracoes.AppConfiguracoes_Azure)
+            .FirstOrDefault();
+    }
+    catch (Exception) { }
+}
+
+@if (_appconfig == null || _appconfig.AppConfiguracoes.Tema.ToLower().Trim() == "_layout")
+{
+    <div class="container text-center" style="margin:100px auto;">
+        <div class="row">
+            <div class="col-12">
+                <h2>Sobre @_appconfig.AppConfiguracoes.AppConfiguracoes_Aplicativo.LogotipoEmpresa</h2>
+                <h3>@Model.Mensagem</h3>
+                <p>Use essa área para maiores informações.</p>
+                <div class="d-flex justify-content-center">
+                    <img src="@_appconfig.AppConfiguracoes.AppConfiguracoes_Aplicativo.LogotipoEmpresa" class="img-fluid" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (_appconfig == null || _appconfig.AppConfiguracoes.Tema.ToLower().Trim() == "_layoutfundpress")
+{
+    <section class="xs-inner-welcome-section fundpress-inner-welcome-section fundpress-inner-bg-1 parallax-window" data-parallax="scroll" data-image-src="@(_appconfig.AppConfiguracoes.CaminhoAbsolutoTema)assets/images/wf_ernesto/fundo-sobre.jpg">
+        <div class="xs-solid-overlay xs-bg-black"></div>
+        <div class="container">
+            <div class="fundpress-inner-welcome-content">
+                <h2 class="color-white">@Model.Mensagem</h2>
+            </div>
+        </div>
+    </section>
+    <main class="xs-all-content-wrapper">
+        <section class="xs-about-us-promo-section xs-content-section-padding fundpress-about-us-promo-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <img src="~/images/avatar-house-2-invest.png" style="display:block;margin:auto;" alt="" />
+                    </div>
+                    <div class="col-12">
+                        <div class="text-justify" style="font-size:20px;font-weight:lighter;line-height:37px;">
+                            <p>
+                                A House 2 Invest propicia tanto ao pequeno quanto ao grande investidor, pessoa física ou jurídica, a opção de participar de investimentos no mercado imobiliário com a transparência, controle de seus aportes e consulta aos documentos relacionados aos projetos investidos, mediante simples consulta em seu painel do usuário, após cadastro e confirmação de seus investimentos na Plataforma Eletrônica.
+                            </p>
+                            <p>
+                                A atuação, as responsabilidades e os deveres das plataformas são definidos na ICVM 588 e incluem: (i) assegurar que a participação nestas ofertas esteja restrita aos emissores elegíveis; (ii) controlar os montantes aportados por investidores em face dos limites autorizados; (iii) elaborar e divulgar material didático para melhor educação dos potenciais investidores; (iv) coletar termos de ciência de risco devidamente firmados pelos investidores; e (v) encaminhar à CVM informações sobre o início de cada oferta pública que realizar.
+                            </p>
+                            <p>
+                                A rentabilidade de cada projeto imobiliário contemplará fatores ligados ao empreendimento e variações do mercado. O investidor deverá observar a descrição das expectativas de retorno indicadas pelo emissor em cada oferta pública de valores mobiliários. A plataforma eletrônica House2Invest não oferece quaisquer garantias de retorno das taxas de juros esperadas, bem como não tem ingerência sobre os projetos ou taxas de juros esperadas e, ainda, não garante os rendimentos previstos. Leia cuidadosamente o prospecto e o regulamento do projeto antes de investir.
+                            </p>
+                            <p>
+                                Os investidores poderão aplicar recursos em valores mobiliários ofertados com dispensa de registro em observância ao limite estabelecido pela IN CVM 588 ou mediante comprovação de sua elegibilidade para investimento superior ao limite estabelecido no ano calendário, mediante entrega de declaração que ateste a condição de investidor qualificado, nos termos da regulamentação da CVM, e, caso o investimento seja superior a R$ 10.000,00, a CVM possui uma regra que limita em 10% do valor da autodeclaração de renda anual ou patrimônio líquido do investidor.
+                            </p>
+                            <p>
+                                Os montantes transferidos pelos investidores não podem transitar por contas correntes mantidas em nome da plataforma House 2 Invest e os montantes disponibilizados pelos investidores somente podem ser depositados na conta corrente do emissor após o encerramento e a confirmação do êxito da oferta.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="fundpress-video-popup-with-text">
+            <div class="fundpress-video-top-section" style="background-image: url(/images/Joao_fundo_saibamais.jpg);">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-10 col-sm-12 col-lg-10 content-center">
+                            <div class="xs-heading-title fundpress-heading-title">
+                                <h2 class="color-white margin-bottom-0">Acompanhe como tudo funciona, acessando o vídeo abaixo:</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="funpress-video-popup xs-margin-top xs-margin-minus">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-10 col-sm-12 col-lg-6 content-center">
+                            <div class="fundpress-popup-image xs-box-shadow">
+                                <img src="@(_appconfig.AppConfiguracoes.CaminhoAbsolutoTema)assets/images/about_2.jpg" alt="">
+                                <div class="xs-popup-content icon-position-center">
+                                    <a href="~/temas/dpslintm1/assets/images/video.mp4" class="xs-video-popup full-round icon-identify-btn green-btn xs-box-shadow xs-big-button"><i class="fa fa-play"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="fundpress-simple-promo-text-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-sm-12 col-lg-9 content-center">
+                        <div class="fundpress-title-text-content">
+                            <h4 class="color-green margin-bottom-0">CAPTAÇÃO DE RECUROS.</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-justify" style="font-size:20px;font-weight:lighter;line-height:30px;">
+                    <div class="col-12">
+                        <div class="xs-text-content fundpress-text-content">
+                            <p>A captação de recursos será realizada por meio de oferta pública de distribuição de valores mobiliários dispensada de registro, realizada por emissores considerados sociedades empresárias de pequeno porte e distribuída exclusivamente por meio de plataforma eletrônica de investimento participativo, sendo os destinatários da oferta uma pluralidade de investidores que fornecem financiamento nos limites previstos na IN 588 da CVM.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+}
+@section Scripts
+{
+    <script>
+            //$("#cabecalho_root").removeClass("xs-header-height xs-menu-style-transparent xs-menu-style-border fundpress-header-main-version color-navy-blue v3");
+            //$("#cabecalho_root").addClass("fundpress-header-inner-version fundpress-header-main-version xs-menu-style-solid color-navy-blue");
+    </script>
+}

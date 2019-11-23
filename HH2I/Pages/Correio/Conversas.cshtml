@@ -1,0 +1,158 @@
+﻿@page
+@using Microsoft.EntityFrameworkCore
+@model House2Invest.Pages.ConversasModel
+@inject House2Invest.Data.ApplicationDbContext contexto
+@{
+    ViewData["Title"] = "Conversas";
+    Layout = "~/Pages/Shared/_LayoutCMS.cshtml";
+}
+<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css">
+<link rel="stylesheet" href="/hubCore/conversas.css">
+<input id="salachat_remet_uid" name="salachat_remet_uid" value="@Model.DE_UID" type="hidden" />
+<input id="salachat_dest_uid" name="salachat_dest_uid" value="@Model.PARA_UID" type="hidden" />
+<div id="frame">
+    <div id="sidepanel">
+        <div id="profile">
+            <div class="wrap">
+                <img id="salachat_remet_avatar_@Model.DE_UID" name="salachat_remet_avatar_@Model.DE_UID" src="@Model.DE_AVATAR" class="online" alt="@Model.DE_AVATAR" data-uid="@Model.DE_UID" />
+                <p id="salachat_remet_nome_@Model.DE_UID" name="salachat_remet_nome_@Model.DE_UID">
+                    @Html.Raw(Model.DE_NOME + " " + Model.DE_SOBRENOME)
+                </p>
+                <p id="salachat_remet_status_@Model.DE_UID" name="salachat_remet_status_@Model.DE_UID" style="font-size:9px;margin-top:-15px;">
+                    @Html.Raw(Model.DE_EMAIL)
+                </p>
+                @*<div id="expanded">
+                        <label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
+                        <input name="twitter" type="text" value="mikeross">
+                        <label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
+                        <input name="twitter" type="text" value="ross81">
+                        <label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
+                        <input name="twitter" type="text" value="mike.ross">
+                    </div>*@
+            </div>
+        </div>
+
+        <p style="padding-left:10px;">
+            Dúvidas sobre o investimento NUM: <b>@Model.IDINVEST</b>
+        </p>
+
+
+        <div id="search">
+            <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+            <input id="salachat_remet_busca_@Model.DE_UID" name="salachat_remet_busca_@Model.DE_UID" type="text" placeholder="Buscar contatos...">
+        </div>
+        <div id="contacts">
+            <ul>
+                @foreach (var _contato in contexto.Users.Where(x => x.Id != Model.DE_UID))
+                {
+
+                    if (_contato.Id != "b30b4d21-0f99-435e-acec-a2c672697b0f" &&
+                        _contato.Id != "b1aadecb-4357-457d-bfea-27e153505497" &&
+                        _contato.Id != "4cb6d3d8-493a-415c-a5d7-cc6860aa8691" &&
+                        _contato.Id != "bbf7b44d-faa0-4276-b163-295b780a062c" &&
+                        !_contato.Email.ToLower().Trim().Contains("tester"))
+                    {
+
+                        var _statusstr = "OFFLINE";
+                        var _status = await contexto
+                            .tblUsuSalaVIPs
+                            .FirstOrDefaultAsync(x => x.UsuarioAppId == _contato.Id);
+
+                        if (_status != null)
+                        {
+                            if (_status.Status.ToLower().Trim() == "entrou")
+                            {
+                                _statusstr = "ONLINE";
+                            }
+                        }
+
+                        <li id="salachat_remet_objcontato_@_contato.Id"
+                            name="salachat_remet_objcontato_@_contato.Id"
+                            data-nome="@Html.Raw($"{_contato.Nome} {_contato.Sobrenome}")"
+                            data-id="@_contato.Id"
+                            data-status="@Html.Raw(_statusstr)"
+                            onclick="window.location.href='/Correio/Conversas?uid=@_contato.Id';"
+                            data-avatar="@_contato.AvatarUsuario"
+                            class="contact @Html.Raw(_statusstr == "OFFLINE" ? "opaco-5" : "")">
+                            <div class="wrap">
+                                <span id="salachat_remet_objcontato_span_status_@_contato.Id" name="salachat_remet_objcontato_span_status_@_contato.Id" class="contact-status @_statusstr.ToLower().Trim()"></span>
+                                <img id="salachat_remet_objcontato_avatar_@_contato.Id" name="salachat_remet_objcontato_avatar_@_contato.Id" src="@_contato.AvatarUsuario" alt="" class="@Html.Raw(_statusstr == "OFFLINE" ? "borda-offline" : "borda-online")">
+                                @{
+                                    var _totnlidas = contexto.tblHubConversas
+                                        .Where(x => x.De == _contato.Id && x.Para == Model.DE_UID && !x.Lida)
+                                        .Count();
+                                }
+                                <p id="salachat_remet_objcontato_mensnlidas_@_contato.Id" name="salachat_remet_objcontato_mensnlidas_@_contato.Id" class="bullet-mens-naolida @Html.Raw(_totnlidas <= 0 ? "invisivel" : "")">
+                                    @Html.Raw(_totnlidas)
+                                </p>
+                                <div class="meta">
+                                    <p id="salachat_remet_objcontato_nome_@_contato.Id" name="salachat_remet_objcontato_nome_@_contato.Id" class="name">
+                                        @Html.Raw($"{_contato.Nome} {_contato.Sobrenome}")
+                                    </p>
+                                    <p id="salachat_remet_objcontato_historico_@_contato.Id" name="salachat_remet_objcontato_historico_@_contato.Id" class="preview giveMeEllipsis">
+                                        @_contato.Email
+                                    </p>
+                                    <p id="salachat_remet_objcontato_status_@_contato.Id" name="salachat_remet_objcontato_status_@_contato.Id" class="status-chat-datahora">
+
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+
+                    }
+
+                }
+            </ul>
+        </div>
+        @*<div id="bottom-bar">
+                <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Adic. contato</span></button>
+                <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Preferência</span></button>
+            </div>*@
+    </div>
+    <div class="content">
+        <div class="contact-profile invisivel">
+            <img id="salachat_dest_avatar_@Model.PARA_UID" name="salachat_dest_avatar_@Model.PARA_UID" src="" alt="">
+            <p>
+                <span id="salachat_dest_nome_@Model.PARA_UID" name="salachat_dest_nome_@Model.PARA_UID" class="name"></span>
+            </p>
+            <div class="social-media">
+                <span id="salachat_dest_status_@Model.PARA_UID" name="salachat_dest_status_@Model.PARA_UID" class="status"></span>
+                @*
+                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                *@
+            </div>
+        </div>
+        <div id="__CHAT_menschatselemens" class="">
+            <img id="imgmenschatselemens" name="imgmenschatselemens" src="~/images/1024px-Echo_chat_icon.svg.png" style="display:block;margin:auto auto;max-width:100%;max-height:240px;padding-top:25px;margin-top:100px;" />
+            <h4 id="menschatselemens" name="menschatselemens" style="text-align:center;padding:0px 35px;font-size:16px;font-weight:normal;margin-top:50px;">
+                Inicie uma conversa interagindo com a barra de contatos
+            </h4>
+        </div>
+        <div class="messages invisivel">
+            <ul id="salachat_quadromens_@Html.Raw($"{Model.DE_UID}_{Model.PARA_UID}")" name="salachat_quadromens_@Html.Raw($"{Model.DE_UID}_{Model.PARA_UID}")" class="conversation-container"></ul>
+        </div>
+        <div class="message-input invisivel">
+            <div class="wrap">
+                <textarea id="salachat_mensagem_@Html.Raw($"{Model.DE_UID}_{Model.PARA_UID}")" name="salachat_mensagem_@Html.Raw($"{Model.DE_UID}_{Model.PARA_UID}")" data-uid-de="@Model.DE_UID" data-uid-para="@Model.PARA_UID" placeholder="Digite sua mensagem..." rows="3" autofocus></textarea>
+                <!--<i class="fa fa-paperclip attachment" aria-hidden="true"></i>-->
+                <button class="send">
+                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            // ESCONDE A SIDEBAR
+            //$("#sidebar").addClass("invisivel");
+
+            var _divscroll = document.querySelector('.messages');
+            _divscroll.scrollTop = _divscroll.scrollHeight;
+        });
+    </script>
+}

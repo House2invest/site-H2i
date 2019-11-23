@@ -1,0 +1,148 @@
+﻿@page
+@model House2Invest.Pages.CMSUsuarios.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_LayoutCMS.cshtml";
+}
+<div class="container-fluid px-xl-5">
+    <section class="py-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11 col-12">
+                                <h6 class="text-uppercase pt-2">Dados / Usuários</h6>
+                            </div>
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-12">
+                                <a asp-page="Create" class="btn btn-success mb-0"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11 col-12">
+                                <p class="text-gray pt-2 pl-2">
+                                    <i class="fa fa-info-circle"></i> Módulo responsável pelo gerenciamento dos usuários cadastrados no portal. Somente <b>ADMINISTRADORES</b> tem acesso a esse módulo.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="pb-2">
+                            <div class="row">
+                                <div class="col-12 pt-1">
+                                    <form asp-action="Index" method="get" class="form-inline">
+                                        <div class="form-group mx-sm-3 mb-2">
+                                            <input class="form-control" type="text" name="SearchString" placeholder="Faça sua busca aqui" value="@ViewData["FiltroAtual"]" autofocus>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mb-2"><i class="fa fa-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @{
+                            var anteriorDisabled = !Model.ListaUsuarios.TemPaginaAnterior ? "disabled" : "";
+                            var proximoDisabled = !Model.ListaUsuarios.TemProximaPagina ? "disabled" : "";
+                        }
+                        <div class="row">
+                            <div class="col-12 mt-3 mb-3">
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaUsuarios.PagIND - 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @anteriorDisabled mr-1"><i class="fa fa-chevron-left"></i></a>
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaUsuarios.PagIND + 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @proximoDisabled mr-1"><i class="fa fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table card-text py-5">
+                                <thead>
+                                    <tr>
+                                        <th width="100px"></th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorDateParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">CRIADO</a>
+                                        </th>
+                                        <th></th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">EMAIL</a>
+                                        </th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">NOME</a>
+                                        </th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">
+                                                <div style="text-decoration:none !important;text-align:center;">
+                                                    EMAIL CONFIRM.
+                                                </div>
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">
+                                                <div style="text-decoration:none !important;text-align:center;">
+                                                    BLOQUEADO
+                                                </div>
+                                            </a>
+                                        </th>
+                                        <th>
+                                            <a asp-page="Index" asp-route-OrdenarPor="@ViewData["OrdPorStringParam"]" asp-route-FiltroAtual="@ViewData["FiltroAtual"]">
+                                                <div style="text-decoration:none !important;text-align:center;">
+                                                    LOCKOUT
+                                                </div>
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ListaUsuarios)
+                                    {
+                                        <tr>
+                                            <td scope="row">
+                                                <a asp-page="/CMSUsuarios/Edit" asp-route-id="@item.Id" class="btn btn-primary btn-pequeno"><i class="far fa-edit"></i></a>
+                                                @*@if (item.Sistema_FuncaoUsuario != "SISTEMA")
+                                                {
+                                                    <a href="javascript:ExcluirRegistro('Usuarios', '@item.Id');" class="btn btn-danger btn-pequeno"><i class="fa fa-trash"></i></a>
+                                                }*@
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Sistema_DataDeclaracaoCienciaTermos)
+                                            </td>
+                                            <td>
+                                                <img src="@item.AvatarUsuario" style="width:auto;max-height:28px;margin-top:-8px;border-radius:100%;" />
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Email)
+                                            </td>
+                                            <td>
+                                                @Html.Raw($"{item.Nome} {item.Sobrenome}")
+                                            </td>
+                                            <td>
+                                                <input class="tgl tgl-ios" id="cb_email_@item.Id" type="checkbox" onclick="AcaoContaUsuario('@item.Id', 'cb_email_@item.Id', 'UsuarioEmailConfirmado');" @Html.Raw(item.EmailConfirmed ? "checked" : "")>
+                                                <label class="tgl-btn" for="cb_email_@item.Id"></label>
+                                            </td>
+                                            <td>
+                                                <input class="tgl tgl-ios" id="cb_acesso_@item.Id" type="checkbox" onclick="AcaoContaUsuario('@item.Id', 'cb_acesso_@item.Id', 'UsuarioAcessoBloqueado');" @Html.Raw(item.Sistema_AcessoBloqueado ? "checked" : "")>
+                                                <label class="tgl-btn" for="cb_acesso_@item.Id"></label>
+                                            </td>
+                                            <td>
+                                                <input class="tgl tgl-ios" id="cb_lockout_@item.Id" type="checkbox" onclick="AcaoContaUsuario('@item.Id', 'cb_lockout_@item.Id', 'UsuarioLockout');" @Html.Raw(item.LockoutEnabled ? "checked" : "")>
+                                                <label class="tgl-btn" for="cb_lockout_@item.Id"></label>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mt-3 mb-3">
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaUsuarios.PagIND - 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @anteriorDisabled mr-1"><i class="fa fa-chevron-left"></i></a>
+                                <a href="?OrdenarPor=@ViewData["OrdenarPor"]&Pagina=@(Model.ListaUsuarios.PagIND + 1)&FiltroAtual=@ViewData["FiltroAtual"]" class="btn btn-primary @proximoDisabled mr-1"><i class="fa fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts
+    {
+    <script>
+        $("#mnusidebar_cms_controles").removeClass("collapsed");
+        $("#mnusidebar_cms_controles").attr("aria-expanded", "true");
+        $("#target_mnuconfig").addClass("show");
+        $("#mnusidebar_cms_usuarios").addClass("active");
+    </script>
+}

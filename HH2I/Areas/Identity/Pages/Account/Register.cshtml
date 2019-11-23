@@ -1,0 +1,923 @@
+﻿@page
+@using Microsoft.EntityFrameworkCore
+@inject House2Invest.Data.ApplicationDbContext _contexto
+@model RegisterModel
+@{
+    ViewData["Title"] = "Criar conta";
+    var _appconfig = new House2Invest.Models.AppConfiguracoes();
+    try
+    {
+        _appconfig =
+            _contexto.AppConfiguracoes
+            .Include(x => x.AppConfiguracoes_Aplicativo)
+            .Include(y => y.AppConfiguracoes_Azure)
+            .FirstOrDefault();
+    }
+    catch (Exception) { }
+
+    try
+    {
+        Layout = _appconfig.Tema.ToLower().Trim() != "_layout" ? "~/Pages/Shared/Temas/" + _appconfig.Tema + ".cshtml" : "_Layout";
+    }
+    catch (Exception) { Layout = "_Layout"; }
+
+
+    Layout = null;
+
+}
+@if (_appconfig == null || _appconfig.Tema.ToLower().Trim() == "_layout")
+{
+    <h1>CRIAR CONTA</h1>
+}
+
+@if (_appconfig == null || _appconfig.Tema.ToLower().Trim() == "_layoutfundpress")
+{
+    @*
+        <main class="xs-all-content-wrapper mt-5">
+            <section class="xs-fund-details fundpress-fund-details">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12" style="margin:0px auto 80px auto;">
+                            <a href="/">
+                                <img src="/images/Joao_house2invest.png" style="display:block;margin:auto auto;" />
+                            </a>
+                        </div>
+                        <div class="col-md-12">
+                            <form id="loginForm" name="loginForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+                                <div class="col-md-12">
+                                    <h2 class="text-center">Criando a sua conta na House2Invest</h2>
+                                </div>
+                                <div class="col-md-12">
+                                    <div asp-validation-summary="All" class="text-danger text-left my-5"></div>
+                                </div>
+                                <div class="xs-text-content-tab">
+                                    <div class="xs-tab-nav fundpress-tab-nav-v2 xs-mb-30">
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#criarconta_conta" role="tab" data-toggle="tab">
+                                                    SEGURANÇA
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#criarconta_pessoal" role="tab" data-toggle="tab">
+                                                    PESSOAL
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#criarconta_documentacao" role="tab" data-toggle="tab">
+                                                    DOCUMENTAÇÃO
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#criarconta_contato" role="tab" data-toggle="tab">
+                                                    CONTATO E LOCALIZAÇÃO
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-content xs-text-tab-content">
+                                        <div role="tabpanel" class="tab-pane fadeInRights show fade in active" id="criarconta_conta">
+                                            <div class="xs-blog-post-comment border xs-content-padding">
+                                                <div class="comments-area">
+                                                    <div id="respond" class="comment-respond">
+                                                        <h3 id="reply-title" class="comment-reply-title">
+                                                            Dados de acesso ao portal
+                                                        </h3>
+                                                        <div class="separator">
+                                                            <span></span><span></span><span></span>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label asp-for="Input.Email" class="control-label"></label>
+                                                            <input asp-for="Input.Email" class="form-control" type="email" autofocus />
+                                                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label asp-for="Input.Password" class="control-label"></label>
+                                                            <input asp-for="Input.Password" class="form-control" type="password" />
+                                                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label asp-for="Input.ConfirmPassword" class="control-label"></label>
+                                                            <input asp-for="Input.ConfirmPassword" class="form-control" type="password" />
+                                                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="form-group">
+                                                                    <label asp-for="Input.Contato_FoneCelular" class="control-label"></label>
+                                                                    <input asp-for="Input.Contato_FoneCelular" class="form-control" type="text" />
+                                                                    <span asp-validation-for="Input.Contato_FoneCelular" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="form-group">
+                                                                    <label asp-for="Input.ContatoAutenticacao_EmailAlternativo" class="control-label"></label>
+                                                                    <input asp-for="Input.ContatoAutenticacao_EmailAlternativo" class="form-control" type="email" />
+                                                                    <span asp-validation-for="Input.ContatoAutenticacao_EmailAlternativo" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div role="tabpanel" class="tab-pane fadeInRights fade" id="criarconta_pessoal">
+                                            <div class="xs-blog-post-comment border xs-content-padding">
+                                                <div class="comment-respond">
+                                                    <h3 id="reply-title" class="comment-reply-title">
+                                                        Dados pessoais
+                                                    </h3>
+                                                    <div class="separator">
+                                                        <span></span><span></span><span></span>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Nome" class="control-label"></label>
+                                                                <input asp-for="Input.Nome" class="form-control" type="text" />
+                                                                <span asp-validation-for="Input.Nome" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-8">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Sobrenome" class="control-label"></label>
+                                                                <input asp-for="Input.Sobrenome" class="form-control" type="text" />
+                                                                <span asp-validation-for="Input.Sobrenome" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Nascimento" class="control-label"></label>
+                                                                <input asp-for="Input.Nascimento" class="form-control campo_data" type="text" />
+                                                                <span asp-validation-for="Input.Nascimento" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Genero" class="control-label"></label>
+                                                                <select asp-for="Input.Genero" class="col-md-12 col-lg-6 form-control">
+                                                                    <option value="MASCULINO">MASCULINO</option>
+                                                                    <option value="FEMININO">FEMININO</option>
+                                                                    <option value="OUTRO">OUTRO</option>
+                                                                </select>
+                                                                <span asp-validation-for="Input.Genero" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.EstadoCivil" class="control-label"></label>
+                                                                <select asp-for="Input.EstadoCivil" class="col-md-12 col-lg-6 form-control">
+                                                                    <option value="SOLTEIRO(A)">SOLTEIRO(A)</option>
+                                                                    <option value="CASADO(A)">CASADO(A)</option>
+                                                                    <option value="SEPARADO(A)">SEPARADO(A)</option>
+                                                                    <option value="DIVORCIADO(A)">DIVORCIADO(A)</option>
+                                                                    <option value="VIÚVO(A)">VIÚVO(A)</option>
+                                                                </select>
+                                                                <span asp-validation-for="Input.EstadoCivil" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div role="tabpanel" class="tab-pane fadeInRights fade" id="criarconta_documentacao">
+                                            <div class="xs-blog-post-comment border xs-content-padding">
+                                                <div class="comment-respond">
+                                                    <h3 id="reply-title" class="comment-reply-title">
+                                                        Sua documentação e comprovação de identidade por imagem
+                                                    </h3>
+                                                    <div class="separator">
+                                                        <span></span><span></span><span></span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="form-group js">
+                                                                <label asp-for="Input.ImagemDocDigitalizado" class="control-label"></label>
+                                                                <img id="imgprevia_logotipo" src="/images/sem-imagem.png" class="img-fluid mx-auto imgprevia" />
+                                                                <input asp-for="Input.ImagemDocDigitalizado" type="file" class="inputfile inputfile-3" data-multiple-caption="{count} selecionado" onchange="carregaPrevia(event, 'imgprevia_logotipo')" />
+                                                                <label asp-for="Input.ImagemDocDigitalizado" class="mx-auto" title="Enviar documento digitalizado em seu computador">
+                                                                    <div class="icon icon-lg shadow mr-3">
+                                                                        <i class="fa fa-upload"></i>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group js">
+                                                                <label asp-for="Input.ImagemSelfie" class="control-label"></label>
+                                                                <img id="imgprevia_logotipo001" src="/images/sem-imagem.png" class="img-fluid mx-auto imgprevia" />
+                                                                <input asp-for="Input.ImagemSelfie" type="file" class="inputfile inputfile-3" data-multiple-caption="{count} selecionado" onchange="carregaPrevia(event, 'imgprevia_logotipo001')" />
+                                                                <label asp-for="Input.ImagemSelfie" class="mx-auto" title="Enviar documento digitalizado em seu computador">
+                                                                    <div class="icon icon-lg shadow mr-3">
+                                                                        <i class="fa fa-upload"></i>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Documentacao_CPF" class="control-label"></label>
+                                                                <input asp-for="Input.Documentacao_CPF" class="form-control" type="text" />
+                                                                <span asp-validation-for="Input.Documentacao_CPF" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Documentacao_CNPJ" class="control-label"></label>
+                                                                <input asp-for="Input.Documentacao_CNPJ" class="form-control" type="text" />
+                                                                <span asp-validation-for="Input.Documentacao_CNPJ" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Documentacao_RG" class="control-label"></label>
+                                                                <input asp-for="Input.Documentacao_RG" class="form-control" type="text" />
+                                                                <span asp-validation-for="Input.Documentacao_RG" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Documentacao_TPPessoa" class="control-label"></label>
+                                                                <select asp-for="Input.Documentacao_TPPessoa" class="col-md-12 col-lg-6 form-control">
+                                                                    <option value="FÍSICA">FÍSICA</option>
+                                                                    <option value="JURÍDICA">JURÍDICA</option>
+                                                                </select>
+                                                                <span asp-validation-for="Input.Documentacao_TPPessoa" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label" asp-for="Input.Financeiro_Investidor_Perfil"></label>
+                                                                <select class="form-control" asp-for="Input.Financeiro_Investidor_Perfil">
+                                                                    <option value="A">investimento acima de R$ 1.000.000,00 no ano calendário</option>
+                                                                    <option value="B">investimento acima de R$ 100.000,00 no ano calendário</option>
+                                                                    <option value="C">investimento até R$ 10.000,00 no ano calendário</option>
+                                                                </select>
+                                                                <span class="text-danger field-validation-valid" asp-for="Input.Financeiro_Investidor_Perfil" data-valmsg-replace="true"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label for="hyperlink_anexo" class="control-label">DOCUMENTAÇÃO</label>
+                                                                <div>
+                                                                    <b>DOCUMENTAÇÃO DISPONÍVEL ABAIXO:</b><br>
+                                                                    <a id="hyperlink_anexo" name="hyperlink_anexo" href="/documentacao/documento?tp=anexo4A" target="_blank" class="">acima de R$ UM MILHÃO DE REAIS</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div role="tabpanel" class="tab-pane fadeInRights fade" id="criarconta_contato">
+                                            <div class="xs-blog-post-comment border xs-content-padding">
+                                                <div class="comment-respond">
+                                                    <h3 id="reply-title" class="comment-reply-title">
+                                                        Suas informações de contato
+                                                    </h3>
+                                                    <div class="separator">
+                                                        <span></span><span></span><span></span>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Contato_CEP" class="control-label"></label>
+                                                                <input asp-for="Input.Contato_CEP" class="form-control" type="text" />
+                                                                <span asp-validation-for="Input.Contato_CEP" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-8">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Contato_Logradouro" class="control-label"></label>
+                                                                <input asp-for="Input.Contato_Logradouro" class="form-control" type="text" />
+                                                                <span asp-validation-for="Input.Contato_Logradouro" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Contato_Bairro" class="control-label"></label>
+                                                                <input asp-for="Input.Contato_Bairro" class="form-control" type="text" />
+                                                                <span asp-validation-for="Input.Contato_Bairro" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-4">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Contato_Cidade" class="control-label"></label>
+                                                                <input asp-for="Input.Contato_Cidade" class="form-control" type="text" readonly />
+                                                                <span asp-validation-for="Input.Contato_Cidade" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Contato_Complemento" class="control-label"></label>
+                                                                <input asp-for="Input.Contato_Complemento" class="form-control" type="text" />
+                                                                <span asp-validation-for="Input.Contato_Complemento" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Contato_Estado" class="control-label"></label>
+                                                                <input asp-for="Input.Contato_Estado" class="form-control" type="text" readonly />
+                                                                <span asp-validation-for="Input.Contato_Estado" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Contato_Escritorio" class="control-label"></label>
+                                                                <input asp-for="Input.Contato_Escritorio" class="form-control" type="text" />
+                                                                <span asp-validation-for="Input.Contato_Escritorio" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label asp-for="Input.Contato_FoneComercial" class="control-label"></label>
+                                                                <input asp-for="Input.Contato_FoneComercial" class="form-control" type="text" />
+                                                                <span asp-validation-for="Input.Contato_FoneComercial" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label asp-for="Input.Contato_Website" class="control-label"></label>
+                                                        <input asp-for="Input.Contato_Website" class="form-control" type="text" />
+                                                        <span asp-validation-for="Input.Contato_Website" class="text-danger"></span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 my-5">
+                                    <div class="custom-control custom-checkbox mb-3">
+                                        <input asp-for="Input.Termos" type="checkbox" class="custom-control-input" />
+                                        <label for="Input_Termos" class="custom-control-label">Li e Aceito os <a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/TERMO_DE_USO_H2I.pdf" target="_blank">Termos de Uso</a></label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Criar conta</button> <a href="/" class="btn btn-danger">Voltar</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    *@
+
+    <!doctype html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <link rel="apple-touch-icon" sizes="76x76" href="/images/icone-house-2-invest.png">
+        <title>House2Invest - Criando uma conta</title>
+        <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="apple-touch-icon" sizes="76x76" href="/images/icone-house-2-invest.png" />
+        <link rel="icon" type="image/png" href="/images/icone-house-2-invest.png" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+        <link href="/temas/identity/assets/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="/temas/identity/assets/css/material-bootstrap-wizard.css" rel="stylesheet" />
+        <link href="/temas/identity/assets/css/demo.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="image-container" style="background-image: url('/images/Joao_fundo_slider_principal.jpg')">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-lg-offset-1 col-md-12">
+                        <div class="wizard-container">
+                            <div class="card wizard-card" data-color="green" id="wizardProfile">
+                                <form id="div-criar-usuario" name="div-criar-usuario" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+
+                                    <a href="/">
+                                        <div class="logo text-center">
+                                            <img src="/images/icone-house-2-invest.png">
+                                        </div>
+                                    </a>
+                                    <div class="wizard-header">
+                                        <h3 class="wizard-title">
+                                            CRIANDO SUA CONTA
+                                        </h3>
+                                    </div>
+
+                                    <div class="wizard-navigation">
+                                        <ul>
+                                            <li>
+                                                <a href="#criarconta_conta" data-toggle="tab">
+                                                    SEGURANÇA
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#criarconta_pessoal" data-toggle="tab">
+                                                    PESSOAL
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#criarconta_documentacao" data-toggle="tab">
+                                                    DOCUMENTAÇÃO
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#criarconta_contato" data-toggle="tab">
+                                                    CONTATO E LOCALIZAÇÃO
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="tab-content">
+
+                                        <div class="tab-pane" id="criarconta_conta">
+                                            <div class="row conteudo-caixas-de-texto">
+                                                <h4 class="info-text"> Vamos começar com seus dados de login (muita atenção aqui)</h4>
+                                                <div class="col-md-12">
+                                                    <div asp-validation-summary="All" class="text-danger text-left my-5"></div>
+                                                </div>
+
+                                                <div class="col-sm-4 col-sm-offset-1">
+                                                    <div class="picture-container">
+                                                        <div class="picture">
+                                                            <img src="/temas/identity/assets/img/default-avatar.png" class="picture-src" id="wizardPicturePreview" title="" />
+                                                            <input type="file" asp-for="Input.ImagemSelfie" required />
+                                                            <span asp-validation-for="Input.ImagemSelfie" class="text-danger"></span>
+                                                        </div>
+                                                        <h6>FOTO</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">mail</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Email"></label>
+                                                            <input asp-for="Input.Email" type="text" class="form-control" required autofocus>
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">lock</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Password"></label>
+                                                            <input asp-for="Input.Password" type="password" class="form-control" required autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">lock</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.ConfirmPassword"></label>
+                                                            <input asp-for="Input.ConfirmPassword" type="password" class="form-control" required autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">phone</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Contato_FoneCelular"></label>
+                                                            <input type="text" class="form-control" asp-for="Input.Contato_FoneCelular" required>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                @*<div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">phone</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Contato_FoneCelular"></label>
+                                                            <input type="text" class="form-control" asp-for="Input.Contato_FoneCelular" required>
+                                                        </div>
+                                                    </div>
+                                                </div>*@
+
+                                                <div class="col-sm-9 col-sm-offset-2" hidden>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">email</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.ContatoAutenticacao_EmailAlternativo"></label>
+                                                            <input type="email" class="form-control" asp-for="Input.ContatoAutenticacao_EmailAlternativo">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                @*<div class="col-sm-9 col-sm-offset-2">
+                                                        <hr />
+                                                    </div>*@
+
+                                                @*<div class="col-sm-9 col-sm-offset-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons">info</i>
+                                                            </span>
+                                                            <div class="custom-control custom-checkbox mb-3">
+                                                                <input asp-for="Input.Termos" type="checkbox" class="custom-control-input" />
+                                                                <label for="Input_Termos" class="custom-control-label">
+                                                                    Li e concordo com os <a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/TERMO_DE_USO_H2I.pdf" target="_blank">Termos de Uso</a> e <a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/TERMO_DE_USO_H2I.pdf" target="_blank">Política de Privacidade</a>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+
+                                                @*<div class="col-sm-9 col-sm-offset-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons">info</i>
+                                                            </span>
+                                                            <div class="custom-control custom-checkbox mb-3">
+                                                                <input asp-for="Input.NaoAparecerListaProjetos" type="checkbox" class="custom-control-input" />
+                                                                <label for="Input_NaoAparecerListaProjetos" class="custom-control-label">Não desejo aparecer na lista de participantes do projeto.</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+
+                                                @*<div class="col-sm-9 col-sm-offset-2">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons">info</i>
+                                                            </span>
+                                                            <div class="custom-control custom-checkbox mb-3">
+                                                                <input asp-for="Input.PessoaPoliticamenteExposta" type="checkbox" class="custom-control-input" />
+                                                                <label for="Input_PessoaPoliticamenteExposta" class="custom-control-label">Sou uma pessoa politicamente exposta.</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="criarconta_pessoal">
+                                            <div class="row conteudo-caixas-de-texto">
+                                                <h4 class="info-text"> Um pouco sobre você</h4>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Nome"></label>
+                                                            <input type="text" class="form-control" asp-for="Input.Nome" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Sobrenome"></label>
+                                                            <input type="text" class="form-control" asp-for="Input.Sobrenome" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Nascimento"></label>
+                                                            <input type="text" class="form-control campo_data" asp-for="Input.Nascimento" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Genero"></label>
+                                                            <select asp-for="Input.Genero" class="form-control">
+                                                                <option value="MASCULINO">MASCULINO</option>
+                                                                <option value="FEMININO">FEMININO</option>
+                                                                <option value="OUTRO">OUTRO</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.EstadoCivil"></label>
+                                                            <select asp-for="Input.EstadoCivil" class="form-control">
+                                                                <option value="SOLTEIRO(A)">SOLTEIRO(A)</option>
+                                                                <option value="CASADO(A)">CASADO(A)</option>
+                                                                <option value="SEPARADO(A)">SEPARADO(A)</option>
+                                                                <option value="DIVORCIADO(A)">DIVORCIADO(A)</option>
+                                                                <option value="VIÚVO(A)">VIÚVO(A)</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="criarconta_documentacao">
+                                            <div class="row conteudo-caixas-de-texto">
+                                                <h4 class="info-text" style="display:none;"> Sua documentação pessoal e envio de documentos digitalizados. Segurança em primeiro lugar.</h4>
+                                                <div class="col-sm-9 col-sm-offset-2" style="display:none;">
+                                                    <div class="picture-container">
+                                                        <div class="picture">
+                                                            <img src="/temas/identity/assets/img/modelo_rg.png" class="picture-src" id="wizardPicturePreviewDOC" title="" />
+                                                            <input type="file" asp-for="Input.ImagemDocDigitalizado" />
+                                                            <span asp-validation-for="Input.ImagemDocDigitalizado" class="text-danger"></span>
+                                                        </div>
+                                                        <h6>Identidade</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2" style="display:none;">
+                                                    <div class="picture-container">
+                                                        <div class="picture">
+                                                            <img src="/temas/identity/assets/img/modelo_rg.png" class="picture-src" id="wizardPicturePreviewCOMPROVRESID" title="" />
+                                                            <input type="file" asp-for="Input.ImagemComprovanteResidencia" />
+                                                            <span asp-validation-for="Input.ImagemComprovanteResidencia" class="text-danger"></span>
+                                                        </div>
+                                                        <h6>Comprovante residência</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Documentacao_CPF"></label>
+                                                            <input asp-for="Input.Documentacao_CPF" type="text" class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group" style="display:none;">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Documentacao_CNPJ"></label>
+                                                            <input asp-for="Input.Documentacao_CNPJ" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Documentacao_RG"></label>
+                                                            <input asp-for="Input.Documentacao_RG" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group" style="display:none;">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Documentacao_TPPessoa"></label>
+                                                            <select asp-for="Input.Documentacao_TPPessoa" class="form-control">
+                                                                <option value="PF">FÍSICA</option>
+                                                                <option value="PJ">JURÍDICA</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group" style="display:none;">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Financeiro_Investidor_Perfil"></label>
+                                                            <select class="form-control" asp-for="Input.Financeiro_Investidor_Perfil">
+                                                                <option value="X">Investidor Líder - Art:35 §2º</option>
+                                                                <option value="A">investimento acima de R$ 1.000.000,00 no ano calendário</option>
+                                                                <option value="B">investimento acima de R$ 100.000,00 no ano calendário</option>
+                                                                <option value="C" selected>investimento até R$ 10.000,00 no ano calendário</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group" style="display:none;">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Financeiro_Banco_Nome"></label>
+                                                            <input asp-for="Input.Financeiro_Banco_Nome" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group" style="display:none;">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Financeiro_Banco_CC"></label>
+                                                            <input asp-for="Input.Financeiro_Banco_CC" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group" style="display:none;">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Financeiro_Banco_Ag"></label>
+                                                            <input asp-for="Input.Financeiro_Banco_Ag" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="criarconta_contato">
+                                            <div class="row conteudo-caixas-de-texto">
+                                                <h4 class="info-text"> Onde você mora? </h4>
+
+
+
+
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Contato_CEP"></label>
+                                                            <input asp-for="Input.Contato_CEP" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Contato_Logradouro"></label>
+                                                            <input asp-for="Input.Contato_Logradouro" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Contato_LogradouroNum"></label>
+                                                            <input asp-for="Input.Contato_LogradouroNum" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Contato_Bairro"></label>
+                                                            <input asp-for="Input.Contato_Bairro" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Contato_Cidade"></label>
+                                                            <input asp-for="Input.Contato_Cidade" type="text" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Contato_Complemento"></label>
+                                                            <input asp-for="Input.Contato_Complemento" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Contato_Estado"></label>
+                                                            <input asp-for="Input.Contato_Estado" type="text" class="form-control" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Contato_Escritorio"></label>
+                                                            <input asp-for="Input.Contato_Escritorio" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Contato_FoneComercial"></label>
+                                                            <input asp-for="Input.Contato_FoneComercial" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 col-sm-offset-2">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons">info</i>
+                                                        </span>
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label" asp-for="Input.Contato_Website"></label>
+                                                            <input asp-for="Input.Contato_Website" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="wizard-footer">
+                                        <div class="pull-right">
+                                            <input type='button' class='btn btn-next btn-fill btn-default btn-wd' name='next' value='Avançar' />
+                                            <input type='submit' class='btn btn-finish btn-fill btn-success btn-wd' name='finish' value='Finalizar'/>
+                                        </div>
+                                        <div class="pull-left">
+                                            <input type='button' class='btn btn-previous btn-fill btn-default btn-wd' name='previous' value='Voltar' />
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-sm-12">
+                                            <div class="input-group" style="display:block;margin:auto;">
+                                                <div class="custom-control custom-checkbox text-center">
+                                                    <input asp-for="Input.Termos" type="checkbox" class="custom-control-input" />
+                                                    <label for="Input_Termos" class="custom-control-label" style="font-size:18px !important;">
+                                                        Li e concordo com os <a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/TERMO_DE_USO_H2I.pdf" target="_blank">Termos de Uso</a> e <a href="https://depoisdalinha.blob.core.windows.net/house2invest/docs/TERMO_DE_USO_H2I.pdf" target="_blank">Política de Privacidade</a>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-center" style="padding-top:12px;font-size:12px;">
+                                            <p>Idealizado pela House2Invest - Front: <b>Franklin Gomes</b> - Back/Sistema: <a href="http://www.depoisdalinha.com.br" target="_blank">Depois da Linha</a> - ver: 1.0.0</p>
+                                        </div>
+                                    </div>
+
+
+                                    @*<div class="col-md-12">
+                                            <div asp-validation-summary="All" class="text-danger text-left my-5"></div>
+                                        </div>*@
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="/temas/identity/assets/js/jquery-2.2.4.min.js" type="text/javascript"></script>
+    <script src="/temas/identity/assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/temas/identity/assets/js/jquery.bootstrap.js" type="text/javascript"></script>
+    <script src="/lib/jQuery-Mask-Plugin-master/dist/jquery.mask.min.js"></script>
+    <script src="/js/mascaras_e_afins.js"></script>
+    <script src="/temas/identity/assets/js/material-bootstrap-wizard.js"></script>
+    <script src="/temas/identity/assets/js/jquery.validate.min.js"></script>
+</html>
+}
+@section Scripts { }

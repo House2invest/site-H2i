@@ -1,0 +1,78 @@
+﻿<!doctype html>
+<html class="no-js" lang="pt">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Controle Bricksave</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/temas/dpslintm1/assets/css/bricksave/A.core.css">
+    <link rel="stylesheet" href="/temas/dpslintm1/assets/css/bricksave/A.main.css">
+</head>
+<body class=" " data-country="BR">
+    <div class="body-container ">
+        <section id="calculator">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="text-purple">Retornos sobre os quais vale a pena falar</h2>
+                    <p>No médio e longo prazo, os retornos estimados na Bricksave são significativamente maiores do esperado em Bônus e Ações, além de serem mais estáveis:</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 class="text-success text-center hidden-xs"><strong>Exemplo de investimento</strong></h4>
+                        <p class="hidden-xs"><strong>Seu montante de investimento</strong></p>
+                        <form>
+                            <input type="number" id="investment-amount" name="" class="visible-xs">
+                        </form>
+                        <h4 class="text-success text-center visible-xs"><strong>Exemplo de investimento</strong></h4>
+                        <div class="visible-xs">
+                            <hr />
+                        </div>
+                        <div style="margin-top: 90px;" class="hidden-xs">
+                            <input type="number" class="investment-slider hide" data-slider-prefix="" data-value-input="#investment-amount" data-investment-rent="3500" data-investment-total="1268629" data-investment-target="1000000" data-slider-value="15000" data-slider-min="2500" min="2500" max="1000000" data-slider-max="1000000" data-slider-ticks="[1000,2500,10000,100000,500000,1000000]" data-slider-step="1" data-slider-step="100" data-slider-scale="logarithmic" />
+                        </div>
+                        <div class="row hidden-xs">
+                            <div class="col-md-6 text-center">
+                                <p style="margin-bottom: 0;"><strong>Seu retorno total estimado*</strong></p>
+                                <p><strong class="text-purple text-lg"> <span id="returntotal">0</span></strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-md-offset-1">
+                        <h4 class="text-center strike hidden-xs"><span><strong class="text-black">Detalhamento do retorno</strong></span></h4>
+                        <div class="breakdown">
+                            <div class="row">
+                                <div class="col-sm-8"><p>Renda estimada por ano</p></div>
+                                <div class="col-sm-4"><strong class="pull-right text-purple oneline"> <span id="returnrent">0</span></strong></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8"><p>Renda estimada a 4 anos</p></div>
+                                <div class="col-sm-4"><strong class="pull-right text-purple oneline"> <span id="returnrent4">0</span></strong></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8"><p>Retorno estimado da venda da propriedade</p></div>
+                                <div class="col-sm-4"><strong class="pull-right text-purple oneline"> <span id="returnsale">0</span></strong></div>
+                            </div>
+                        </div>
+                        <div class="visible-xs">
+                            <hr />
+                        </div>
+                        <div class="row visible-xs total">
+                            <div class="col-md-6 text-center">
+                                <p style="margin-bottom: 0;"><strong>Seu retorno total estimado*</strong></p>
+                                <p><strong class="text-purple text-lg"> <span id="returntotal2">0</span></strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <p class="legal" style="margin: 20px 0 0 0;">
+                        *Este valor é aproximado e não deve ser considerado um valor garantido. O montante de seus investimentos pode aumentar ou também diminuir. O prazo máximo de compromisso de seu investimento é de 4 anos.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="/temas/dpslintm1/assets/js/bricksave/core.min.js"></script>
+    <script src="/temas/dpslintm1/assets/js/bricksave/depoisdalinha.js"></script>
+</body>
+</html>

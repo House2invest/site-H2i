@@ -1,0 +1,354 @@
+﻿@page
+@model House2Invest.Pages.CMSConstrutoras.CreateModel
+@{
+    ViewData["Title"] = "Criar";
+    Layout = "~/Pages/Shared/_LayoutCMS.cshtml";
+}
+<div class="container-fluid px-xl-5">
+    <section class="py-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="text-uppercase mb-0">
+                            <i class="o-clock-1 mr-3 text-gray"></i> Criando um registro
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="pb-5">
+                            <form id="formPrincipal" name="formPrincipal" method="post" enctype="multipart/form-data">
+                                <div class="form-group row mb-4">
+                                    <div class="col-md-12 ml-auto pull-right">
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                        <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+                                    </div>
+                                </div>
+                                <ul class="nav nav-tabs" id="myTab" name="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="tab1-tab" href="#tab1" data-toggle="tab" role="tab" aria-controls="tab1" aria-selected="true">
+                                            <i class="fa fa-archive"></i> Principal
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab2-tab" href="#tab2" data-toggle="tab" role="tab" aria-controls="tab2" aria-selected="true">
+                                            <i class="fa fa-file-pdf"></i> <label asp-for="Construtora.SetorAtuacaoHist" class="control-label"></label>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab3-tab" href="#tab3" data-toggle="tab" role="tab" aria-controls="tab3" aria-selected="true">
+                                            <i class="fa fa-file-pdf"></i> <label asp-for="Construtora.SociedadeAdms" class="control-label"></label>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab4-tab" href="#tab4" data-toggle="tab" role="tab" aria-controls="tab4" aria-selected="true">
+                                            <i class="fa fa-file-pdf"></i> <label asp-for="Construtora.InfoPlanoNegocios" class="control-label"></label>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab5-tab" href="#tab5" data-toggle="tab" role="tab" aria-controls="tab5" aria-selected="true">
+                                            <i class="fa fa-file-pdf"></i> <label asp-for="Construtora.InfoValorMobOfertado" class="control-label"></label>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab6-tab" href="#tab6" data-toggle="tab" role="tab" aria-controls="tab6" aria-selected="true">
+                                            <i class="fa fa-file-pdf"></i> <label asp-for="Construtora.ComunPrestInfoContAposOferta" class="control-label"></label>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab7-tab" href="#tab7" data-toggle="tab" role="tab" aria-controls="tab7" aria-selected="true">
+                                            <i class="fa fa-file-pdf"></i> <label asp-for="Construtora.AlertaSobreRiscos" class="control-label"></label>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab8-tab" href="#tab8" data-toggle="tab" role="tab" aria-controls="tab8" aria-selected="true">
+                                            <i class="fa fa-file-pdf"></i> <label asp-for="Construtora.InfoRemunPlataforma" class="control-label"></label>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab9-tab" href="#tab9" data-toggle="tab" role="tab" aria-controls="tab9" aria-selected="true">
+                                            <i class="fa fa-file-pdf"></i> <label asp-for="Construtora.CaracOfertaTribuAplicavel" class="control-label"></label>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab10-tab" href="#tab10" data-toggle="tab" role="tab" aria-controls="tab10" aria-selected="true">
+                                            <label asp-for="Construtora.IncorpConstrut" class="control-label"></label>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab11-tab" href="#tab11" data-toggle="tab" role="tab" aria-controls="tab11" aria-selected="true">
+                                            <i class="fa fa-file-pdf"></i> <label asp-for="Construtora.EstudoViabEcoFinanc" class="control-label"></label>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab12-tab" href="#tab12" data-toggle="tab" role="tab" aria-controls="tab12" aria-selected="true">
+                                            <i class="fa fa-file-pdf"></i> <label asp-for="Construtora.OutrasInfos" class="control-label"></label>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                                        <div class="row py-3">
+                                            <div class="col-lg-3 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <img id="imgprevia_logotipo" src="@Html.Raw(Model.Construtora.Logotipo)" class="img-fluid mx-auto imgprevia" />
+                                                </div>
+                                                <div class="form-group js">
+                                                    <input asp-for="Construtora.Imagem" type="file" class="inputfile inputfile-3" data-multiple-caption="{count} selecionado" onchange="carregaPrevia(event, 'imgprevia_logotipo')" />
+                                                    <label asp-for="Construtora.Imagem" class="mx-auto" title="Alterar o logotipo do Evento"><div class="icon icon-lg shadow mr-3 mx-auto"><i class="fa fa-upload"></i></div></label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-9 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.RazaoSocial" class="control-label"></label>
+                                                    <input asp-for="Construtora.RazaoSocial" class="form-control" autofocus />
+                                                    <span asp-validation-for="Construtora.RazaoSocial" class="text-danger"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.NomeFantasia" class="control-label"></label>
+                                                    <input asp-for="Construtora.NomeFantasia" class="form-control" />
+                                                    <span asp-validation-for="Construtora.NomeFantasia" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.Logradouro" class="control-label"></label>
+                                                    <input asp-for="Construtora.Logradouro" class="form-control" />
+                                                    <span asp-validation-for="Construtora.Logradouro" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.LogradouroNum" class="control-label"></label>
+                                                    <input asp-for="Construtora.LogradouroNum" class="form-control" />
+                                                    <span asp-validation-for="Construtora.LogradouroNum" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.Complemento" class="control-label"></label>
+                                                    <input asp-for="Construtora.Complemento" class="form-control" />
+                                                    <span asp-validation-for="Construtora.Complemento" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.Bairro" class="control-label"></label>
+                                                    <input asp-for="Construtora.Bairro" class="form-control" />
+                                                    <span asp-validation-for="Construtora.Bairro" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.Cidade" class="control-label"></label>
+                                                    <input asp-for="Construtora.Cidade" class="form-control" />
+                                                    <span asp-validation-for="Construtora.Cidade" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.Estado" class="control-label"></label>
+                                                    <input asp-for="Construtora.Estado" class="form-control" />
+                                                    <span asp-validation-for="Construtora.Estado" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.Pais" class="control-label"></label>
+                                                    <input asp-for="Construtora.Pais" class="form-control" />
+                                                    <span asp-validation-for="Construtora.Pais" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-2 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.CEP" class="control-label"></label>
+                                                    <input asp-for="Construtora.CEP" class="form-control" />
+                                                    <span asp-validation-for="Construtora.CEP" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.Fone" class="control-label"></label>
+                                                    <input asp-for="Construtora.Fone" class="form-control" />
+                                                    <span asp-validation-for="Construtora.Fone" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.Website" class="control-label"></label>
+                                                    <input asp-for="Construtora.Website" class="form-control" />
+                                                    <span asp-validation-for="Construtora.Website" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.Email" class="control-label"></label>
+                                                    <input asp-for="Construtora.Email" class="form-control" />
+                                                    <span asp-validation-for="Construtora.Email" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.CNPJ" class="control-label"></label>
+                                                    <input asp-for="Construtora.CNPJ" class="form-control" />
+                                                    <span asp-validation-for="Construtora.CNPJ" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                                        <div class="row py-3">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.SetorAtuacaoHist" class="control-label"></label>
+                                                    <textarea asp-for="Construtora.SetorAtuacaoHist" class="form-control summernote" rows="10"></textarea>
+                                                    <span asp-validation-for="Construtora.SetorAtuacaoHist" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                                        <div class="row py-3">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.SociedadeAdms" class="control-label"></label>
+                                                    <textarea asp-for="Construtora.SociedadeAdms" class="form-control summernote" rows="10"></textarea>
+                                                    <span asp-validation-for="Construtora.SociedadeAdms" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+                                        <div class="row py-3">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.InfoPlanoNegocios" class="control-label"></label>
+                                                    <textarea asp-for="Construtora.InfoPlanoNegocios" class="form-control summernote" rows="10"></textarea>
+                                                    <span asp-validation-for="Construtora.InfoPlanoNegocios" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab5" role="tabpanel" aria-labelledby="tab5-tab">
+                                        <div class="row py-3">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.InfoValorMobOfertado" class="control-label"></label>
+                                                    <textarea asp-for="Construtora.InfoValorMobOfertado" class="form-control summernote" rows="10"></textarea>
+                                                    <span asp-validation-for="Construtora.InfoValorMobOfertado" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab6" role="tabpanel" aria-labelledby="tab6-tab">
+                                        <div class="row py-3">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.ComunPrestInfoContAposOferta" class="control-label"></label>
+                                                    <textarea asp-for="Construtora.ComunPrestInfoContAposOferta" class="form-control summernote" rows="10"></textarea>
+                                                    <span asp-validation-for="Construtora.ComunPrestInfoContAposOferta" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab7" role="tabpanel" aria-labelledby="tab7-tab">
+                                        <div class="row py-3">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.AlertaSobreRiscos" class="control-label"></label>
+                                                    <textarea asp-for="Construtora.AlertaSobreRiscos" class="form-control summernote" rows="10"></textarea>
+                                                    <span asp-validation-for="Construtora.AlertaSobreRiscos" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab8" role="tabpanel" aria-labelledby="tab8-tab">
+                                        <div class="row py-3">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.InfoRemunPlataforma" class="control-label"></label>
+                                                    <textarea asp-for="Construtora.InfoRemunPlataforma" class="form-control summernote" rows="10"></textarea>
+                                                    <span asp-validation-for="Construtora.InfoRemunPlataforma" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab9" role="tabpanel" aria-labelledby="tab9-tab">
+                                        <div class="row py-3">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.CaracOfertaTribuAplicavel" class="control-label"></label>
+                                                    <textarea asp-for="Construtora.CaracOfertaTribuAplicavel" class="form-control summernote" rows="10"></textarea>
+                                                    <span asp-validation-for="Construtora.CaracOfertaTribuAplicavel" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab10" role="tabpanel" aria-labelledby="tab10-tab">
+                                        <div class="row py-3">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.IncorpConstrut" class="control-label"></label>
+                                                    <textarea asp-for="Construtora.IncorpConstrut" class="form-control summernote" rows="10"></textarea>
+                                                    <span asp-validation-for="Construtora.IncorpConstrut" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab11" role="tabpanel" aria-labelledby="tab11-tab">
+                                        <div class="row py-3">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.EstudoViabEcoFinanc" class="control-label"></label>
+                                                    <textarea asp-for="Construtora.EstudoViabEcoFinanc" class="form-control summernote" rows="10"></textarea>
+                                                    <span asp-validation-for="Construtora.EstudoViabEcoFinanc" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="tab12" role="tabpanel" aria-labelledby="tab12-tab">
+                                        <div class="row py-3">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label asp-for="Construtora.OutrasInfos" class="control-label"></label>
+                                                    <textarea asp-for="Construtora.OutrasInfos" class="form-control summernote" rows="10"></textarea>
+                                                    <span asp-validation-for="Construtora.OutrasInfos" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 line"></div>
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group row">
+                                    <div class="col-md-12 ml-auto text-center">
+                                        <button id="btnsubmitformprincipal" name="btnsubmitformprincipal" type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Salvar</button>
+                                        <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        var carregaPrevia = function (evento, elemento) {
+            var saida = document.getElementById(elemento);
+            saida.src = URL.createObjectURL(evento.target.files[0]);
+        };
+    </script>
+    <script>
+        $("#mnusidebar_cms_construtoras").removeClass("collapsed");
+        $("#mnusidebar_cms_construtoras").attr("aria-expanded", "true");
+        $("#target_dados").addClass("show");
+        $("#mnusidebar_cms_construtoras").addClass("active");
+    </script>
+}

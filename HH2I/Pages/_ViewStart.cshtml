@@ -1,0 +1,17 @@
+﻿@using Microsoft.EntityFrameworkCore
+@inject House2Invest.Data.ApplicationDbContext _context
+@{
+    var _perfilpadrao =
+        _context
+        .AppPerfil
+        .Include(v => v.AppConfiguracoes)
+        .Include(x => x.AppConfiguracoes.AppConfiguracoes_Aplicativo)
+        .Include(y => y.AppConfiguracoes.AppConfiguracoes_Azure)
+        .FirstOrDefault();
+
+    try
+    {
+        Layout = _perfilpadrao.AppConfiguracoes.Tema.ToLower().Trim() != "_layout" ? "~/Pages/Shared/Temas/" + _perfilpadrao.AppConfiguracoes.Tema + ".cshtml" : "_Layout";
+    }
+    catch (Exception) { Layout = "_Layout"; }
+}

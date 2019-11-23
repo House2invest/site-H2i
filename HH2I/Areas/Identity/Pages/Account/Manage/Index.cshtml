@@ -1,0 +1,320 @@
+﻿@page
+@model IndexModel
+@using Microsoft.EntityFrameworkCore
+@inject House2Invest.Data.ApplicationDbContext _contexto
+@{
+    ViewData["Title"] = "PERFIL";
+    Layout = "~/Areas/Identity/Pages/Account/Manage/_LayoutPerfil.cshtml";
+}
+@await Html.PartialAsync("_StatusMessage", Model.StatusMessage)
+<div class="container-fluid">
+    <section class="py-3">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h4>@ViewData["Title"]</h4>
+                <form id="profile-form" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-12">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                        </div>
+                    </div>
+                    <input asp-for="Input.Id" type="hidden" />
+                    <input asp-for="Input.UserName" type="hidden" />
+                    <input asp-for="Input.PhoneNumber" type="hidden" />
+                    <input asp-for="Input.ContatoAutenticacao_Fone" type="hidden" />
+                    <input asp-for="Input.ContatoAutenticacao_FoneAlternativo" type="hidden" />
+                    <input asp-for="Input.Contato_FoneComercial" type="hidden" />
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <b class="text-primary">DADOS PESSOAIS</b>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="Input.Email"></label>
+                                <div class="input-group">
+                                    <input asp-for="Input.Email" class="form-control" disabled readonly />
+                                </div>
+                                @*
+                                    @if (Model.Input.EmailConfirmed)
+                                    {
+                                        <div class="input-group">
+                                            <input asp-for="Input.Email" class="form-control" disabled readonly />
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="Input.Email" class="form-control" disabled readonly />
+                                        <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Enviar email de confirmação</button>
+                                    }
+                                *@
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Input.Nome"></label>
+                                <input asp-for="Input.Nome" class="form-control" type="text" autofocus />
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Input.Sobrenome"></label>
+                                <input asp-for="Input.Sobrenome" class="form-control" type="text" />
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label asp-for="Input.Contato_FoneCelular"></label>
+                                <input asp-for="Input.Contato_FoneCelular" class="form-control" type="tel" />
+                                <span asp-validation-for="Input.Contato_FoneCelular" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label asp-for="Input.Nascimento"></label>
+                                <input asp-for="Input.Nascimento" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Nascimento" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Input.Trabalho_Profissao"></label>
+                                <input asp-for="Input.Trabalho_Profissao" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Trabalho_Profissao" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label asp-for="Input.Documentacao_CPF"></label>
+                                <input asp-for="Input.Documentacao_CPF" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Documentacao_CPF" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label asp-for="Input.Documentacao_RG"></label>
+                                <input asp-for="Input.Documentacao_RG" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Documentacao_RG" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Input.Trabalho_Empresa"></label>
+                                <input asp-for="Input.Trabalho_Empresa" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Trabalho_Empresa" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label asp-for="Input.Trabalho_Cargo"></label>
+                                <input asp-for="Input.Trabalho_Cargo" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Trabalho_Cargo" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3 mt-5">
+                            <b class="text-primary">ENDEREÇO</b>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Input.Contato_Logradouro"></label>
+                                <input asp-for="Input.Contato_Logradouro" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Contato_Logradouro" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label asp-for="Input.Contato_LogradouroNum"></label>
+                                <input asp-for="Input.Contato_LogradouroNum" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Contato_LogradouroNum" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label asp-for="Input.Contato_Complemento"></label>
+                                <input asp-for="Input.Contato_Complemento" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Contato_Complemento" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label asp-for="Input.Contato_Bairro"></label>
+                                <input asp-for="Input.Contato_Bairro" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Contato_Bairro" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label asp-for="Input.Contato_Cidade"></label>
+                                <input asp-for="Input.Contato_Cidade" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Contato_Cidade" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label asp-for="Input.Contato_Estado"></label>
+                                <input asp-for="Input.Contato_Estado" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Contato_Estado" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label asp-for="Input.Contato_CEP"></label>
+                                <input asp-for="Input.Contato_CEP" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Contato_CEP" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3 mt-5">
+                            <b class="text-primary">PREFERÊNCIAS</b>
+                        </div>
+                        <div class="col-12">
+                            <div class="input-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input asp-for="Input.PessoaPoliticamenteExposta" type="checkbox" class="custom-control-input" />
+                                    <label for="Input_PessoaPoliticamenteExposta" class="custom-control-label">
+                                        Sou uma pessoa politicamente exposta
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="input-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input asp-for="Input.NaoAparecerListaProjetos" type="checkbox" class="custom-control-input" />
+                                    <label for="Input_NaoAparecerListaProjetos" class="custom-control-label">
+                                        Não desejo aparecer na lista de participantes do projeto
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3 mt-5">
+                            <b class="text-primary">DADOS BANCÁRIOS</b>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="Input.Financeiro_Banco_Nome"></label>
+                                <input asp-for="Input.Financeiro_Banco_Nome" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Financeiro_Banco_Nome" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label asp-for="Input.Financeiro_Banco_Ag"></label>
+                                <input asp-for="Input.Financeiro_Banco_Ag" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Financeiro_Banco_Ag" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label asp-for="Input.Financeiro_Banco_CC"></label>
+                                <input asp-for="Input.Financeiro_Banco_CC" class="form-control" type="text" />
+                                <span asp-validation-for="Input.Financeiro_Banco_CC" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3 mt-5">
+                            <b class="text-primary">DIGITALIZAÇÕES</b>
+                        </div>
+                        <div class="col-6 text-center">
+                            <div class="form-group">
+                                <input type="hidden" asp-for="Input.Sistema_URLSelfieDocFRENTE" />
+                                <img id="imgprevia_logotipo" src="@Html.Raw(Model.Input.Sistema_URLSelfieDocFRENTE)" class="img-fluid mx-auto" style="max-width:100%;height:120px;" />
+                            </div>
+                            <div class="form-group js">
+                                <input asp-for="Input.ImagemSelfieFRENTE" type="file" class="inputfile inputfile-3" data-multiple-caption="{count} selecionado" onchange="carregaPrevia(event, 'imgprevia_logotipo')" />
+                                <label asp-for="Input.ImagemSelfieFRENTE" class="mx-auto" title="Alterar a imagem"><div class="icon icon-lg shadow mr-3 mx-auto"><i class="fa fa-upload"></i></div></label>
+                            </div>
+                        </div>
+                        <div class="col-6 text-center">
+                            <div class="form-group">
+                                <input type="hidden" asp-for="Input.Sistema_URLSelfieDocVERSO" />
+                                <img id="imgprevia_logotipo1" src="@Html.Raw(Model.Input.Sistema_URLSelfieDocVERSO)" class="img-fluid mx-auto" style="max-width:100%;height:120px;" />
+                            </div>
+                            <div class="form-group js">
+                                <input asp-for="Input.ImagemSelfieVERSO" type="file" class="inputfile inputfile-3" data-multiple-caption="{count} selecionado" onchange="carregaPrevia(event, 'imgprevia_logotipo1')" />
+                                <label asp-for="Input.ImagemSelfieVERSO" class="mx-auto" title="Alterar a imagem"><div class="icon icon-lg shadow mr-3 mx-auto"><i class="fa fa-upload"></i></div></label>
+                            </div>
+                        </div>
+                        @*
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <img id="imgprevia_logotipo" src="@Html.Raw(Model.Input.Sistema_URLSelfieDocFRENTE)" class="img-fluid mx-auto imgprevia" />
+                                </div>
+                                <div class="form-group js">
+                                    <input asp-for="Input.ImagemSelfieFRENTE" type="file" class="inputfile " data-multiple-caption="{count} selecionado" onchange="carregaPrevia(event, 'imgprevia_logotipo')" />
+                                    <label asp-for="Input.ImagemSelfieFRENTE" class="mx-auto" title="Alterar a imagem"><div class="icon icon-lg shadow mr-3 mx-auto"><i class="fa fa-upload"></i></div></label>
+                                </div>
+                                <div class="col-12 text-center">
+                                    Sua selfie com RG - [FRENTE]
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <img id="imgprevia_logotipo1" src="@Html.Raw(Model.Input.Sistema_URLSelfieDocVERSO)" class="img-fluid mx-auto imgprevia" />
+                                </div>
+                                <div class="form-group js">
+                                    <input asp-for="Input.ImagemSelfieVERSO" type="file" class="inputfile " data-multiple-caption="{count} selecionado" onchange="carregaPrevia(event, 'imgprevia_logotipo1')" />
+                                    <label asp-for="Input.ImagemSelfieVERSO" class="mx-auto" title="Alterar a imagem"><div class="icon icon-lg shadow mr-3 mx-auto"><i class="fa fa-upload"></i></div></label>
+                                </div>
+                                <div class="col-12 text-center">
+                                    Sua selfie com RG - [VERSO]
+                                </div>
+                            </div>
+                        *@
+                    </div>
+                    @*
+                        <hr />
+                        <div class="row">
+                            <div class="col-12">
+                                <b class="text-danger">INVESTIMENTOS</b>
+                                <hr />
+                            </div>
+                        </div>
+                        @{
+                            var _usu = _contexto.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+                        }
+                        @foreach (var item in _contexto.INVEST_Lancamentos.Include(x => x.BlocoProjInvestimentos).Include(x => x.UsuarioApp).Where(x => x.UsuarioAppId == _usu.Id))
+                        {
+                            <div class="row">
+                                <div class="col-12">
+                                    <img src="@item.BlocoProjInvestimentos.UrlImgPrinc" style="width:150px;height:150px;" />
+                                </div>
+                                <div class="col-12" style="margin-top:15px;">
+                                    @Html.Raw(item.BlocoProjInvestimentos.Titulo)
+                                </div>
+                                <div class="col-12">
+                                    @Html.Raw(item.Valor.ToString("C2"))
+                                </div>
+                                <div class="col-12">
+                                    <a href="/investimento?id=@item.BlocoProjInvestimentosId" target="_blank">
+                                        ACESSAR O INVESTIMENTO
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        <hr style="margin:40px auto;" />
+                        <div class="row">
+                            <div class="col-12">
+                                <b class="text-success" style="padding:15px;display:block;font-size:20px;">VALOR TOTAL INVESTIDO: @_contexto.INVEST_Lancamentos.Where(X => X.UsuarioAppId == _usu.Id).Sum(x => x.Valor).ToString("C2")</b>
+                                <b class="text-danger" style="padding:15px;margin-bottom:15px;display:block;font-size:20px;">VALOR TOTAL RESERVADO: @_contexto.INVEST_Lancamentos.Where(X => X.UsuarioAppId == _usu.Id && X.Status == "P").Sum(x => x.Valor).ToString("C2")</b>
+                            </div>
+                        </div>
+                    *@
+                    <hr />
+                    <button type="submit" class="btn btn-success">SALVAR</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        var carregaPrevia = function (evento, elemento) {
+            var saida = document.getElementById(elemento);
+            saida.src = URL.createObjectURL(evento.target.files[0]);
+        };
+        $("#BlocoProjInvestimento_Contato_CEP").mask('00000-000');
+
+        $("#home-tab").addClass('active');
+    </script>
+}

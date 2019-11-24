@@ -18,6 +18,9 @@
             this.PagTOT = (int)Math.Ceiling((double)(((double)contagem) / ((double)pagTam)));
             base.AddRange((IEnumerable<T>)itens);
         }
+
+        public int PagIND { get; }
+        public int PagTOT { get; }
     }
 }
 

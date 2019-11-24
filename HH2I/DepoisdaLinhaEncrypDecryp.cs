@@ -25,7 +25,7 @@
             string str = "";
             byte[] buffer = Convert.FromBase64String(texto);
             SymmetricAlgorithm algorithm = Aes.Create();
-            algorithm.Key = MD5.Create().ComputeHash(Encoding.get_Unicode().GetBytes(Startup._CHAVECRYP));
+            algorithm.Key = MD5.Create().ComputeHash(Encoding.Unicode.GetBytes(Startup._CHAVECRYP));
             algorithm.IV = IV;
             using (MemoryStream stream = new MemoryStream(buffer))
             {
@@ -33,7 +33,7 @@
                 {
                     byte[] buffer2 = new byte[buffer.Length];
                     stream2.Read(buffer2, 0, buffer2.Length);
-                    str = Encoding.get_Unicode().GetString(buffer2);
+                    str = Encoding.Unicode.GetString(buffer2);
                 }
             }
             return str;
@@ -50,7 +50,7 @@
                 managed.KeySize = 0x80;
                 managed.BlockSize = 0x80;
                 byte[] inputBuffer = Convert.FromBase64String(EncryptedText);
-                byte[] bytes = Encoding.get_UTF8().GetBytes(Encryptionkey);
+                byte[] bytes = Encoding.UTF8.GetBytes(Encryptionkey);
                 byte[] buffer3 = new byte[0x10];
                 int length = bytes.Length;
                 if (length > buffer3.Length)
@@ -61,7 +61,7 @@
                 managed.Key = buffer3;
                 managed.IV = buffer3;
                 byte[] buffer4 = managed.CreateDecryptor().TransformFinalBlock(inputBuffer, 0, inputBuffer.Length);
-                return Encoding.get_UTF8().GetString(buffer4);
+                return Encoding.UTF8.GetString(buffer4);
             }
             catch (Exception)
             {
@@ -132,10 +132,10 @@
 
         public static string Encrypt(string texto)
         {
-            byte[] bytes = Encoding.get_Unicode().GetBytes(texto);
+            byte[] bytes = Encoding.Unicode.GetBytes(texto);
             SymmetricAlgorithm algorithm = Aes.Create();
             algorithm.BlockSize = BlockSize;
-            algorithm.Key = MD5.Create().ComputeHash(Encoding.get_Unicode().GetBytes(Startup._CHAVECRYP));
+            algorithm.Key = MD5.Create().ComputeHash(Encoding.Unicode.GetBytes(Startup._CHAVECRYP));
             algorithm.IV = IV;
             using (MemoryStream stream = new MemoryStream())
             {
@@ -157,7 +157,7 @@
                 managed.Padding = PaddingMode.PKCS7;
                 managed.KeySize = 0x80;
                 managed.BlockSize = 0x80;
-                byte[] bytes = Encoding.get_UTF8().GetBytes(Encryptionkey);
+                byte[] bytes = Encoding.UTF8.GetBytes(Encryptionkey);
                 byte[] buffer2 = new byte[0x10];
                 int length = bytes.Length;
                 if (length > buffer2.Length)
@@ -167,7 +167,7 @@
                 Array.Copy(bytes, buffer2, length);
                 managed.Key = buffer2;
                 managed.IV = buffer2;
-                byte[] inputBuffer = Encoding.get_UTF8().GetBytes(textData);
+                byte[] inputBuffer = Encoding.UTF8.GetBytes(textData);
                 return Convert.ToBase64String(managed.CreateEncryptor().TransformFinalBlock(inputBuffer, 0, inputBuffer.Length));
             }
             catch (Exception)
@@ -242,7 +242,7 @@
             {
                 throw new ArgumentNullException("salt");
             }
-            byte[] buffer = Encoding.get_ASCII().GetBytes(salt);
+            byte[] buffer = Encoding.ASCII.GetBytes(salt);
             Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes("CB57FF93-3007-4E98-A304-CF7B6A60495C", buffer);
             RijndaelManaged managed = new RijndaelManaged();
             managed.Key = bytes.GetBytes(managed.KeySize / 8);

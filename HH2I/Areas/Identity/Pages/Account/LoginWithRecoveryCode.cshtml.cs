@@ -13,12 +13,12 @@ using House2Invest.Models;
 namespace House2Invest.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class LoginWithRecoveryCodeModel : PageModel
+    public class LoginWithRecoveryCodeModelPage : PageModel
     {
         private readonly SignInManager<UsuarioApp> _signInManager;
         private readonly ILogger<LoginWithRecoveryCodeModel> _logger;
 
-        public LoginWithRecoveryCodeModel(SignInManager<UsuarioApp> signInManager, ILogger<LoginWithRecoveryCodeModel> logger)
+        public LoginWithRecoveryCodeModelPage(SignInManager<UsuarioApp> signInManager, ILogger<LoginWithRecoveryCodeModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;

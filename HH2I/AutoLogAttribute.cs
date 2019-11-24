@@ -48,14 +48,20 @@
             {
             }
 
-        public class ResultFilter : IResultFilter, IFilterMetadata
-        {
-            public void OnResultExecuted(ResultExecutedContext context)
+            public void OnResourceExecuting(ResourceExecutingContext context)
             {
+                throw new NotImplementedException();
             }
 
-            public void OnResultExecuting(ResultExecutingContext context)
+            public class ResultFilter : IResultFilter, IFilterMetadata
             {
+                public void OnResultExecuted(ResultExecutedContext context)
+                {
+                }
+
+                public void OnResultExecuting(ResultExecutingContext context)
+                {
+                }
             }
         }
     }

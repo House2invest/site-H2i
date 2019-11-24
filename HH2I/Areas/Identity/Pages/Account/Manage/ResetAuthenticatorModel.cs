@@ -10,13 +10,13 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
-    public class ResetAuthenticatorModel : PageModel
+    public class ResetAuthenticatorModelPage : PageModel
     {
         private UserManager<UsuarioApp> _userManager;
         private readonly SignInManager<UsuarioApp> _signInManager;
         private ILogger<ResetAuthenticatorModel> _logger;
 
-        public ResetAuthenticatorModel(UserManager<UsuarioApp> userManager, SignInManager<UsuarioApp> signInManager, ILogger<ResetAuthenticatorModel> logger)
+        public ResetAuthenticatorModelPage(UserManager<UsuarioApp> userManager, SignInManager<UsuarioApp> signInManager, ILogger<ResetAuthenticatorModel> logger)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;

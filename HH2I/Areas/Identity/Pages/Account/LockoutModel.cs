@@ -5,7 +5,7 @@
     using System;
 
     [AllowAnonymous]
-    public class LockoutModel : PageModel
+    public class LockoutModelPage : PageModel
     {
         public void OnGet()
         {

@@ -25,7 +25,7 @@
                         stream2.Write(buffer, 0, buffer.Length);
                         stream2.Close();
                     }
-                    cipherText = Encoding.get_Unicode().GetString(stream.ToArray());
+                    cipherText = Encoding.Unicode.GetString(stream.ToArray());
                 }
             }
             return cipherText;
@@ -34,7 +34,7 @@
         public static string Encrypt(string clearText)
         {
             string password = "a4c1c8b60b7b4880b58b97bc8a277a22c341f8da59d04691943704d6e4648db0";
-            byte[] buffer = Encoding.get_Unicode().GetBytes(clearText);
+            byte[] buffer = Encoding.Unicode.GetBytes(clearText);
             using (Aes aes = Aes.Create())
             {
                 byte[] salt = new byte[] { 0x49, 0x76, 0x61, 110, 0x20, 0x4d, 0x65, 100, 0x76, 0x65, 100, 0x65, 0x76 };

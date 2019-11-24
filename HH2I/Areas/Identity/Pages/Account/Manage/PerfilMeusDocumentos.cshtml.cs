@@ -9,10 +9,10 @@ using System.Linq;
 using System.Threading.Tasks;
 namespace House2Invest.Areas.Identity.Pages.Account.Manage
 {
-    public class PerfilMeusDocumentosModel : PageModel
+    public class PerfilMeusDocumentosModelPage : PageModel
     {
         private readonly ApplicationDbContext _context;
-        public PerfilMeusDocumentosModel(Data.ApplicationDbContext context) { _context = context; }
+        public PerfilMeusDocumentosModelPage(Data.ApplicationDbContext context) { _context = context; }
         [BindProperty]
         public List<INVEST_Lancamento> ListaInvestimentos { get; set; }
         public INVEST_Lancamento Investimento { get; set; }

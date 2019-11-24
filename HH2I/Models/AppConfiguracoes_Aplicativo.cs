@@ -64,8 +64,8 @@
         [Display(Name = "mail.From")]
         public string mailFrom
         {
-            get => CriptografiaHelper.Decriptar(textoEncriptado, chave, vetorInicializacao);
-            set => _mailFrom = CriptografiaHelper.Encriptar(textoEncriptado, chave, vetorInicializacao);
+            get => CriptografiaHelper.Decriptar(_mailFrom);
+            set => _mailFrom = CriptografiaHelper.Encriptar(value);
         }
         string _mailToAdd;
         [Encrypted(nameof(_mailToAdd))]
@@ -83,7 +83,7 @@
             get => CriptografiaHelper.Decriptar(_smtpHost);
             set => _smtpHost = CriptografiaHelper.Encriptar(value);
         }
-        string smtpCredentialsEmail;
+        string _smtpCredentialsEmail;
         [Encrypted(nameof(_smtpCredentialsEmail))]
         [Display(Name = "smtp.Credentials.Email")]
         public string smtpCredentialsEmail

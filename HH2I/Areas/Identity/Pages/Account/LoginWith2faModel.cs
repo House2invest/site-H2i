@@ -10,7 +10,6 @@
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
-    using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
     using System.Threading.Tasks;
 
@@ -20,12 +19,11 @@
         private readonly SignInManager<UsuarioApp> _signInManager;
         private readonly ILogger<LoginWith2faModel> _logger;
 
-        public LoginWith2faModel(SignInManager<UsuarioApp> signInManager, ILogger<LoginWith2faModel> logger)
+        public LoginWith2faModelc(SignInManager<UsuarioApp> signInManager, ILogger<LoginWith2faModel> logger)
         {
-            this._signInManager = signInManager;
-            this._logger = logger;
+            _signInManager = signInManager;
+            _logger = logger;
         }
-
     }
 }
 

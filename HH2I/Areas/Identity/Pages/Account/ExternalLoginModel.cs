@@ -36,7 +36,7 @@
 
         public IActionResult OnPost(string provider, string returnUrl)
         {
-            string str = UrlHelperExtensions.Page(base.get_Url(), "./ExternalLogin", "Callback", new { returnUrl = returnUrl });
+            string str = UrlHelperExtensions.Page(base.Url, "./ExternalLogin", "Callback", new { returnUrl = returnUrl });
             return new ChallengeResult(provider, this._signInManager.ConfigureExternalAuthenticationProperties(provider, str, null));
         }
     }

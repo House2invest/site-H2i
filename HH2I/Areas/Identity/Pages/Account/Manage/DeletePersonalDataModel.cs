@@ -11,13 +11,13 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
-    public class DeletePersonalDataModel : PageModel
+    public class DeletePersonalDataModelPage : PageModel
     {
         private readonly UserManager<UsuarioApp> _userManager;
         private readonly SignInManager<UsuarioApp> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
 
-        public DeletePersonalDataModel(UserManager<UsuarioApp> userManager, SignInManager<UsuarioApp> signInManager, ILogger<DeletePersonalDataModel> logger)
+        public DeletePersonalDataModelPage(UserManager<UsuarioApp> userManager, SignInManager<UsuarioApp> signInManager, ILogger<DeletePersonalDataModel> logger)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;

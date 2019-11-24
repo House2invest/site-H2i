@@ -14,14 +14,14 @@
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
 
-    public class EnableAuthenticatorModel : PageModel
+    public class EnableAuthenticatorModelPage : PageModel
     {
         private readonly UserManager<UsuarioApp> _userManager;
         private readonly ILogger<EnableAuthenticatorModel> _logger;
         private readonly UrlEncoder _urlEncoder;
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
-        public EnableAuthenticatorModel(UserManager<UsuarioApp> userManager, ILogger<EnableAuthenticatorModel> logger, UrlEncoder urlEncoder)
+        public EnableAuthenticatorModelPage(UserManager<UsuarioApp> userManager, ILogger<EnableAuthenticatorModel> logger, UrlEncoder urlEncoder)
         {
             this._userManager = userManager;
             this._logger = logger;

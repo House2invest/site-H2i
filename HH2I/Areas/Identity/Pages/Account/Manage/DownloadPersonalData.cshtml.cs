@@ -12,12 +12,12 @@ using Newtonsoft.Json;
 
 namespace House2Invest.Areas.Identity.Pages.Account.Manage
 {
-    public class DownloadPersonalDataModel : PageModel
+    public class DownloadPersonalDataModelPage : PageModel
     {
         private readonly UserManager<UsuarioApp> _userManager;
         private readonly ILogger<DownloadPersonalDataModel> _logger;
 
-        public DownloadPersonalDataModel(
+        public DownloadPersonalDataModelPage(
             UserManager<UsuarioApp> userManager,
             ILogger<DownloadPersonalDataModel> logger)
         {

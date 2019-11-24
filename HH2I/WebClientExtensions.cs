@@ -7,7 +7,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    [Extension]
+    
     public static class WebClientExtensions
     {
        

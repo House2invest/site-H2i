@@ -20,14 +20,14 @@
     using System.Threading.Tasks;
 
     [AllowAnonymous]
-    public class LogoutModel : PageModel
+    public class LogoutModelPage : PageModel
     {
         private readonly IHttpContextAccessor _accessor;
         private readonly SignInManager<UsuarioApp> _signInManager;
         private readonly ILogger<LogoutModel> _logger;
         private readonly ApplicationDbContext _context;
 
-        public LogoutModel(IHttpContextAccessor accessor, SignInManager<UsuarioApp> signInManager, ILogger<LogoutModel> logger, ApplicationDbContext context)
+        public LogoutModelPage(IHttpContextAccessor accessor, SignInManager<UsuarioApp> signInManager, ILogger<LogoutModel> logger, ApplicationDbContext context)
         {
             this._context = context;
             this._accessor = accessor;

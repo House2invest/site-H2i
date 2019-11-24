@@ -137,8 +137,8 @@ namespace House2Invest.Areas.Identity.Pages.Account
                 if (Input.ImagemSelfie != null)
                 {
                     var _imagemLogotipo =
-                        await VerificadoresRetornos
-                        .EnviarImagemAzure(Input.ImagemSelfie, 502000, 0, 0, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_AccountName, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_AccountKey, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_ContainerRaiz);
+                         VerificadoresRetornos
+                        .EnviarImagemAzure(Input.ImagemSelfie, 502000, 0, 0, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_AccountName, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_AccountKey, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_ContainerRaiz,false,"");
 
                     if (_imagemLogotipo.ToLower().Trim().Contains("blob.core.windows.net"))
                     {
@@ -294,7 +294,7 @@ namespace House2Invest.Areas.Identity.Pages.Account
                         smtpPort = _configAplicacoes.smtpPort,
                         smtpUseDefaultCredentials = _configAplicacoes.smtpUseDefaultCredentials
                     };
-                    var _enviou = await VerificadoresRetornos.EnviarEmail(_objemail);
+                    var _enviou =  VerificadoresRetornos.EnviarEmail(_objemail);
 
                     //----------------------------------------------------
                     // LOGCENTRAL

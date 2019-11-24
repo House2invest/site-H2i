@@ -10,12 +10,12 @@ using House2Invest.Models;
 
 namespace House2Invest.Areas.Identity.Pages.Account.Manage
 {
-    public class GenerateRecoveryCodesModel : PageModel
+    public class GenerateRecoveryCodesModelPage : PageModel
     {
         private readonly UserManager<UsuarioApp> _userManager;
         private readonly ILogger<GenerateRecoveryCodesModel> _logger;
 
-        public GenerateRecoveryCodesModel(
+        public GenerateRecoveryCodesModelPage(
             UserManager<UsuarioApp> userManager,
             ILogger<GenerateRecoveryCodesModel> logger)
         {

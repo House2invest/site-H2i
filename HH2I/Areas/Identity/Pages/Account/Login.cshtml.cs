@@ -15,13 +15,13 @@ using System.Threading.Tasks;
 namespace House2Invest.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class LoginModel : PageModel
+    public class LoginModelPage : PageModel
     {
         private readonly IHttpContextAccessor _accessor;
         private readonly SignInManager<UsuarioApp> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly Data.ApplicationDbContext _context;
-        public LoginModel(IHttpContextAccessor accessor, SignInManager<UsuarioApp> signInManager, ILogger<LoginModel> logger, Data.ApplicationDbContext context)
+        public LoginModelPage(IHttpContextAccessor accessor, SignInManager<UsuarioApp> signInManager, ILogger<LoginModel> logger, Data.ApplicationDbContext context)
         {
             _accessor = accessor;
             _signInManager = signInManager;

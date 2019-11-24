@@ -12,13 +12,13 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
-    public class ChangePasswordModel : PageModel
+    public class ChangePasswordModelPage : PageModel
     {
         private readonly UserManager<UsuarioApp> _userManager;
         private readonly SignInManager<UsuarioApp> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
 
-        public ChangePasswordModel(UserManager<UsuarioApp> userManager, SignInManager<UsuarioApp> signInManager, ILogger<ChangePasswordModel> logger)
+        public ChangePasswordModelPage(UserManager<UsuarioApp> userManager, SignInManager<UsuarioApp> signInManager, ILogger<ChangePasswordModel> logger)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;

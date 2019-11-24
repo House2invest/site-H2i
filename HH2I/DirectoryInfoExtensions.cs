@@ -4,10 +4,10 @@
     using System.IO;
     using System.Runtime.CompilerServices;
 
-    [Extension]
+    
     public static class DirectoryInfoExtensions
     {
-        [Extension]
+        
         public static void CopyTo(DirectoryInfo source, string destDirectory, bool recursive)
         {
             if (source == null)

@@ -10,14 +10,14 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
-    public class TwoFactorAuthenticationModel : PageModel
+    public class TwoFactorAuthenticationModelPage : PageModel
     {
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}";
         private readonly UserManager<UsuarioApp> _userManager;
         private readonly SignInManager<UsuarioApp> _signInManager;
         private readonly ILogger<TwoFactorAuthenticationModel> _logger;
 
-        public TwoFactorAuthenticationModel(UserManager<UsuarioApp> userManager, SignInManager<UsuarioApp> signInManager, ILogger<TwoFactorAuthenticationModel> logger)
+        public TwoFactorAuthenticationModelPage(UserManager<UsuarioApp> userManager, SignInManager<UsuarioApp> signInManager, ILogger<TwoFactorAuthenticationModel> logger)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;

@@ -12,13 +12,13 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 namespace House2Invest.Areas.Identity.Pages.Account.Manage
 {
-    public partial class IndexModel : PageModel
+    public partial class IndexModelPage : PageModel
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<UsuarioApp> _userManager;
         private readonly SignInManager<UsuarioApp> _signInManager;
         private readonly IEmailSender _emailSender;
-        public IndexModel(ApplicationDbContext context, UserManager<UsuarioApp> userManager, SignInManager<UsuarioApp> signInManager, IEmailSender emailSender)
+        public IndexModelPage(ApplicationDbContext context, UserManager<UsuarioApp> userManager, SignInManager<UsuarioApp> signInManager, IEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
@@ -126,8 +126,14 @@ namespace House2Invest.Areas.Identity.Pages.Account.Manage
                 if (Input.ImagemSelfieFRENTE != null)
                 {
                     var _imagemLogotipo =
-                        await VerificadoresRetornos
-                        .EnviarImagemAzure(Input.ImagemSelfieFRENTE, 614200, 0, 0, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_AccountName, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_AccountKey, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_ContainerRaiz);
+                         VerificadoresRetornos
+                        .EnviarImagemAzure(Input.ImagemSelfieFRENTE, 
+                        614200,
+                        0,
+                        0,
+                        _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_AccountName,
+                        _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_AccountKey,
+                        _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_ContainerRaiz,false,"");
 
                     if (_imagemLogotipo.ToLower().Trim().Contains("blob.core.windows.net"))
                         user.Sistema_URLSelfieDocFRENTE = _imagemLogotipo;
@@ -146,8 +152,8 @@ namespace House2Invest.Areas.Identity.Pages.Account.Manage
                 if (Input.ImagemSelfieVERSO != null)
                 {
                     var _imagemLogotipo =
-                        await VerificadoresRetornos
-                        .EnviarImagemAzure(Input.ImagemSelfieVERSO, 614200, 0, 0, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_AccountName, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_AccountKey, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_ContainerRaiz);
+                         VerificadoresRetornos
+                        .EnviarImagemAzure(Input.ImagemSelfieVERSO, 614200, 0, 0, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_AccountName, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_AccountKey, _config.AppConfiguracoes.AppConfiguracoes_Azure._azureblob_ContainerRaiz,false,"");
 
                     if (_imagemLogotipo.ToLower().Trim().Contains("blob.core.windows.net"))
                         user.Sistema_URLSelfieDocVERSO = _imagemLogotipo;

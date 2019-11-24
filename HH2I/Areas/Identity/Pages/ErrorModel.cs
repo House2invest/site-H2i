@@ -13,28 +13,25 @@
         public void OnGet()
         {
             string text1;
-            Activity activity1 = Activity.get_Current();
+            Activity activity1 = Activity.Current;
             if (activity1 != null)
             {
-                text1 = activity1.get_Id();
+                text1 = activity1.Id;
             }
             else
             {
                 Activity local1 = activity1;
                 text1 = null;
             }
-            this.RequestId = text1 ?? base.get_HttpContext().get_TraceIdentifier();
+            this.RequestId = text1 ?? base.HttpContext.TraceIdentifier;
         }
 
         public string RequestId
         {
-            get
-            {
-                return this.<RequestId>k__BackingField;
-            }
+            get => RequestId;
             set
             {
-                this.<RequestId>k__BackingField = value;
+                RequestId  = value;
             }
         }
 

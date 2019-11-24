@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace House2Invest.Areas.Identity.Pages.Account
 {
-    public class AccessDeniedModel : PageModel
+    public class AccessDeniedModelPage : PageModel
     {
         public void OnGet()
         {

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices
+using System.Runtime.CompilerServices;
 
 namespace House2Invest.Models.ViewModels
 {

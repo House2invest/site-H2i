@@ -14,13 +14,13 @@ using House2Invest.Models;
 namespace House2Invest.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class ExternalLoginModel : PageModel
+    public class ExternalLoginModelPage : PageModel
     {
         private readonly SignInManager<UsuarioApp> _signInManager;
         private readonly UserManager<UsuarioApp> _userManager;
         private readonly ILogger<ExternalLoginModel> _logger;
 
-        public ExternalLoginModel(
+        public ExternalLoginModelPage(
             SignInManager<UsuarioApp> signInManager,
             UserManager<UsuarioApp> userManager,
             ILogger<ExternalLoginModel> logger)
@@ -45,6 +45,7 @@ namespace House2Invest.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            public string Code { get; internal set; }
         }
 
         public IActionResult OnGetAsync()

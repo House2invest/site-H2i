@@ -1,7 +1,7 @@
 ﻿namespace House2Invest
 {
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.AspNetCore.Mvc.Rendering;    
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Razor.TagHelpers;
     using System;
@@ -22,80 +22,80 @@
 
         private void MakeActive(TagHelperOutput output)
         {
-            TagHelperAttribute attribute = Enumerable.FirstOrDefault<TagHelperAttribute>(output.get_Attributes(), delegate (TagHelperAttribute a) {
-                return a.get_Name() == "class";
+            TagHelperAttribute attribute = Enumerable.FirstOrDefault<TagHelperAttribute>(output.Attributes, delegate (TagHelperAttribute a) {
+                return a.Name=="class";
             });
             if (attribute == null)
             {
                 attribute = new TagHelperAttribute("class", "active");
-                output.get_Attributes().Add(attribute);
+                output.Attributes.Add(attribute);
             }
-            else if ((attribute.get_Value() == null) || (attribute.get_Value().ToString().IndexOf("active") < 0))
+            else if ((attribute.Value == null) || (attribute.Value.ToString().IndexOf("active") < 0))
             {
-                output.get_Attributes().SetAttribute("class", (attribute.get_Value() == null) ? "active" : (attribute.get_Value().ToString() + " active"));
+                output.Attributes.SetAttribute("class", (attribute.Value == null) ? "active" : (attribute.Value.ToString() + " active"));
             }
         }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             base.Process(context, output);
-            if (this.ShouldBeActive())
-            {
-                this.MakeActive(output);
-            }
-            output.get_Attributes().RemoveAll("is-active-route");
+            //if (this.ShouldBeActive())
+            //{
+            //    this.MakeActive(output);
+            //}
+            output.Attributes.RemoveAll("is-active-route");
         }
 
-        private bool ShouldBeActive()
-        {
-            bool flag;
-            string str = string.Empty;
-            string str2 = string.Empty;
-            if (this.ViewContext.get_RouteData().get_Values().get_Item("Controller") != null)
-            {
-                str = this.ViewContext.get_RouteData().get_Values().get_Item("Controller").ToString();
-            }
-            if (this.ViewContext.get_RouteData().get_Values().get_Item("Action") != null)
-            {
-                str2 = this.ViewContext.get_RouteData().get_Values().get_Item("Action").ToString();
-            }
-            if (this.Controller != null)
-            {
-                if (!string.IsNullOrWhiteSpace(this.Controller) && (this.Controller.ToLower() != str.ToLower()))
-                {
-                    return false;
-                }
-                if (!string.IsNullOrWhiteSpace(this.Action) && (this.Action.ToLower() != str2.ToLower()))
-                {
-                    return false;
-                }
-            }
-            if (((this.Page != null) && !string.IsNullOrWhiteSpace(this.Page)) && (this.Page.ToLower() != this._contextAccessor.get_HttpContext().get_Request().get_Path().get_Value().ToLower()))
-            {
-                return false;
-            }
-            using (IEnumerator<KeyValuePair<string, string>> enumerator = this.RouteValues.GetEnumerator())
-            {
-                while (true)
-                {
-                    if (enumerator.MoveNext())
-                    {
-                        KeyValuePair<string, string> current = enumerator.Current;
-                        if (this.ViewContext.get_RouteData().get_Values().ContainsKey(current.Key) && (this.ViewContext.get_RouteData().get_Values().get_Item(current.Key).ToString() == current.Value))
-                        {
-                            continue;
-                        }
-                        flag = false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                    break;
-                }
-            }
-            return flag;
-        }
+        //private bool ShouldBeActive()
+        //{
+        //    bool flag;
+        //    string str = string.Empty;
+        //    string str2 = string.Empty;
+        //    if (ViewContext.RouteData.Values().Item("Controller") != null)
+        //    {
+        //        str = this.ViewContext.RouteData().Values().Item("Controller").ToString();
+        //    }
+        //    if (this.ViewContext.RouteData().Values().Item("Action") != null)
+        //    {
+        //        str2 = this.ViewContext.RouteData().Values().Item("Action").ToString();
+        //    }
+        //    if (this.Controller != null)
+        //    {
+        //        if (!string.IsNullOrWhiteSpace(this.Controller) && (this.Controller.ToLower() != str.ToLower()))
+        //        {
+        //            return false;
+        //        }
+        //        if (!string.IsNullOrWhiteSpace(this.Action) && (this.Action.ToLower() != str2.ToLower()))
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    if (((this.Page != null) && !string.IsNullOrWhiteSpace(this.Page)) && (this.Page.ToLower() != this._contextAccessor.HttpContext().Request().Path().Value().ToLower()))
+        //    {
+        //        return false;
+        //    }
+        //    using (IEnumerator<KeyValuePair<string, string>> enumerator = this.RouteValues.GetEnumerator())
+        //    {
+        //        while (true)
+        //        {
+        //            if (enumerator.MoveNext())
+        //            {
+        //                KeyValuePair<string, string> current = enumerator.Current;
+        //                if (this.ViewContext.RouteData().Values().ContainsKey(current.Key) && (this.ViewContext.RouteData().Values().Item(current.Key).ToString() == current.Value))
+        //                {
+        //                    continue;
+        //                }
+        //                flag = false;
+        //            }
+        //            else
+        //            {
+        //                return true;
+        //            }
+        //            break;
+        //        }
+        //    }
+        //    return flag;
+        //}
 
         [HtmlAttributeName("asp-all-route-data", DictionaryAttributePrefix="asp-route-")]
         public IDictionary<string, string> RouteValues
@@ -104,7 +104,7 @@
             {
                 if (this._routeValues == null)
                 {
-                    this._routeValues = (IDictionary<string, string>) new Dictionary<string, string>((IEqualityComparer<string>) StringComparer.get_OrdinalIgnoreCase());
+                    this._routeValues = (IDictionary<string, string>)new Dictionary<string, string>((IEqualityComparer<string>)StringComparer.OrdinalIgnoreCase) ;
                 }
                 return this._routeValues;
             }

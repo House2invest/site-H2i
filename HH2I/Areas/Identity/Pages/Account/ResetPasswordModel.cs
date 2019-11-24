@@ -12,19 +12,23 @@
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
     using System.Threading.Tasks;
+    using static House2Invest.Areas.Identity.Pages.Account.ExternalLoginModelPage;
 
     [AllowAnonymous]
-    public class ResetPasswordModel : PageModel
+    public class ResetPasswordModelPage : PageModel
     {
         private readonly UserManager<UsuarioApp> _userManager;
 
-        public ResetPasswordModel(UserManager<UsuarioApp> userManager)
+        public ResetPasswordModelPage(UserManager<UsuarioApp> userManager)
         {
             this._userManager = userManager;
         }
 
+        public InputModel Input { get; private set; }
+
         public IActionResult OnGet(string code)
         {
+            
             if (code == null)
             {
                 return this.BadRequest("A code must be supplied for password reset.");

@@ -37,7 +37,7 @@
                                 byte[] buffer6 = new byte[buffer4.Length];
                                 stream.Close();
                                 stream2.Close();
-                                str = Encoding.get_UTF8().GetString(buffer6, 0, stream2.Read(buffer6, 0, buffer6.Length));
+                                str = Encoding.UTF8.GetString(buffer6, 0, stream2.Read(buffer6, 0, buffer6.Length));
                             }
                         }
                     }
@@ -52,7 +52,7 @@
             passPhrase = Startup._CHAVECRYP;
             byte[] salt = Generate256BitsOfRandomEntropy();
             byte[] rgbIV = Generate256BitsOfRandomEntropy();
-            byte[] buffer = Encoding.get_UTF8().GetBytes(plainText);
+            byte[] buffer = Encoding.UTF8.GetBytes(plainText);
             using (Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(passPhrase, salt, 0x3e8))
             {
                 byte[] rgbKey = bytes.GetBytes(0x20);

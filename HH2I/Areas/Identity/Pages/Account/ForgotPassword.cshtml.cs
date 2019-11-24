@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 namespace House2Invest.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class ForgotPasswordModel : PageModel
+    public class ForgotPasswordModelPage : PageModel
     {
         private readonly ApplicationDbContext _contexto;
         private readonly UserManager<UsuarioApp> _userManager;
         private readonly IEmailSender _emailSender;
-        public ForgotPasswordModel(UserManager<UsuarioApp> userManager, IEmailSender emailSender, ApplicationDbContext contexto)
+        public ForgotPasswordModelPage(UserManager<UsuarioApp> userManager, IEmailSender emailSender, ApplicationDbContext contexto)
         {
             _userManager = userManager;
             _emailSender = emailSender;
@@ -74,7 +74,7 @@ namespace House2Invest.Areas.Identity.Pages.Account
                     smtpPort = _configAplicacoes.smtpPort,
                     smtpUseDefaultCredentials = _configAplicacoes.smtpUseDefaultCredentials
                 };
-                var _enviou = await VerificadoresRetornos.EnviarEmail(_objemail);
+                var _enviou =  VerificadoresRetornos.EnviarEmail(_objemail);
 
                 //await _emailSender.SendEmailAsync(
                 //    Input.Email,

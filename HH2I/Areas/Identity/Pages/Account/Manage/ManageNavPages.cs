@@ -38,7 +38,7 @@
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {
-            return (string.Equals((viewContext.get_ViewData().get_Item("ActivePage") as string) ?? Path.GetFileNameWithoutExtension(viewContext.get_ActionDescriptor().get_DisplayName()), page, (StringComparison) StringComparison.OrdinalIgnoreCase) ? "btn-primary" : "btn-dark");
+           return (string.Equals((viewContext.ViewData["ActivePage"] as string) ?? Path.GetFileNameWithoutExtension(viewContext.ActionDescriptor.DisplayName), page, (StringComparison) StringComparison.OrdinalIgnoreCase) ? "btn-primary" : "btn-dark");
         }
 
         public static string PersonalDataNavClass(ViewContext viewContext)

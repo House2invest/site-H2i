@@ -1,6 +1,5 @@
 ﻿namespace House2Invest.Areas.Identity.Pages.Account
 {
-    using Castle.Core.Smtp;
     using House2Invest;
     using House2Invest.Data;
     using House2Invest.Models;

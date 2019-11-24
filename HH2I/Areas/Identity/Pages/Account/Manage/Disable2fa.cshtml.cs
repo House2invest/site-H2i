@@ -10,12 +10,12 @@ using House2Invest.Models;
 
 namespace House2Invest.Areas.Identity.Pages.Account.Manage
 {
-    public class Disable2faModel : PageModel
+    public class Disable2faModelPage : PageModel
     {
         private readonly UserManager<UsuarioApp> _userManager;
         private readonly ILogger<Disable2faModel> _logger;
 
-        public Disable2faModel(
+        public Disable2faModelPage(
             UserManager<UsuarioApp> userManager,
             ILogger<Disable2faModel> logger)
         {

@@ -5,7 +5,7 @@
     using System;
 
     [AllowAnonymous]
-    public class ResetPasswordConfirmationModel : PageModel
+    public class ResetPasswordConfirmationModelPage : PageModel
     {
         public void OnGet()
         {

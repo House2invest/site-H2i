@@ -1,5 +1,6 @@
 ﻿namespace House2Invest
 {
+    using HH2I;
     using System;
     using System.IO;
     using System.Runtime.CompilerServices;
@@ -11,7 +12,10 @@
     {
         private static string ArrayBytesToHexString(byte[] conteudo)
         {
-            return string.Concat(Array.ConvertAll<byte, string>(conteudo, <> c.<> 9__2_0 ?? (<> c.<> 9__2_0 = new Converter<byte, string>(<> c.<> 9, this.< ArrayBytesToHexString > b__2_0))));
+            StringBuilder hex = new StringBuilder(conteudo.Length * 2);
+            foreach (byte b in conteudo)
+                hex.AppendFormat("{0:x2}", b);
+            return hex.ToString();
         }
 
         private static Rijndael CriarInstanciaRijndael(string chave, string vetorInicializacao)
@@ -25,12 +29,12 @@
                 throw new Exception("O vetor de inicializa\x00e7\x00e3o deve possuir 16 caracteres.");
             }
             Rijndael rijndael = Rijndael.Create();
-            rijndael.Key = Encoding.get_ASCII().GetBytes(chave);
-            rijndael.IV = Encoding.get_ASCII().GetBytes(vetorInicializacao);
+            rijndael.Key = Encoding.ASCII.GetBytes(chave);
+            rijndael.IV = Encoding.ASCII.GetBytes(vetorInicializacao);
             return rijndael;
         }
 
-        public static string Decriptar(string textoEncriptado, string chave, string vetorInicializacao)
+        public static string Decriptar(string textoEncriptado, string chave ="", string vetorInicializacao="")
         {
             string str2;
             if (string.IsNullOrWhiteSpace(textoEncriptado))
@@ -69,7 +73,7 @@
             return str2;
         }
 
-        public static string Encriptar(string textoNormal, string chave, string vetorInicializacao)
+        public static string Encriptar(string textoNormal, string chave="", string vetorInicializacao="")
         {
             string str;
             if (string.IsNullOrWhiteSpace(textoNormal))

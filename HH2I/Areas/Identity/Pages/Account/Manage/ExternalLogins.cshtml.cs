@@ -10,12 +10,12 @@ using House2Invest.Models;
 
 namespace House2Invest.Areas.Identity.Pages.Account.Manage
 {
-    public class ExternalLoginsModel : PageModel
+    public class ExternalLoginsModelPage : PageModel
     {
         private readonly UserManager<UsuarioApp> _userManager;
         private readonly SignInManager<UsuarioApp> _signInManager;
 
-        public ExternalLoginsModel(
+        public ExternalLoginsModelPage(
             UserManager<UsuarioApp> userManager,
             SignInManager<UsuarioApp> signInManager)
         {

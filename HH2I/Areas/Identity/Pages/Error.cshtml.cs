@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 namespace House2Invest.Areas.Identity.Pages
 {
     [AllowAnonymous]
-    public class ErrorModel : PageModel
+    public class ErrorModelPage : PageModel
     {
         public string RequestId { get; set; }
 

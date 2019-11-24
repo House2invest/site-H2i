@@ -25,7 +25,7 @@
     using System.Threading.Tasks;
 
     [AllowAnonymous]
-    public class RegisterModel : PageModel
+    public class RegisterModelPage : PageModel
     {
         private readonly IHttpContextAccessor _accessor;
         private readonly SignInManager<UsuarioApp> _signInManager;
@@ -34,7 +34,7 @@
         private readonly IEmailSender _emailSender;
         private readonly ApplicationDbContext _context;
 
-        public RegisterModel(IHttpContextAccessor accessor, UserManager<UsuarioApp> userManager, SignInManager<UsuarioApp> signInManager, ILogger<RegisterModel> logger, IEmailSender emailSender, ApplicationDbContext context)
+        public RegisterModelPage(IHttpContextAccessor accessor, UserManager<UsuarioApp> userManager, SignInManager<UsuarioApp> signInManager, ILogger<RegisterModel> logger, IEmailSender emailSender, ApplicationDbContext context)
         {
             this._accessor = accessor;
             this._userManager = userManager;
@@ -43,6 +43,8 @@
             this._emailSender = emailSender;
             this._context = context;
         }
+
+        public string ReturnUrl { get; private set; }
 
         public void OnGet(string returnUrl)
         {

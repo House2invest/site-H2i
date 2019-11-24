@@ -80,16 +80,16 @@
             }
         }
 
-        [Display(Name="Data de nascimento"), DataType(2, ErrorMessage="Formato inv\x00e1lido em {0}")]
+        [Display(Name="Data de nascimento"), DataType(DataType.Date, ErrorMessage="Formato inv\x00e1lido em {0}")]
         public DateTime? Nascimento
         {
             get
             {
-                return this.<Nascimento>k__BackingField;
+                return this.Nascimento;
             }
             set
             {
-                this.<Nascimento>k__BackingField = value;
+                this.Nascimento = value;
             }
         }
 
@@ -136,11 +136,11 @@
         {
             get
             {
-                return this.<ImagemFundoPerfil>k__BackingField;
+                return this.ImagemFundoPerfil;
             }
             set
             {
-                this.<ImagemFundoPerfil>k__BackingField = value;
+                this.ImagemFundoPerfil = value;
             }
         }
 
@@ -668,11 +668,11 @@
         {
             get
             {
-                return this.<Sistema_AcessoBloqueado>k__BackingField;
+                return this.Sistema_AcessoBloqueado;
             }
             set
             {
-                this.<Sistema_AcessoBloqueado>k__BackingField = value;
+                this.Sistema_AcessoBloqueado = value;
             }
         }
 
@@ -680,11 +680,11 @@
         {
             get
             {
-                return this.<Sistema_DeclaracaoCienciaTermos>k__BackingField;
+                return this.Sistema_DeclaracaoCienciaTermos;
             }
             set
             {
-                this.<Sistema_DeclaracaoCienciaTermos>k__BackingField = value;
+                this.Sistema_DeclaracaoCienciaTermos = value;
             }
         }
 
@@ -692,11 +692,11 @@
         {
             get
             {
-                return this.<Sistema_DeclaracaoPessoaExposta>k__BackingField;
+                return this.Sistema_DeclaracaoPessoaExposta;
             }
             set
             {
-                this.<Sistema_DeclaracaoPessoaExposta>k__BackingField = value;
+                this.Sistema_DeclaracaoPessoaExposta = value;
             }
         }
 
@@ -704,11 +704,11 @@
         {
             get
             {
-                return this.<Sistema_NaoAparecerListaProjetos>k__BackingField;
+                return this.Sistema_NaoAparecerListaProjetos;
             }
             set
             {
-                this.<Sistema_NaoAparecerListaProjetos>k__BackingField = value;
+                this.Sistema_NaoAparecerListaProjetos = value;
             }
         }
 
@@ -716,11 +716,11 @@
         {
             get
             {
-                return this.<Sistema_DataDeclaracaoCienciaTermos>k__BackingField;
+                return this.Sistema_DataDeclaracaoCienciaTermos;
             }
             set
             {
-                this.<Sistema_DataDeclaracaoCienciaTermos>k__BackingField = value;
+                this.Sistema_DataDeclaracaoCienciaTermos = value;
             }
         }
 
@@ -728,11 +728,11 @@
         {
             get
             {
-                return this.<AppConfiguracoesId>k__BackingField;
+                return this.AppConfiguracoesId;
             }
             set
             {
-                this.<AppConfiguracoesId>k__BackingField = value;
+                this.AppConfiguracoesId = value;
             }
         }
 
@@ -740,11 +740,11 @@
         {
             get
             {
-                return this.<AppConfiguracoes>k__BackingField;
+                return this.AppConfiguracoes;
             }
             set
             {
-                this.<AppConfiguracoes>k__BackingField = value;
+                this.AppConfiguracoes = value;
             }
         }
     }

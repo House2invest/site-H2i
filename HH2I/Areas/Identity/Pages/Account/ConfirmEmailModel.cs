@@ -16,13 +16,13 @@
     using System.Threading.Tasks;
 
     [AllowAnonymous]
-    public class ConfirmEmailModel : PageModel
+    public class ConfirmEmailModelPage : PageModel
     {
         private readonly IHttpContextAccessor _accessor;
         private readonly UserManager<UsuarioApp> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public ConfirmEmailModel(IHttpContextAccessor accessor, ApplicationDbContext context, UserManager<UsuarioApp> userManager)
+        public ConfirmEmailModelPage(IHttpContextAccessor accessor, ApplicationDbContext context, UserManager<UsuarioApp> userManager)
         {
             this._accessor = accessor;
             this._context = context;
